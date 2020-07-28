@@ -1,0 +1,11 @@
+.loading-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.loading-content .spinner-icon {
+    margin-left: 15px;
+    height: 20px;
+}
