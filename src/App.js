@@ -1,11 +1,11 @@
 import React from 'react';
 
-import Root from './pages/Root';
+import CadEstabelecimento from './pages/CadEstabelecimento/CadEstabelecimento';
 
 export default function App() {
   return (
     <div>
-      <Root />
+      <CadEstabelecimento />
     </div>
   )
 }
