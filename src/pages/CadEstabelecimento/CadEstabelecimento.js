@@ -54,6 +54,15 @@ export default function CadEstabelecimento() {
                                 </div>
 
                                 <div className="form-row">
+                                    <div className="form-group  col-md-6">
+                                        <input type="text" className="form-control" id="latitudeEstabelecimento" placeholder="Latitude" />
+                                    </div>
+                                    <div className="form-group  col-md-6">
+                                        <input type="text" className="form-control" id="longitudeEstabelecimento" placeholder="Longitude" />
+                                    </div>
+                                </div>
+
+                                <div className="form-row">
                                     <div className="form-group  col-md-12">
                                         <input type="password" className="form-control" id="senhaEstabelecimento" placeholder="Senha" />
                                     </div>
