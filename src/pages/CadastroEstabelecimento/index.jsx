@@ -1,32 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from "react-hook-form";
+import Swal from 'sweetalert2'
 
 import './CadastroEstabelecimento.css';
 
 import api from '../../services/api';
 
-function valoresIniciais() {
-    return {
-        nome: '',
-        cnpj: '',
-        endereco: '',
-        numero: '',
-        latitude: '',
-        longitude: '',
-        tipoEstabelecimento: '',
-        senha: '',
-        repeticaoSenha: '',
-    };
-}
-
 export default function CadastroEstabelecimento() {
-    const [valores, setValores] = useState(valoresIniciais);
+    const [valores, setValores] = useState({});
     const [tiposEstabelecimento, setTiposEstabelecimento] = useState([]);
 
     const { register, handleSubmit, errors, watch } = useForm();
 
     const onSubmit = data => {
-        console.log(data);
+        setValores(data);
+        cadastrarEstabelecimento();
     };
 
     useEffect(() => {
@@ -47,7 +35,7 @@ export default function CadastroEstabelecimento() {
         setValores({ ...valores, [name]: value });
     }
 
-    async function handleCadastrar() {
+    async function cadastrarEstabelecimento() {
         const payload = {
             "Nome": valores.nome,
             "Cnpj": valores.cnpj,
@@ -62,10 +50,27 @@ export default function CadastroEstabelecimento() {
         }
 
         try {
-            const resposta = await api.post('/estabelecimento', payload);
+            const resposta = await api.post('/api/estabelecimento', payload);
             console.log({ resposta });
+
+            if (resposta.status === 200 || resposta.status === 201) {
+                Swal.fire({
+                    title: 'Sucesso!',
+                    text: 'Cadastro efetuado com sucesso!',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
+
+                setValores({});
+            }
+
         } catch (err) {
-            console.log({ err });
+            Swal.fire({
+                title: 'Erro!',
+                text: 'Falha ao efetuar cadastro.',
+                icon: 'error',
+                confirmButtonText: 'Voltar'
+            });
         }
     }
 
@@ -94,7 +99,7 @@ export default function CadastroEstabelecimento() {
                                             required: {
                                                 value: "Required",
                                                 message: "O nome do estabelecimento é obrigatório"
-                                            }
+                                            },
                                         })}
                                     />
                                     <span className="error invalid-feedback">{errors.nome && errors.nome.message}</span>
@@ -261,7 +266,7 @@ export default function CadastroEstabelecimento() {
                                         <input
                                             className={errors.aceitaTermos ? "" : ""}
                                             type="checkbox"
-                                            checked={valores.aceitaTermos}
+                                            defaultChecked={false}
                                             name="aceitaTermos"
                                             defaultValue
                                             ref={register({
