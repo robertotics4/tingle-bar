@@ -65,7 +65,7 @@ export default function CadastroEstabelecimento() {
 
     return (
         <div className="hold-transition register-page">
-            <div className="register-box cad-estabelecimento-content">
+            <div className="register-box">
                 <div className="register-logo">
                     <a href="../../index2.html"><b>Tingle</b>Bar</a>
                 </div>
