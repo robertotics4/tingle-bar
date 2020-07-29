@@ -29,12 +29,18 @@ export default function CadastroEstabelecimento() {
         console.log(data);
     };
 
-    function validarRepeticaoSenha(value) {
-        if (value === valores.senha)
-            return true;
+    useEffect(() => {
+        async function getTiposEstabelecimento() {
+            try {
+                const { data } = await api.get('/api/tipoestabelecimento');
+                setTiposEstabelecimento(data.tipoestabelecimento);
+            } catch (err) {
+                console.log({ err });
+            }
+        }
 
-        return false
-    }
+        getTiposEstabelecimento();
+    }, []);
 
     function handleChange(event) {
         const { name, value } = event.target;
@@ -148,7 +154,7 @@ export default function CadastroEstabelecimento() {
                                                 message: "O CNPJ é obrigatório"
                                             },
                                             pattern: {
-                                                value: /^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/,
+                                                value: /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/,
                                                 message: "CNPJ inválido"
                                             }
                                         })}
@@ -170,10 +176,16 @@ export default function CadastroEstabelecimento() {
                                             },
                                         })}
                                     >
-                                        <option value="">Tipo de estabelecimento</option>
+                                        <option key={0} value={""}>Tipo de estabelecimento</option>
+
+                                        {tiposEstabelecimento.map((tipoEstabelecimento, index) => (
+                                            <option key={tipoEstabelecimento.id} value={tipoEstabelecimento.id}>{tipoEstabelecimento.descricao}</option>
+                                        ))}
+
+                                        {/* <option value="">Tipo de estabelecimento</option>
                                         <option value={1}>Bar</option>
                                         <option value={2}>Restaurante</option>
-                                        <option value={3}>Lanchonete</option>
+                                        <option value={3}>Lanchonete</option> */}
                                     </select>
                                     <span className="error invalid-feedback">{errors.tipoEstabelecimento && errors.tipoEstabelecimento.message}</span>
                                 </div>
