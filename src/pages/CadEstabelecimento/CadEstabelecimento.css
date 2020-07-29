@@ -1,3 +1,12 @@
 img {
     width: 100%;
 }
+
+.text-validation-error {
+    font-size: 14px;
+    color: red;
+}
+
+.input-validation-error {
+    border-color: brown;
+}

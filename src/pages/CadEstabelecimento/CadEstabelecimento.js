@@ -18,12 +18,15 @@ function valoresIniciais() {
     };
 }
 
-
-
 export default function CadEstabelecimento() {
     const [valores, setValores] = useState(valoresIniciais);
     const [tiposEstabelecimento, setTiposEstabelecimento] = useState([]);
-    const { register, handleSubmit, watch, errors } = useForm();
+
+    const { register, handleSubmit, errors } = useForm();
+
+    const onSubmit = data => {
+        console.log(data);
+    };
 
     useEffect(() => {
         async function getTiposEstabelecimento() {
@@ -37,10 +40,6 @@ export default function CadEstabelecimento() {
 
         getTiposEstabelecimento();
     }, []);
-
-    function handleCadastrar() {
-
-    }
 
     function handleChange(event) {
         const { name, value } = event.target;
@@ -88,7 +87,7 @@ export default function CadEstabelecimento() {
                         <div className="col-md-8 py-5 border">
                             <h4 className="pb-4">Insira os dados do seu estabelecimento</h4>
 
-                            <form autoComplete="off" onSubmit={handleCadastrar}>
+                            <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
 
                                 <div className="form-row">
                                     <div className="form-group col-md-12">
@@ -99,7 +98,14 @@ export default function CadEstabelecimento() {
                                             className="form-control"
                                             type="text"
                                             onChange={handleChange}
+                                            ref={register({
+                                                required: {
+                                                    value: "Required",
+                                                    message: "O nome do estabelecimento é obrigatório"
+                                                }
+                                            })}
                                         />
+                                        <p className="text-validation-error">{errors.nome && errors.nome.message}</p>
                                     </div>
                                 </div>
 
@@ -112,18 +118,36 @@ export default function CadEstabelecimento() {
                                             className="form-control"
                                             type="text"
                                             onChange={handleChange}
+                                            ref={register({
+                                                required: {
+                                                    value: "Required",
+                                                    message: "O endereço é obrigatório"
+                                                }
+                                            })}
                                         />
+                                        <p className="text-validation-error">{errors.endereco && errors.endereco.message}</p>
                                     </div>
 
                                     <div className="form-group col-md-2">
                                         <input
                                             id="numeroEstabelecimento"
                                             name="numero"
-                                            placeholder="Nº"
+                                            placeholder="Número"
                                             className="form-control"
                                             type="number"
                                             onChange={handleChange}
+                                            ref={register({
+                                                required: {
+                                                    value: "Required",
+                                                    message: "O número é obrigatório"
+                                                },
+                                                maxLength: {
+                                                    value: 5,
+                                                    message: "O número máximo de caracteres é '5'"
+                                                }
+                                            })}
                                         />
+                                        <p className="text-validation-error">{errors.numero && errors.numero.message}</p>
                                     </div>
                                 </div>
 
@@ -135,7 +159,18 @@ export default function CadEstabelecimento() {
                                             id="inputCnpj" placeholder="CNPJ"
                                             name="cnpj"
                                             onChange={handleChange}
+                                            ref={register({
+                                                required: {
+                                                    value: "Required",
+                                                    message: "O CNPJ é obrigatório"
+                                                },
+                                                pattern: {
+                                                    value: /^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/,
+                                                    message: "CNPJ inválido"
+                                                }
+                                            })}
                                         />
+                                        <p className="text-validation-error">{errors.cnpj && errors.cnpj.message}</p>
                                     </div>
 
                                     <div className="form-group col-md-6">
@@ -144,12 +179,19 @@ export default function CadEstabelecimento() {
                                             className="form-control"
                                             onChange={handleChange}
                                             name="tipoEstabelecimento"
+                                            ref={register({
+                                                required: {
+                                                    value: "Required",
+                                                    message: "O tipo de estabelecimento é obrigatório"
+                                                },
+                                            })}
                                         >
-                                            <option value={0}>Tipo de estabelecimento</option>
+                                            <option value="">Tipo de estabelecimento</option>
                                             <option value={1}>Bar</option>
                                             <option value={2}>Restaurante</option>
                                             <option value={3}>Lanchonete</option>
                                         </select>
+                                        <p className="text-validation-error">{errors.tipoEstabelecimento && errors.tipoEstabelecimento.message}</p>
                                     </div>
                                 </div>
 
@@ -186,7 +228,18 @@ export default function CadEstabelecimento() {
                                             placeholder="Senha"
                                             name="senha"
                                             onChange={handleChange}
+                                            ref={register({
+                                                required: {
+                                                    value: "Required",
+                                                    message: "A senha é obrigatória"
+                                                },
+                                                pattern: {
+                                                    value: /(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, // Mínimo de oito caracteres, pelo menos uma letra e um número
+                                                    message: "Mínimo de oito caracteres, com pelo menos uma letra e um número"
+                                                }
+                                            })}
                                         />
+                                        <p className="text-validation-error">{errors.senha && errors.senha.message}</p>
                                     </div>
                                 </div>
 
@@ -199,13 +252,19 @@ export default function CadEstabelecimento() {
                                                     type="checkbox"
                                                     defaultValue
                                                     id="aceitaTermos"
-                                                    required
                                                     checked={valores.aceitaTermos}
                                                     name="aceitaTermos"
+                                                    ref={register({
+                                                        required: {
+                                                            value: "Required",
+                                                            message: "Aceite os termos para continuar"
+                                                        },
+                                                    })}
                                                 />
                                                 <label className="form-check-label" htmlFor="invalidCheck2">
                                                     <small>Aceito os termos de condições de uso.</small>
                                                 </label>
+                                                <p className="text-validation-error">{errors.aceitaTermos && errors.aceitaTermos.message}</p>
                                             </div>
                                         </div>
                                     </div>
