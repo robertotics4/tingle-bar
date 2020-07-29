@@ -1,12 +1,12 @@
 import React from 'react';
 
-import CadEstabelecimento from './pages/CadEstabelecimento/CadEstabelecimento';
-import LoginEstabelecimento from './pages/LoginEstabelecimento/LoginEstabelecimento';
+import LoginEstabelecimento from './pages/LoginEstabelecimento';
+import CadastroEstabelecimento from './pages/CadastroEstabelecimento';
 
 export default function App() {
   return (
     <div>
-      <LoginEstabelecimento />
+      <CadastroEstabelecimento />
     </div>
   )
 }
