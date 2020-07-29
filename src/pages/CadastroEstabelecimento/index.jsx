@@ -3,12 +3,14 @@ import { useForm } from "react-hook-form";
 import Swal from 'sweetalert2'
 
 import './CadastroEstabelecimento.css';
+import Loading from '../../components/Loading';
 
 import api from '../../services/api';
 
 export default function CadastroEstabelecimento() {
     const [valores, setValores] = useState({});
     const [tiposEstabelecimento, setTiposEstabelecimento] = useState([]);
+    const [isLoadingVisible, setLoadingVisible] = useState(false);
 
     const { register, handleSubmit, errors, watch } = useForm();
 
@@ -16,6 +18,10 @@ export default function CadastroEstabelecimento() {
         setValores(data);
         cadastrarEstabelecimento();
     };
+
+    useEffect(() => {
+
+    }, [isLoadingVisible]);
 
     useEffect(() => {
         async function getTiposEstabelecimento() {
@@ -36,6 +42,9 @@ export default function CadastroEstabelecimento() {
     }
 
     async function cadastrarEstabelecimento() {
+        setLoadingVisible(true);
+        let resposta = null;
+
         const payload = {
             "Nome": valores.nome,
             "Cnpj": valores.cnpj,
@@ -50,8 +59,7 @@ export default function CadastroEstabelecimento() {
         }
 
         try {
-            const resposta = await api.post('/api/estabelecimento', payload);
-            console.log({ resposta });
+            resposta = await api.post('/api/estabelecimento', payload);
 
             if (resposta.status === 200 || resposta.status === 201) {
                 Swal.fire({
@@ -71,6 +79,8 @@ export default function CadastroEstabelecimento() {
                 icon: 'error',
                 confirmButtonText: 'Voltar'
             });
+        } finally {
+            setLoadingVisible(false);
         }
     }
 
@@ -298,7 +308,8 @@ export default function CadastroEstabelecimento() {
                 </div>{/* /.card */}
             </div>
             {/* /.register-box */}
-        </div>
 
+            {isLoadingVisible ? <Loading /> : null}
+        </div>
     );
 }
