@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from "react-hook-form";
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 import './CadastroEstabelecimento.css';
 import Loading from '../../components/Loading';
@@ -16,12 +16,11 @@ export default function CadastroEstabelecimento() {
 
     const onSubmit = data => {
         setValores(data);
+        console.log(valores);
         cadastrarEstabelecimento();
     };
 
-    useEffect(() => {
-
-    }, [isLoadingVisible]);
+    useEffect(() => { }, [isLoadingVisible]);
 
     useEffect(() => {
         async function getTiposEstabelecimento() {
@@ -138,7 +137,7 @@ export default function CadastroEstabelecimento() {
                                         name="numero"
                                         placeholder="Nº"
                                         className={errors.numero ? "form-control is-invalid" : "form-control"}
-                                        type="number"
+                                        type="text"
                                         onChange={handleChange}
                                         ref={register({
                                             required: {
@@ -146,8 +145,8 @@ export default function CadastroEstabelecimento() {
                                                 message: "O número é obrigatório"
                                             },
                                             maxLength: {
-                                                value: 4,
-                                                message: "Limite de 4 caracteres"
+                                                value: 5,
+                                                message: "Limite de 5 caracteres"
                                             }
                                         })}
                                     />
@@ -196,11 +195,6 @@ export default function CadastroEstabelecimento() {
                                         {tiposEstabelecimento.map((tipoEstabelecimento, index) => (
                                             <option key={tipoEstabelecimento.id} value={tipoEstabelecimento.id}>{tipoEstabelecimento.descricao}</option>
                                         ))}
-
-                                        {/* <option value="">Tipo de estabelecimento</option>
-                                        <option value={1}>Bar</option>
-                                        <option value={2}>Restaurante</option>
-                                        <option value={3}>Lanchonete</option> */}
                                     </select>
                                     <span className="error invalid-feedback">{errors.tipoEstabelecimento && errors.tipoEstabelecimento.message}</span>
                                 </div>
