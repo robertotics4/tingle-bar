@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from "react-hook-form";
 import Swal from 'sweetalert2';
+import InputMask from 'react-input-mask';
 
 import './CadastroEstabelecimento.css';
 import Loading from '../../components/Loading';
@@ -156,12 +157,13 @@ export default function CadastroEstabelecimento() {
 
                             <div className="row">
                                 <div className="mb-3 col-md-12">
-                                    <input
+                                    <InputMask
                                         type="text"
                                         placeholder="CNPJ"
                                         className={errors.cnpj ? "form-control is-invalid" : "form-control"}
                                         name="cnpj"
                                         onChange={handleChange}
+                                        mask="99.999.999/9999-99"
                                         ref={register({
                                             required: {
                                                 value: "Required",

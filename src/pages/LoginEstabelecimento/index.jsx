@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from "react-hook-form";
 import Swal from 'sweetalert2';
+import InputMask from 'react-input-mask';
 
 import api from '../../services/api';
 import Loading from '../../components/Loading';
@@ -9,7 +10,7 @@ export default function LoginEstabelecimento() {
     const [valores, setValores] = useState({});
     const [isLoadingVisible, setLoadingVisible] = useState(false);
 
-    const { register, handleSubmit, errors, watch } = useForm();
+    const { register, handleSubmit, errors } = useForm();
 
     useEffect(() => { }, [isLoadingVisible]);
 
@@ -73,12 +74,13 @@ export default function LoginEstabelecimento() {
                         <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
 
                             <div className="input-group mb-3">
-                                <input
+                                <InputMask
                                     type="text"
                                     className={errors.cnpj ? "form-control is-invalid" : "form-control"}
                                     placeholder="CNPJ"
                                     name="cnpj"
                                     onChange={handleChange}
+                                    mask="99.999.999/9999-99"
                                     ref={register({
                                         required: {
                                             value: "Required",
