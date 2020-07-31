@@ -1,14 +1,11 @@
 import React from 'react';
 
-import LoginEstabelecimento from './pages/LoginEstabelecimento';
-import CadastroEstabelecimento from './pages/CadastroEstabelecimento';
-import Loading from './components/Loading';
-import Cozinha from './pages/Cozinha';
+import Root from './pages/Root';
 
 export default function App() {
   return (
     <div>
-      <LoginEstabelecimento />
+      <Root />
     </div>
   )
 }

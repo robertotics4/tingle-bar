@@ -3,14 +3,14 @@ import React from 'react';
 import Header from '../../components/Header';
 import Menu from '../../components/Menu';
 import Footer from '../../components/Footer';
-import MainContent from './MainContent';
+import PainelContent from './PainelContent';
 
-export default function Main() {
+export default function Painel() {
     return (
         <div>
             <Header />
             <Menu />
-            <MainContent />
+            <PainelContent />
             <Footer />
         </div>
     );
