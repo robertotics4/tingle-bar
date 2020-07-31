@@ -16,7 +16,6 @@ export default function LoginEstabelecimento() {
 
     const onSubmit = data => {
         setValores(data);
-        console.log(valores);
         loginEstabelecimento();
     };
 
@@ -49,12 +48,22 @@ export default function LoginEstabelecimento() {
             }
 
         } catch (err) {
-            Swal.fire({
-                title: 'Erro!',
-                text: 'Falha ao efetuar login.',
-                icon: 'error',
-                confirmButtonText: 'Voltar'
-            });
+            const statusCode = err.response.status;
+
+            if (statusCode === 401)
+                Swal.fire({
+                    title: 'Erro!',
+                    text: 'Usuário ou senha inválidos',
+                    icon: 'error',
+                    confirmButtonText: 'Voltar'
+                });
+            else
+                Swal.fire({
+                    title: 'Erro!',
+                    text: 'Falha ao efetuar login.',
+                    icon: 'error',
+                    confirmButtonText: 'Voltar'
+                });
         } finally {
             setLoadingVisible(false);
         }

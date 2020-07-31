@@ -8,7 +8,7 @@ import Cozinha from './pages/Cozinha';
 export default function App() {
   return (
     <div>
-      <Cozinha />
+      <LoginEstabelecimento />
     </div>
   )
 }
