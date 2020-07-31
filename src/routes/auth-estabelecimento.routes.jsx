@@ -5,10 +5,10 @@ import {
     Route
 } from 'react-router-dom';
 
-import Principal from './Principal';
-import LoginEstabelecimento from './LoginEstabelecimento';
+import Principal from './../pages/Principal';
+import LoginEstabelecimento from './../pages/LoginEstabelecimento';
 
-const PagesRoot = () => (
+const AuthEstabelecimentoRoutes = () => (
     <Router>
         <Switch>
             <Route path="/" component={Principal} exact />
@@ -17,4 +17,4 @@ const PagesRoot = () => (
     </Router>
 );
 
-export default PagesRoot;
+export default AuthEstabelecimentoRoutes;

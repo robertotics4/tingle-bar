@@ -1,22 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useForm } from "react-hook-form";
 import Swal from 'sweetalert2';
 import InputMask from 'react-input-mask';
+import { useHistory } from 'react-router-dom';
 
-import api from '../../services/api';
+import AuthEstabelecimentoContext from '../../contexts/auth-estabelecimento';
 import Loading from '../../components/Loading';
 
 export default function LoginEstabelecimento() {
     const [valores, setValores] = useState({});
     const [isLoadingVisible, setLoadingVisible] = useState(false);
+    const { signIn } = useContext(AuthEstabelecimentoContext);
 
+    const history = useHistory();
     const { register, handleSubmit, errors } = useForm();
 
     useEffect(() => { }, [isLoadingVisible]);
 
     const onSubmit = data => {
         setValores(data);
-        loginEstabelecimento();
+        loginEstabelecimento(data);
     };
 
     function handleChange(event) {
@@ -24,49 +27,30 @@ export default function LoginEstabelecimento() {
         setValores({ ...valores, [name]: value });
     }
 
-    async function loginEstabelecimento() {
+    async function loginEstabelecimento(credentials) {
         setLoadingVisible(true);
-        let resposta = null;
 
-        const payload = {
-            "Cnpj": valores.cnpj,
-            "Senha": valores.senha
+        const response = await signIn(credentials);
+
+        if (response.status === 200 || response.status === 201) {
+            history.push('/painel');
+        } else if (response.status === 401) {
+            Swal.fire({
+                title: 'Erro!',
+                text: 'Usuário ou senha inválidos',
+                icon: 'error',
+                confirmButtonText: 'Voltar'
+            });
+        } else {
+            Swal.fire({
+                title: 'Erro!',
+                text: 'Falha ao efetuar login.',
+                icon: 'error',
+                confirmButtonText: 'Voltar'
+            });
         }
 
-        try {
-            resposta = await api.post('/api/loginestabelecimento', payload);
-
-            if (resposta.status === 200 || resposta.status === 201) {
-                Swal.fire({
-                    title: 'Sucesso!',
-                    text: 'Login efetuado com sucesso',
-                    icon: 'success',
-                    confirmButtonText: 'OK'
-                });
-
-                setValores({});
-            }
-
-        } catch (err) {
-            const statusCode = err.response.status;
-
-            if (statusCode === 401)
-                Swal.fire({
-                    title: 'Erro!',
-                    text: 'Usuário ou senha inválidos',
-                    icon: 'error',
-                    confirmButtonText: 'Voltar'
-                });
-            else
-                Swal.fire({
-                    title: 'Erro!',
-                    text: 'Falha ao efetuar login.',
-                    icon: 'error',
-                    confirmButtonText: 'Voltar'
-                });
-        } finally {
-            setLoadingVisible(false);
-        }
+        setLoadingVisible(false);
     }
 
     return (
@@ -78,7 +62,7 @@ export default function LoginEstabelecimento() {
                 {/* /.login-logo */}
                 <div className="card">
                     <div className="card-body login-card-body">
-                        <p className="login-box-msg">Insira suas credenciais para iniciar</p>
+                        <p className="login-box-msg">Login de Estabelecimento</p>
 
                         <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
 

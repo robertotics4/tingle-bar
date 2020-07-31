@@ -1,15 +1,18 @@
 import React, { useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
+
+import AuthEstabelecimentoContext from './../contexts/auth-estabelecimento';
 
 import '../styles/Menu.css';
 import logo from '../assets/logo.png';
 
-export default function Menu(props) {
+export default function Menu() {
+    const { signOut } = useContext(AuthEstabelecimentoContext);
     const history = useHistory();
 
-    function handleLogout(event) {
-        event.preventDefault();
-        history.push('/login');
+    function handleLogout() {
+        signOut();
+        history.push('/');
     }
 
     return (
@@ -81,17 +84,6 @@ export default function Menu(props) {
                                         </li>
                                     </ul>
                                 </li>
-
-
-
-
-
-
-
-
-
-
-
 
 
                             </ul>

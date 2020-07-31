@@ -1,11 +1,13 @@
 import React from 'react';
 
-import Root from './pages/Root';
+import { AuthEstabelecimentoProvider} from './contexts/auth-estabelecimento';
+
+import Routes from './routes';
 
 export default function App() {
   return (
-    <div>
-      <Root />
-    </div>
-  )
+    <AuthEstabelecimentoProvider>
+      <Routes />
+    </AuthEstabelecimentoProvider>
+  );
 }
