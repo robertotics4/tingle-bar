@@ -1,8 +1,11 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 import './styles.css';
 
 export default function LoginEstabelecimento() {
+    const history = useHistory();
+
     return (
         <div className="hold-transition login-page">
             <div className="login-box">
@@ -19,11 +22,20 @@ export default function LoginEstabelecimento() {
                         {/* /.card-header */}
                         <div className="card-body">
 
-                            <button type="button" className="btn btn-block bg-gradient-secondary btn-lg text-left">
+                            <button
+                                type="button"
+                                className="btn btn-block bg-gradient-secondary btn-lg text-left"
+                                onClick={() => {}}
+                            >
                                 <h5><b>Funcionário</b></h5>
                                 <p className="btn-perfil-descricao">Presto serviços a um estabelecimento</p>
                             </button>
-                            <button type="button" className="btn btn-block bg-gradient-secondary btn-lg text-left mt-3">
+
+                            <button 
+                            type="button" 
+                            className="btn btn-block bg-gradient-secondary btn-lg text-left mt-3"
+                            onClick={() => history.push('/loginEstabelecimento')}
+                            >
                                 <h5><b>Estabelecimento</b></h5>
                                 <p className="btn-perfil-descricao">Quero gerenciar o meu estabelecimento</p>
                             </button>

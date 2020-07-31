@@ -6,12 +6,13 @@ import {
 } from 'react-router-dom';
 
 import Principal from './Principal';
-import Painel from './Painel/Painel';
+import LoginEstabelecimento from './LoginEstabelecimento';
 
 const PagesRoot = () => (
     <Router>
         <Switch>
-            <Route path="/" component={Principal} />
+            <Route path="/" component={Principal} exact />
+            <Route path="/loginEstabelecimento" component={LoginEstabelecimento} />
         </Switch>
     </Router>
 );
