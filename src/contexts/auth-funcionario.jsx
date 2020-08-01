@@ -6,13 +6,15 @@ const AuthContext = createContext();
 
 export const AuthFuncionarioProvider = ({ children }) => {
     const [funcionario, setFuncionario] = useState(null);
+    const [estabelecimento, setEstabelecimento] = useState(null);
 
     useEffect(() => {
         function loadStoragedData() {
             const storagedFuncionario = localStorage.getItem('@TBAuth:funcionario');
             const storagedToken = localStorage.getItem('@TBAuth:token');
+            const storagedEstabelecimento = localStorage.getItem('@TBAuth:estabelecimento');
 
-            if (storagedFuncionario && storagedToken) {
+            if (storagedFuncionario && storagedToken && storagedEstabelecimento) {
                 setFuncionario(JSON.parse(storagedFuncionario));
             }
         }
@@ -32,7 +34,7 @@ export const AuthFuncionarioProvider = ({ children }) => {
             const { accessToken } = response.data;
             delete response.data.accessToken;
 
-            setFuncionario(response.data);
+            //setFuncionario(response.data);
             localStorage.setItem('@TBAuth:funcionario', JSON.stringify(response.data));
             localStorage.setItem('@TBAuth:token', accessToken);
 
@@ -47,8 +49,13 @@ export const AuthFuncionarioProvider = ({ children }) => {
         setFuncionario(null);
     }
 
+    function setEstabelecimentoFuncionario(data) {
+        setEstabelecimento(data);
+        localStorage.setItem('@TBAuth:estabelecimento', JSON.stringify(data));
+    }
+
     return (
-        <AuthContext.Provider value={{ signedFuncionario: !!funcionario, funcionario, signIn, signOut }}>
+        <AuthContext.Provider value={{ signedFuncionario: !!funcionario, funcionario, signIn, signOut, estabelecimento, setEstabelecimentoFuncionario }}>
             {children}
         </AuthContext.Provider>
     )

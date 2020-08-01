@@ -1,22 +1,26 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useForm } from "react-hook-form";
 import Swal from 'sweetalert2';
+import { useHistory } from 'react-router-dom';
 import InputMask from 'react-input-mask';
 
-import api from '../../services/api';
 import Loading from '../../components/Loading';
+import AuthFuncionarioContext from '../../contexts/auth-funcionario';
 
 export default function LoginFuncionario() {
     const [valores, setValores] = useState({});
     const [isLoadingVisible, setLoadingVisible] = useState(false);
+    const { signIn } = useContext(AuthFuncionarioContext);
+    const { setEstabelecimentoFuncionario } = useContext(AuthFuncionarioContext);
 
+    const history = useHistory();
     const { register, handleSubmit, errors } = useForm();
 
     useEffect(() => { }, [isLoadingVisible]);
 
     const onSubmit = data => {
         setValores(data);
-        loginFuncionario();
+        loginFuncionario(data);
     };
 
     function handleChange(event) {
@@ -24,54 +28,63 @@ export default function LoginFuncionario() {
         setValores({ ...valores, [name]: value });
     }
 
-    async function loginFuncionario() {
+    async function loginFuncionario(credentials) {
         setLoadingVisible(true);
-        let resposta = null;
 
-        const payload = {
-            "Telefone": valores.telefone,
-            "Senha": valores.senha
-        }
+        const response = await signIn(credentials);
 
-        try {
-            resposta = await api.post('/api/loginfuncionario', payload);
+        if (response.status === 200 || response.status === 201) {
+            const listaEstabelecimentos = response.data.listaEstab;
 
-            if (resposta.status === 200 || resposta.status === 201) {
-                Swal.fire({
-                    title: 'Sucesso!',
-                    text: 'Login efetuado com sucesso',
-                    icon: 'success',
-                    confirmButtonText: 'OK'
+            if (listaEstabelecimentos.length !== 0) {
+                const { value } = await Swal.fire({
+                    title: 'Selecione o Estabelecimento',
+                    input: 'select',
+                    inputOptions: listaEstabelecimentos.map(estabelecimento => estabelecimento.nomeEstabelecimento),
+                    inputPlaceholder: 'Selecione',
+                    inputValidator: value => {
+                        return new Promise((resolve) => {
+                            if (value) {
+                                resolve();
+                            } else {
+                                resolve('Você precisa selecionar um estabelecimento');
+                            }
+                        });
+                    }
                 });
 
-                setValores({});
-                console.log(resposta.data);
-                SelecionaEstabelecimento(resposta.data)
+                setEstabelecimentoFuncionario(listaEstabelecimentos[value]);
             }
 
-        } catch (err) {
+            setEstabelecimentoFuncionario(listaEstabelecimentos.pop());
+
+            //history.push('/painel-funcionario');
+        } else if (response.status === 401) {
+            Swal.fire({
+                title: 'Erro!',
+                text: 'Usuário ou senha inválidos',
+                icon: 'error',
+                confirmButtonText: 'Voltar'
+            });
+        } else {
             Swal.fire({
                 title: 'Erro!',
                 text: 'Falha ao efetuar login.',
                 icon: 'error',
                 confirmButtonText: 'Voltar'
             });
-        } finally {
-            setLoadingVisible(false);
         }
+
+        setLoadingVisible(false);
     }
 
     function SelecionaEstabelecimento(data) {
 
         if (data.listaEstab.length >= 1) {
 
-            console.log('mais de um');
-
-
         };
     }
     return (
-
         <div className="hold-transition login-page">
             <div className="login-box">
                 <div className="login-logo">
@@ -91,7 +104,7 @@ export default function LoginFuncionario() {
                                     placeholder="Telefone"
                                     name="telefone"
                                     onChange={handleChange}
-                                    mask="(99)999999999"
+                                    mask="(99) 99999-9999"
                                     ref={register({
                                         required: {
                                             value: "Required",

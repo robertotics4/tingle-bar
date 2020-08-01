@@ -5,12 +5,14 @@ import {
     Route
 } from 'react-router-dom';
 
-import Painel from './../pages/Painel/Painel';
+const PainelFuncionario = () => (
+    <h1>Painel Funcionário</h1>
+);
 
 const FuncionarioRoutes = () => (
     <Router>
         <Switch>
-            <Route path="/painel" component={Painel} />
+            <Route path="/painel-funcionario" component={PainelFuncionario} />
         </Switch>
     </Router>
 );
