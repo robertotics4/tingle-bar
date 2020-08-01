@@ -4,16 +4,16 @@ import api from '../services/api';
 
 const AuthContext = createContext();
 
-export const AuthEstabelecimentoProvider = ({ children }) => {
-    const [estabelecimento, setEstabelecimento] = useState(null);
+export const AuthFuncionarioProvider = ({ children }) => {
+    const [funcionario, setFuncionario] = useState(null);
 
     useEffect(() => {
         function loadStoragedData() {
-            const storagedEstabelecimento = localStorage.getItem('@TBAuth:estabelecimento');
+            const storagedFuncionario = localStorage.getItem('@TBAuth:funcionario');
             const storagedToken = localStorage.getItem('@TBAuth:token');
 
-            if (storagedEstabelecimento && storagedToken) {
-                setEstabelecimento(JSON.parse(storagedEstabelecimento));
+            if (storagedFuncionario && storagedToken) {
+                setFuncionario(JSON.parse(storagedFuncionario));
             }
         }
 
@@ -23,17 +23,17 @@ export const AuthEstabelecimentoProvider = ({ children }) => {
     async function signIn(credentials) {
         try {
             const payload = {
-                "Cnpj": credentials.cnpj,
+                "Telefone": credentials.telefone,
                 "Senha": credentials.senha
             }
 
-            const response = await api.post('/api/loginestabelecimento', payload);
+            const response = await api.post('/api/loginfuncionario', payload);
 
             const { accessToken } = response.data;
             delete response.data.accessToken;
 
-            setEstabelecimento(response.data);
-            localStorage.setItem('@TBAuth:estabelecimento', JSON.stringify(response.data));
+            setFuncionario(response.data);
+            localStorage.setItem('@TBAuth:funcionario', JSON.stringify(response.data));
             localStorage.setItem('@TBAuth:token', accessToken);
 
             return response;
@@ -44,11 +44,11 @@ export const AuthEstabelecimentoProvider = ({ children }) => {
 
     function signOut() {
         localStorage.clear();
-        setEstabelecimento(null);
+        setFuncionario(null);
     }
 
     return (
-        <AuthContext.Provider value={{ signedEstabelecimento: !!estabelecimento, estabelecimento, signIn, signOut }}>
+        <AuthContext.Provider value={{ signedFuncionario: !!funcionario, funcionario, signIn, signOut }}>
             {children}
         </AuthContext.Provider>
     )

@@ -1,19 +1,24 @@
 import React, { useContext } from 'react';
 
+import GeralContext from '../contexts/geral';
 import AuthEstabelecimentoContext from '../contexts/auth-estabelecimento';
-import Loading from '../components/Loading';
+import AuthFuncionarioContext from '../contexts/auth-funcionario';
 
-import EstabelecimentoRoutes from './estabelecimento.routes';
+import AuthFuncionarioRoutes from './auth-funcionario.routes';
 import AuthEstabelecimentoRoutes from './auth-estabelecimento.routes';
 
+import EstabelecimentoRoutes from './estabelecimento.routes';
+import FuncionarioRoutes from './funcionario.routes';
+
 const Routes = () => {
-    const { signed, loading } = useContext(AuthEstabelecimentoContext);
+    const { tipoUsuario } = useContext(GeralContext);
+    const { signedEstabelecimento } = useContext(AuthEstabelecimentoContext);
+    const { signedFuncionario } = useContext(AuthFuncionarioContext);
 
-    if (loading) {
-        return <Loading />
-    }
+    if (tipoUsuario === 'estabelecimento')
+        return signedEstabelecimento ? <EstabelecimentoRoutes /> : <AuthEstabelecimentoRoutes />
 
-    return signed ? <EstabelecimentoRoutes /> : <AuthEstabelecimentoRoutes />
+    return signedFuncionario ? <FuncionarioRoutes /> : <AuthFuncionarioRoutes />
 };
 
 export default Routes;
