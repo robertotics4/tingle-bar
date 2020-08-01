@@ -57,8 +57,6 @@ export default function LoginFuncionario() {
             }
 
             setEstabelecimentoFuncionario(listaEstabelecimentos.pop());
-
-            //history.push('/painel-funcionario');
         } else if (response.status === 401) {
             Swal.fire({
                 title: 'Erro!',

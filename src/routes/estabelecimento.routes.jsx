@@ -5,16 +5,16 @@ import {
     Route
 } from 'react-router-dom';
 
-import Painel from './../pages/Painel/Painel';
+const PainelEstabelecimento = () => (
+    <h1>Painel Funcionário</h1>
+);
 
-const EstabelecimentoRoutes = () => {
-    console.log('PAINEL ESTABELECIMENTO');
-
-    return <Router>
+const EstabelecimentoRoutes = () => (
+    <Router>
         <Switch>
-            <Route path="/painel-estabelecimento" component={<h1>Painel estabelecimento</h1>} />
+            <Route path="/" component={PainelEstabelecimento} />
         </Switch>
     </Router>
-};
+);
 
 export default EstabelecimentoRoutes;

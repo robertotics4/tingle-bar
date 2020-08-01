@@ -34,7 +34,7 @@ export const AuthFuncionarioProvider = ({ children }) => {
             const { accessToken } = response.data;
             delete response.data.accessToken;
 
-            //setFuncionario(response.data);
+            setFuncionario(response.data);
             localStorage.setItem('@TBAuth:funcionario', JSON.stringify(response.data));
             localStorage.setItem('@TBAuth:token', accessToken);
 

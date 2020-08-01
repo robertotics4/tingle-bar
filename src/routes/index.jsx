@@ -13,12 +13,13 @@ import FuncionarioRoutes from './funcionario.routes';
 const Routes = () => {
     const { tipoUsuario } = useContext(GeralContext);
     const { signedEstabelecimento } = useContext(AuthEstabelecimentoContext);
-    const { signedFuncionario } = useContext(AuthFuncionarioContext);
+    const { signedFuncionario, estabelecimento } = useContext(AuthFuncionarioContext);
 
     if (tipoUsuario === 'estabelecimento')
         return signedEstabelecimento ? <EstabelecimentoRoutes /> : <AuthEstabelecimentoRoutes />
 
-    return signedFuncionario ? <FuncionarioRoutes /> : <AuthFuncionarioRoutes />
+    return signedFuncionario && estabelecimento ? <FuncionarioRoutes /> : <AuthFuncionarioRoutes />
+
 };
 
 export default Routes;
