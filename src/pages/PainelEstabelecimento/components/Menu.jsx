@@ -32,28 +32,35 @@ export default function Menu() {
                 </div>
                 {/* Sidebar Menu */}
                 <nav className="mt-2">
-                    <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                        <li className="nav-item has-treeview menu-open">
-                            <ul className="nav nav-treeview">
 
+                    <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <li className="nav-item has-treeview">
+                            <a href="#" className="nav-link">
+                                <i className="fas fa-users nav-icon"></i>
+                                <p>
+                                    Funcionários
+                            <i className="fas fa-angle-left right" />
+                                </p>
+                            </a>
+                            <ul className="nav nav-treeview" style={{ display: 'none' }}>
                                 <li className="nav-item">
-                                    <a href="#" className="nav-link active">
-                                        <i className="far fa-circle nav-icon" />
-                                        <p>Funcionários</p>
+                                    <a href="../mailbox/mailbox.html" className="nav-link">
+                                        <i class="fas fa-user-plus nav-icon"></i>
+                                        <p>Cadastrar funcionário</p>
                                     </a>
                                 </li>
-
+                                <li className="nav-item">
+                                    <a href="../mailbox/compose.html" className="nav-link">
+                                        <i class="fas fa-list nav-icon"></i>
+                                        <p>Gerenciar funcionários</p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
 
                         <li className="nav-item">
                             <a onClick={handleLogout} className="nav-link">
-
-                                <svg className="nav-icon bi bi-power" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path fillRule="evenodd" d="M5.578 4.437a5 5 0 1 0 4.922.044l.5-.866a6 6 0 1 1-5.908-.053l.486.875z" />
-                                    <path fillRule="evenodd" d="M7.5 8V1h1v7h-1z" />
-                                </svg>
-
+                                <i class="fas fa-sign-out-alt nav-icon"></i>
                                 <p className="text" color="red">Sair</p>
                             </a>
                         </li>
