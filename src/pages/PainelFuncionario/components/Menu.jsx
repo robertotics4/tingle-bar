@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import {useHistory} from 'react-router-dom';
 
-import AuthEstabelecimentoContext from './../contexts/auth-estabelecimento';
+import AuthEstabelecimentoContext from '../../../contexts/auth-estabelecimento';
 
-import '../styles/Menu.css';
-import logo from '../assets/logo.png';
+import '../../../styles/Menu.css';
+import logo from '../../../assets/logo.png';
 
 export default function Menu() {
     const { signOut } = useContext(AuthEstabelecimentoContext);

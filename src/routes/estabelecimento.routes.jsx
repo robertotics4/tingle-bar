@@ -2,17 +2,16 @@ import React from 'react';
 import {
     BrowserRouter as Router,
     Switch,
-    Route
+    Route,
 } from 'react-router-dom';
 
-const PainelEstabelecimento = () => (
-    <h1>Painel Funcionário</h1>
-);
+import PainelEstabelecimento from '../pages/PainelEstabelecimento';
 
 const EstabelecimentoRoutes = () => (
     <Router>
         <Switch>
             <Route path="/" component={PainelEstabelecimento} />
+            <Route path="/painel-estabelecimento" component={PainelEstabelecimento} />
         </Switch>
     </Router>
 );

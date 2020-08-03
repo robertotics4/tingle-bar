@@ -76,12 +76,6 @@ export default function LoginFuncionario() {
         setLoadingVisible(false);
     }
 
-    function SelecionaEstabelecimento(data) {
-
-        if (data.listaEstab.length >= 1) {
-
-        };
-    }
     return (
         <div className="hold-transition login-page">
             <div className="login-box">

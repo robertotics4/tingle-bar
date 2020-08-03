@@ -5,9 +5,7 @@ import {
     Route
 } from 'react-router-dom';
 
-const PainelFuncionario = () => (
-    <h1>Painel Funcionário</h1>
-);
+import PainelFuncionario from '../pages/PainelFuncionario';
 
 const FuncionarioRoutes = () => (
     <Router>
