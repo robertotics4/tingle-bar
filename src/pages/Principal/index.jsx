@@ -5,7 +5,7 @@ import './styles.css';
 import GeralContext from '../../contexts/geral';
 
 export default function LoginEstabelecimento() {
-    const { setTipoUsuario } = useContext(GeralContext);
+    const { tipoUsuario, setTipoUsuario } = useContext(GeralContext);
 
     const history = useHistory();
 
@@ -16,7 +16,6 @@ export default function LoginEstabelecimento() {
                 <div className="login-logo">
                     <b>Tingle</b>Bar
                 </div>
-
 
                 <div className="col-md-12">
                     <div className="card card-default">
@@ -31,8 +30,12 @@ export default function LoginEstabelecimento() {
                                 type="button"
                                 className="btn btn-block bg-gradient-secondary btn-lg text-left"
                                 onClick={() => {
-                                    setTipoUsuario('funcionario');
-                                    history.push('/loginFuncionario');
+                                    if (tipoUsuario === 'funcionario')
+                                        history.push('/painel-funcionario');
+                                    else {
+                                        setTipoUsuario('funcionario');
+                                        history.push('/loginFuncionario');
+                                    }
                                 }}
                             >
                                 <h5><b>Funcionário</b></h5>
@@ -44,8 +47,12 @@ export default function LoginEstabelecimento() {
                                 type="button"
                                 className="btn btn-block bg-gradient-secondary btn-lg text-left mt-3"
                                 onClick={() => {
-                                    setTipoUsuario('estabelecimento');
-                                    history.push('/loginEstabelecimento');
+                                    if (tipoUsuario === 'estabelecimento')
+                                        history.push('/painel-estabelecimento');
+                                    else {
+                                        setTipoUsuario('estabelecimento');
+                                        history.push('/loginEstabelecimento');
+                                    }
                                 }}
                             >
                                 <h5><b>Estabelecimento</b></h5>

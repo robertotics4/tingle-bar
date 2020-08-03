@@ -4,6 +4,7 @@ import GeralContext from '../contexts/geral';
 import AuthEstabelecimentoContext from '../contexts/auth-estabelecimento';
 import AuthFuncionarioContext from '../contexts/auth-funcionario';
 
+import AppRoutes from './app.routes';
 import AuthFuncionarioRoutes from './auth-funcionario.routes';
 import AuthEstabelecimentoRoutes from './auth-estabelecimento.routes';
 
@@ -15,11 +16,14 @@ const Routes = () => {
     const { signedEstabelecimento } = useContext(AuthEstabelecimentoContext);
     const { signedFuncionario, estabelecimento } = useContext(AuthFuncionarioContext);
 
-    if (tipoUsuario === 'estabelecimento')
-        return signedEstabelecimento ? <EstabelecimentoRoutes /> : <AuthEstabelecimentoRoutes />
+    if (!tipoUsuario)
+        return <AppRoutes />;
+    else {
+        if (tipoUsuario === 'estabelecimento')
+            return signedEstabelecimento ? <EstabelecimentoRoutes /> : <AuthEstabelecimentoRoutes />;
 
-    return signedFuncionario && estabelecimento ? <FuncionarioRoutes /> : <AuthFuncionarioRoutes />
-
+        return signedFuncionario && estabelecimento ? <FuncionarioRoutes /> : <AuthFuncionarioRoutes />
+    }
 };
 
 export default Routes;

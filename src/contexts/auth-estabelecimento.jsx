@@ -1,11 +1,13 @@
-import React, { useState, createContext, useEffect } from 'react';
+import React, { useState, useContext, createContext, useEffect } from 'react';
 
 import api from '../services/api';
+import GeralContext from './geral';
 
 const AuthContext = createContext();
 
 export const AuthEstabelecimentoProvider = ({ children }) => {
     const [estabelecimento, setEstabelecimento] = useState(null);
+    const { setTipoUsuario } = useContext(GeralContext);
 
     useEffect(() => {
         function loadStoragedData() {
@@ -35,6 +37,7 @@ export const AuthEstabelecimentoProvider = ({ children }) => {
             setEstabelecimento(response.data);
             localStorage.setItem('@TBAuth:estabelecimento', JSON.stringify(response.data));
             localStorage.setItem('@TBAuth:token', accessToken);
+            localStorage.setItem('@TBAuth:tipoUsuario', 'estabelecimento');
 
             return response;
         } catch (err) {
@@ -44,6 +47,7 @@ export const AuthEstabelecimentoProvider = ({ children }) => {
 
     function signOut() {
         localStorage.clear();
+        setTipoUsuario(null);
         setEstabelecimento(null);
     }
 

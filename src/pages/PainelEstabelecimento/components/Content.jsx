@@ -1,5 +1,7 @@
 import React from 'react';
 
+import GerenFuncionarios from './GerenFuncionarios'; 
+
 export default function Content() {
     return (
         <div className="content-wrapper">
@@ -24,6 +26,8 @@ export default function Content() {
             {/* Main content */}
             <section className="content">
                 <div className="container-fluid">
+
+                    <GerenFuncionarios />
 
                 </div>
             </section>
