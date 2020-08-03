@@ -31,7 +31,7 @@ export const AuthFuncionarioProvider = ({ children }) => {
                 "Senha": credentials.senha
             }
 
-            const response = await api.post('/api/loginfuncionario', payload);
+            const response = await api.post('/loginfuncionario', payload);
 
             const { accessToken } = response.data;
             delete response.data.accessToken;

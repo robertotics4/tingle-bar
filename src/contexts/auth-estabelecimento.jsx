@@ -29,7 +29,7 @@ export const AuthEstabelecimentoProvider = ({ children }) => {
                 "Senha": credentials.senha
             }
 
-            const response = await api.post('/api/loginestabelecimento', payload);
+            const response = await api.post('/loginestabelecimento', payload);
 
             const { accessToken } = response.data;
             delete response.data.accessToken;
