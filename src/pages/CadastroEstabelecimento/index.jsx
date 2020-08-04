@@ -26,7 +26,7 @@ export default function CadastroEstabelecimento() {
     useEffect(() => {
         async function getTiposEstabelecimento() {
             try {
-                const { data } = await api.get('/api/tipoestabelecimento');
+                const { data } = await api.get('/tipoestabelecimento');
                 setTiposEstabelecimento(data.tipoestabelecimento);
             } catch (err) {
                 console.log({ err });
@@ -59,7 +59,7 @@ export default function CadastroEstabelecimento() {
         }
 
         try {
-            resposta = await api.post('/api/estabelecimento', payload);
+            resposta = await api.post('/estabelecimento', payload);
 
             if (resposta.status === 200 || resposta.status === 201) {
                 Swal.fire({

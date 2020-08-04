@@ -33,7 +33,7 @@ export default function LoginEstabelecimento() {
         const response = await signIn(credentials);
 
         if (response.status === 200 || response.status === 201) {
-            history.push('/painel-estabelecimento');
+            history.push('/painelEstabelecimento');
 
         } else if (response.status === 401) {
             Swal.fire({
