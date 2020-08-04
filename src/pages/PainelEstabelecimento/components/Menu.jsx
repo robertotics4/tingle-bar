@@ -36,35 +36,35 @@ export default function Menu() {
                     <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
                         <li className="nav-item">
-                            <a href="/#" className="nav-link">
+                            <a href="/gerenciarFuncionarios" className="nav-link">
                                 <i className="fas fa-users nav-icon"></i>
                                 <p>Funcionários</p>
                             </a>
                         </li>
 
                         <li className="nav-item">
-                            <a href="#" className="nav-link">
+                            <a href="/gerenciarMesas" className="nav-link">
                                 <i className="fas fa-table nav-icon" />
                                 <p>Mesas</p>
                             </a>
                         </li>
 
                         <li className="nav-item">
-                            <a href="#" className="nav-link">
+                            <a href="/gerenciarCardapio" className="nav-link">
                                 <i className="fas fa-bars nav-icon"></i>
                                 <p>Cardápio</p>
                             </a>
                         </li>
 
                         <li className="nav-item">
-                            <a href="/#" className="nav-link">
+                            <a href="/gerenciarPromocoes" className="nav-link">
                                 <i className="fas fa-percentage nav-icon"></i>
                                 <p>Promoções</p>
                             </a>
                         </li>
 
                         <li className="nav-item">
-                            <a href="/#" className="nav-link">
+                            <a href="/gerenciarCozinha" className="nav-link">
                                 <i className="fas fa-hamburger nav-icon"></i>
                                 <p>Cozinha</p>
                             </a>

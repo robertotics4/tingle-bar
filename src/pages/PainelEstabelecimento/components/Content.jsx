@@ -1,7 +1,6 @@
 import React from 'react';
 
 import CadFuncionario from './CadFuncionario';
-import ListaFuncionarios from './ListaFuncionarios';
 
 export default function Content() {
     return (
@@ -12,12 +11,12 @@ export default function Content() {
                 <div className="container-fluid">
                     <div className="row mb-2">
                         <div className="col-sm-6">
-                            <h1>Funcionários</h1>
+                            <h1>Tela principal</h1>
                         </div>
                         <div className="col-sm-6">
                             <ol className="breadcrumb float-sm-right">
                                 <li className="breadcrumb-item"><a href="#">Home</a></li>
-                                <li className="breadcrumb-item active">Funcionários</li>
+                                <li className="breadcrumb-item active">Principal</li>
                             </ol>
                         </div>
                     </div>
@@ -27,11 +26,6 @@ export default function Content() {
             {/* Main content */}
             <section className="content">
                 <div className="container-fluid">
-
-                    {/* <ListaFuncionarios /> */}
-                    <div className="col-md-8">
-                        <CadFuncionario />
-                    </div>
 
 
 
