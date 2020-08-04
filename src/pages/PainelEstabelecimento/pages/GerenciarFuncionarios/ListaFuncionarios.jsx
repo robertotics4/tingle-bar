@@ -1,28 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Swal from 'sweetalert2';
+
+import AuthEstabelecimentoContext from '../../../../contexts/auth-estabelecimento';
 
 import api from '../../../../services/api';
 
 export default function ListaFuncionarios() {
     const [funcionarios, setFuncionarios] = useState([]);
     const [tiposFuncionario, setTiposFuncionario] = useState([]);
-    const [estabelecimento, setEstabelecimento] = useState(null);
+    const { estabelecimento } = useContext(AuthEstabelecimentoContext);
 
     useEffect(() => {
-        async function loadStoragedData() {
-            const storagedEstabelecimento = localStorage.getItem('@TBAuth:estabelecimento');
-
-            if (storagedEstabelecimento) {
-                setEstabelecimento(JSON.parse(storagedEstabelecimento));
-            }
-        }
-
-        loadStoragedData();
-        getFuncionarios();
         getTiposFuncionario();
     }, []);
 
-    async function getFuncionarios() {
+    useEffect(() => {
+        getFuncionarios();
+    }, [estabelecimento]);
+
+    async function getFuncionarios () {
         try {
             const response = await api.get('/Funcionario?idEstabelecimento=' + estabelecimento.id_Estabelecimento);
             setFuncionarios(response.data);
