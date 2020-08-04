@@ -12,18 +12,20 @@ import EstabelecimentoRoutes from './estabelecimento.routes';
 import FuncionarioRoutes from './funcionario.routes';
 
 const Routes = () => {
-    const { tipoUsuario } = useContext(GeralContext);
-    const { signedEstabelecimento } = useContext(AuthEstabelecimentoContext);
-    const { signedFuncionario, estabelecimento } = useContext(AuthFuncionarioContext);
+    // const { tipoUsuario } = useContext(GeralContext);
+    // const { signedEstabelecimento } = useContext(AuthEstabelecimentoContext);
+    // const { signedFuncionario, estabelecimento } = useContext(AuthFuncionarioContext);
 
-    if (!tipoUsuario)
-        return <AppRoutes />;
-    else {
-        if (tipoUsuario === 'estabelecimento')
-            return signedEstabelecimento ? <EstabelecimentoRoutes /> : <AuthEstabelecimentoRoutes />;
+    // if (!tipoUsuario)
+    //     return <AppRoutes />;
+    // else {
+    //     if (tipoUsuario === 'estabelecimento')
+    //         return signedEstabelecimento ? <EstabelecimentoRoutes /> : <AuthEstabelecimentoRoutes />;
 
-        return signedFuncionario && estabelecimento ? <FuncionarioRoutes /> : <AuthFuncionarioRoutes />
-    }
+    //     return signedFuncionario && estabelecimento ? <FuncionarioRoutes /> : <AuthFuncionarioRoutes />
+    // }
+
+    return <AppRoutes />
 };
 
 export default Routes;

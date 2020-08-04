@@ -283,7 +283,7 @@ export default function CadastroEstabelecimento() {
                                             })}
                                         />
                                         <label htmlFor="agreeTerms">
-                                            &nbsp;&nbsp;Eu aceito todos os <a href="#">termos de uso</a>
+                                            &nbsp;&nbsp;Eu aceito todos os <a data-toggle="modal" data-target="#modaltermo" href="#">termos de uso</a>
                                         </label>
                                         <span className="error invalid-feedback" style={{ display: "inline" }}><br />{errors.aceitaTermos && errors.aceitaTermos.message}</span>
                                     </div>
@@ -298,12 +298,39 @@ export default function CadastroEstabelecimento() {
 
                         </form>
 
-                        <a href="login.html" className="text-center">Já tenho uma conta de acesso</a>
+                        <a href="/" className="text-center">Já tenho uma conta de acesso</a>
                     </div>
                     {/* /.form-box */}
                 </div>{/* /.card */}
             </div>
             {/* /.register-box */}
+
+
+            <div className="modal fade" id="modaltermo" tabIndex={-1} role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                <div className="modal-dialog" role="document">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLongTitle">Termo de Uso</h5>
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            A política de privacidade é o documento por meio do qual a pessoa física ou jurídica que mantém um site ou aplicativo expõe e explica a todos os interessados a forma como os dados pessoais dos usuários da plataforma serão tratados.
+                            A proteção de dados pessoais ganhou especial relevância após a entrada em vigor do Regulamento Geral de Proteção de Dados da União Europeia (RGPD), também conhecido como General Data Protection Regulation (GDPR), que é o regulamento adotado pelos países da União Europeia sobre o assunto. Esta norma estabeleceu uma série de exigências e de punições àqueles que realizam o tratamento de dados pessoais de usuários da internet.
+                            A adoção do RGPD pela União Europeia levou o Brasil a adotar uma legislação muito semelhante, que também trata do assunto: a Lei Federal n. 13.709 (Lei de Proteção de Dados Pessoais).
+                            Vale ressaltar, neste ponto, que, ainda que a pessoa física ou jurídica responsável pelo site ou aplicativo seja brasileira, é possível que se lhe apliquem ambas as normas, a depender do caso.
+                            As duas normas estabelecem regras que devem ser seguidas pelos sites ou aplicativos que fazem a coleta e o tratamento de dados pessoais de seus usuários. Além disso, os usuários deverão ter seus direitos respeitados, como os de acesso, limitação, eliminação, retificação e portabilidade de seus dados pessoais.
+                            O site ou aplicativo deverá informar os motivos pelos quais os dados pessoais de seus usuários são coletados, a pessoa responsável pelo tratamento destes dados e o prazo pelo qual são armazenados. Caberá ao site ou aplicativo, ainda, informar aos usuários os seus direitos, sendo que todas estas informações estarão previstas na política de privacidade.
+                            No documento, será necessário, ainda, designar um profissional especializado em privacidade para verificar se o site ou aplicativo está cumprindo as normas do regulamento, o chamado Encarregado de Proteção de Dados (Data Protection Officer).
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                            <button type="button" className="btn btn-primary">Aceito</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             {isLoadingVisible ? <Loading /> : null}
         </div>

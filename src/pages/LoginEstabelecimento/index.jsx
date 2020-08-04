@@ -132,7 +132,7 @@ export default function LoginEstabelecimento() {
                             <a href="forgot-password.html">Esqueci minha senha</a>
                         </p>
                         <p className="mb-0">
-                            <a href="register.html" className="text-center">Cadastrar um novo estabelecimento</a>
+                            <a href="/cadastroEstabelecimento" className="text-center">Cadastrar um novo estabelecimento</a>
                         </p>
                     </div>
                     {/* /.login-card-body */}

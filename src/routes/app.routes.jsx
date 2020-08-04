@@ -5,12 +5,16 @@ import {
     Route
 } from 'react-router-dom';
 
-import Principal from './../pages/Principal';
+import LoginEstabelecimento from '../pages/LoginEstabelecimento';
+import CadastroEstabelecimento from '../pages/CadastroEstabelecimento';
+import PainelEstabelecimento from '../pages/PainelEstabelecimento';
 
 const AppRoutes = () => (
     <Router>
         <Switch>
-            <Route path="/" component={Principal} />
+            <Route path="/" component={LoginEstabelecimento} exact />
+            <Route path="/cadastroEstabelecimento" component={CadastroEstabelecimento} />
+            <Route path="/painelEstabelecimento" component={PainelEstabelecimento} />
         </Switch>
     </Router>
 );
