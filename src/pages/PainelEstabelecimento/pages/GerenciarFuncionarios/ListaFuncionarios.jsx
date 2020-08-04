@@ -2,13 +2,16 @@ import React, { useState, useEffect, useContext } from 'react';
 import Swal from 'sweetalert2';
 
 import AuthEstabelecimentoContext from '../../../../contexts/auth-estabelecimento';
+import GeralContext from '../../../../contexts/geral';
 
 import api from '../../../../services/api';
+import Loading from '../../../../components/Loading';
 
 export default function ListaFuncionarios() {
     const [funcionarios, setFuncionarios] = useState([]);
     const [tiposFuncionario, setTiposFuncionario] = useState([]);
     const { estabelecimento } = useContext(AuthEstabelecimentoContext);
+    const { isLoadingVisible, setLoadingVisible } = useContext(GeralContext);
 
     useEffect(() => {
         getTiposFuncionario();
@@ -54,19 +57,23 @@ export default function ListaFuncionarios() {
             "id_tipofuncionario": idTipoFuncionario
         }
 
-        // try {
-        //     const response = await api.post('/Funcionario', payload);
+        try {
+            const response = await api.post('/Funcionario', payload);
 
-        //     if (response.status === 201 || response.status === 200) {
-        //         Swal.fire('Sucesso!', 'Funcionário cadastrado com sucesso!', 'success')
-        //     }
+            if (response.status === 201 || response.status === 200) {
+                Swal.fire('Sucesso!', 'Funcionário cadastrado com sucesso!', 'success')
+            }
 
-        // } catch (err) {
-        //     console.log({ err });
-        //     if (err.response.status === 401 || err.response.status === 400) {
-        //         Swal.fire('Erro!', 'Falha ao cadastrar o funcionário', 'error')
-        //     }
-        // }
+        } catch (err) {
+            if (err.response.status === 401 || err.response.status === 400) {
+                Swal.fire('Erro!', 'Falha ao cadastrar o funcionário', 'error')
+            }
+        }
+    }
+
+    async function handleDeletar(item) {
+        //setLoadingVisible(true);
+
     }
 
     async function handleCadastrar() {
@@ -135,12 +142,12 @@ export default function ListaFuncionarios() {
                 <div className="container-fluid">
                     <div className="row mb-2">
                         <div className="col-sm-6">
-                            <h1>Tela principal</h1>
+                            <h1>Funcionários</h1>
                         </div>
                         <div className="col-sm-6">
                             <ol className="breadcrumb float-sm-right">
                                 <li className="breadcrumb-item"><a href="#">Home</a></li>
-                                <li className="breadcrumb-item active">Principal</li>
+                                <li className="breadcrumb-item active">Funcionários</li>
                             </ol>
                         </div>
                     </div>
@@ -183,7 +190,7 @@ export default function ListaFuncionarios() {
 
                                     {funcionarios.map((item, index) => {
                                         return <tr key={item.id_funcionario}>
-                                            <td>{item.id_funcionario}</td>
+                                            <td name="idFuncionario">{item.id_funcionario}</td>
                                             <td>
                                                 <a>{item.nome}</a>
                                                 <br />
@@ -206,7 +213,7 @@ export default function ListaFuncionarios() {
                                                     <i className="fas fa-pencil-alt mr-2"></i>
                                                     Editar
                                                 </button>
-                                                <button className="btn btn-danger btn-sm ml-3">
+                                                <button className="btn btn-danger btn-sm ml-3" onClick={() => handleDeletar(item)}>
                                                     <i className="fas fa-trash mr-2"></i>
                                                     Deletar
                                                 </button>
@@ -223,11 +230,10 @@ export default function ListaFuncionarios() {
 
                     </div>
 
-
-
                 </div>
             </section>
             {/* /.content */}
+            {isLoadingVisible ? <Loading /> : null}
 
         </div>
     );

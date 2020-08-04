@@ -3,14 +3,14 @@ import React from 'react';
 import Header from '../../../../components/Header';
 import Footer from '../../../../components/Footer';
 import Menu from '../../components/Menu';
-import Content from '../../components/Content';
+import ListaMesas from './ListaMesas';
 
 export default function GerenciarMesas() {
     return (
         <div>
             <Header />
             <Menu />
-            <Content />
+            <ListaMesas />
             <Footer />
         </div>
     );

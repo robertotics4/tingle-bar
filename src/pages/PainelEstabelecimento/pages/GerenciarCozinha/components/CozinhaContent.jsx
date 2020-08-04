@@ -1,6 +1,6 @@
 import React from 'react';
 
-import CardPedido from '../../components/CardPedido';
+import CardPedido from './CardPedido';
 
 const listaPedidos = [
     {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
     BrowserRouter as Router,
     Switch,
@@ -23,11 +23,11 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
             {...rest}
             render={() => storagedToken
                 ? <Component {...rest} />
-                : <Redirect to="/" />}
+                : <Redirect to="/" />
+            }
         />
     );
 };
-
 
 const AppRoutes = () => (
     <Router>

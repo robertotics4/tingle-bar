@@ -4,6 +4,7 @@ const GeralContext = createContext();
 
 export const GeralProvider = ({ children }) => {
     const [tipoUsuario, setTipoUsuario] = useState(null);
+    const [isLoadingVisible, setLoadingVisible] = useState(false);
 
     useEffect(() => {
         function loadStoragedData() {
@@ -18,7 +19,7 @@ export const GeralProvider = ({ children }) => {
     }, []);
 
     return (
-        <GeralContext.Provider value={{ tipoUsuario, setTipoUsuario }}>
+        <GeralContext.Provider value={{ tipoUsuario, setTipoUsuario, isLoadingVisible, setLoadingVisible }}>
             {children}
         </GeralContext.Provider>
     )
