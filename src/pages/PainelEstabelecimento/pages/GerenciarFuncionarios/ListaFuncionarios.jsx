@@ -232,10 +232,6 @@ export default function ListaFuncionarios() {
                                                     <i className="fas fa-eye mr-2"></i>
                                                     Visualizar
                                                 </button>
-                                                <button className="btn btn-info btn-sm ml-3">
-                                                    <i className="fas fa-pencil-alt mr-2"></i>
-                                                    Editar
-                                                </button>
                                                 <button className="btn btn-danger btn-sm ml-3" onClick={() => deletarFuncionario(item)}>
                                                     <i className="fas fa-trash mr-2"></i>
                                                     Deletar
@@ -243,8 +239,6 @@ export default function ListaFuncionarios() {
                                             </td>
                                         </tr>
                                     })}
-
-
 
                                 </tbody>
                             </table>
