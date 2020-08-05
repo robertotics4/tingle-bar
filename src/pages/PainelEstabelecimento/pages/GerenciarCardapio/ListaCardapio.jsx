@@ -5,11 +5,12 @@ import AuthEstabelecimentoContext from '../../../../contexts/auth-estabeleciment
 import GeralContext from '../../../../contexts/geral';
 
 import api from '../../../../services/api';
-import Loading from '../../../../components/Loading';
+import ModalCardCardapio from './ModalCadCardapio';
 
 export default function ListaFuncionarios() {
     const { estabelecimento } = useContext(AuthEstabelecimentoContext);
-    const { isLoadingVisible, setLoadingVisible } = useContext(GeralContext);
+    const [isModalVisible, setModalVisible] = useState(false);
+
 
     useEffect(() => {
 
@@ -17,6 +18,10 @@ export default function ListaFuncionarios() {
 
     useEffect(() => {
     }, [estabelecimento]);
+
+    async function handleCadastrar() {
+        setModalVisible(true);
+    }
 
     return (
         <div className="content-wrapper">
@@ -46,7 +51,7 @@ export default function ListaFuncionarios() {
                         <div className="card-header">
                             <h3 className="card-title">Lista de itens do Cardápio</h3>
                             <div className="card-tools">
-                                <button className="btn btn-success btn-sm">
+                                <button className="btn btn-success btn-sm" onClick={handleCadastrar}>
                                     <i className="fas fa-user-plus mr-2"></i>
                                                     Novo
                                 </button>
@@ -104,7 +109,7 @@ export default function ListaFuncionarios() {
                 </div>
             </section>
             {/* /.content */}
-            {isLoadingVisible ? <Loading /> : null}
+            {isModalVisible ? <ModalCardCardapio /> : null}
 
         </div>
     );

@@ -7,11 +7,13 @@ import ListaCardapio from './ListaCardapio';
 
 export default function GerenciarCardapio() {
     return (
-        <div>
-            <Header />
-            <Menu />
-            <ListaCardapio />
-            <Footer />
+        <div className="hold-transition sidebar-mini">
+            <div className="wrapper">
+                <Header />
+                <Menu />
+                <ListaCardapio />
+                <Footer />
+            </div>
         </div>
     );
 }
