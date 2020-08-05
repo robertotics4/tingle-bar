@@ -37,64 +37,65 @@ export default function ListaFuncionarios() {
 
 
 
-                    <div className="card card-info">
+
+                    <div className="card">
                         <div className="card-header">
-                            <h3 className="card-title">Lista de Mesas</h3>
+                            <h3 className="card-title">Lista de funcionários</h3>
                             <div className="card-tools">
-                                <button type="button" className="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                    <i className="fas fa-minus" /></button>
+                                <button className="btn btn-success btn-sm">
+                                    <i className="fas fa-user-plus mr-2"></i>
+                                                    Novo
+                                </button>
                             </div>
                         </div>
                         <div className="card-body p-0">
-                            <table className="table">
+                            <table className="table table-striped projects">
                                 <thead>
                                     <tr>
-                                        <th>Número</th>
-                                        <th>Status</th>
-                                        <th />
+                                        <th style={{ width: '10%' }}>
+                                            ID
+                                        </th>
+                                        <th style={{ width: '40%' }}>
+                                            Nome
+                                        </th>
+                                        <th style={{ width: '20%' }}>
+                                            Tipo
+                                        </th>
+                                        <th style={{ width: '30%' }}>
+                                        </th>
                                     </tr>
                                 </thead>
+
                                 <tbody>
                                     <tr>
-                                        <td>01</td>
-                                        <td>Disponível</td>
-                                        <td className="text-right py-0 align-middle">
-                                            <div className="btn-group btn-group-sm">
-                                                <a href="#" className="btn btn-info"><i className="fas fa-eye" /></a>
-                                                <a href="#" className="btn btn-danger"><i className="fas fa-trash" /></a>
-                                            </div>
+                                        <td>1</td>
+                                        <td>
+                                            <a>Mesa 01</a>
+                                            <br />
+                                            {/* <small>Created 01.01.2019</small> */}
+                                        </td>
+                                        <td>
+                                            <a>Mesa redondaa nova</a>
+                                        </td>
+
+                                        <td className="project-actions text-right">
+                                            <button className="btn btn-primary btn-sm ml-3">
+                                                <i className="fas fa-eye mr-2"></i>
+                                                    Visualizar
+                                                </button>
+                                            <button className="btn btn-info btn-sm ml-3">
+                                                <i className="fas fa-pencil-alt mr-2"></i>
+                                                    Editar
+                                                </button>
+                                            <button className="btn btn-danger btn-sm ml-3">
+                                                <i className="fas fa-trash mr-2"></i>
+                                                    Deletar
+                                                </button>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>02</td>
-                                        <td>Ocupada</td>
-                                        <td className="text-right py-0 align-middle">
-                                            <div className="btn-group btn-group-sm">
-                                                <a href="#" className="btn btn-info"><i className="fas fa-eye" /></a>
-                                                <a href="#" className="btn btn-danger"><i className="fas fa-trash" /></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>03</td>
-                                        <td>Disponível</td>
-                                        <td className="text-right py-0 align-middle">
-                                            <div className="btn-group btn-group-sm">
-                                                <a href="#" className="btn btn-info"><i className="fas fa-eye" /></a>
-                                                <a href="#" className="btn btn-danger"><i className="fas fa-trash" /></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>04</td>
-                                        <td>Ocupada</td>
-                                        <td className="text-right py-0 align-middle">
-                                            <div className="btn-group btn-group-sm">
-                                                <a href="#" className="btn btn-info"><i className="fas fa-eye" /></a>
-                                                <a href="#" className="btn btn-danger"><i className="fas fa-trash" /></a>
-                                            </div>
-                                        </td>
-                                    </tr>
+
+
+
                                 </tbody>
                             </table>
                         </div>

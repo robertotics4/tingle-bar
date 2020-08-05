@@ -19,9 +19,14 @@ export default function ListaFuncionarios() {
 
     useEffect(() => {
         getFuncionarios();
+        setFuncionarios(funcionarios);
+    }, [funcionarios]);
+
+    useEffect(() => {
+        getFuncionarios();
     }, [estabelecimento]);
 
-    async function getFuncionarios () {
+    async function getFuncionarios() {
         try {
             const response = await api.get('/Funcionario?idEstabelecimento=' + estabelecimento.id_Estabelecimento);
             setFuncionarios(response.data);
@@ -71,11 +76,6 @@ export default function ListaFuncionarios() {
         }
     }
 
-    async function handleDeletar(item) {
-        //setLoadingVisible(true);
-
-    }
-
     async function handleCadastrar() {
         Swal.mixin({
             input: 'text',
@@ -97,6 +97,7 @@ export default function ListaFuncionarios() {
                 text: 'Digite o CPF'
             }
         ]).then(async result => {
+            console.log(result.value);
             if (result.value) {
                 try {
                     const cpf = (result.value[0])
@@ -134,6 +135,32 @@ export default function ListaFuncionarios() {
         });
     }
 
+    async function deletarFuncionario(item) {
+        Swal.fire({
+            title: 'Deseja deletar o funcionário?',
+            text: "Após deletar não será possivel recuperar!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Deletar'
+        }).then(async result => {
+            if (result.value) {
+                try {
+                    const response = await api.delete('/Funcionario/' + item.id_funcionario);
+
+                    if (response.status === 201 || response.status === 200) {
+                        Swal.fire('Sucesso!', 'Funcionário deletado com sucesso!', 'success');
+                    }
+                } catch (err) {
+                    if (err.response.status === 401 || err.response.status === 400) {
+                        Swal.fire('Erro!', 'Falha ao deletar o funcionário', 'error');
+                    }
+                }
+            }
+        })
+    }
+
     return (
         <div className="content-wrapper">
 
@@ -162,10 +189,10 @@ export default function ListaFuncionarios() {
                         <div className="card-header">
                             <h3 className="card-title">Lista de funcionários</h3>
                             <div className="card-tools">
-                                <button type="button" className="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                    <i className="fas fa-minus" /></button>
-                                <button type="button" className="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
-                                    <i className="fas fa-times" /></button>
+                                <button className="btn btn-success btn-sm" onClick={handleCadastrar}>
+                                    <i className="fas fa-user-plus mr-2"></i>
+                                                    Novo
+                                </button>
                             </div>
                         </div>
                         <div className="card-body p-0">
@@ -201,10 +228,6 @@ export default function ListaFuncionarios() {
                                             </td>
 
                                             <td className="project-actions text-right">
-                                                <button className="btn btn-success btn-sm" onClick={handleCadastrar}>
-                                                    <i className="fas fa-user-plus mr-2"></i>
-                                                    Novo
-                                                </button>
                                                 <button className="btn btn-primary btn-sm ml-3">
                                                     <i className="fas fa-eye mr-2"></i>
                                                     Visualizar
@@ -213,7 +236,7 @@ export default function ListaFuncionarios() {
                                                     <i className="fas fa-pencil-alt mr-2"></i>
                                                     Editar
                                                 </button>
-                                                <button className="btn btn-danger btn-sm ml-3" onClick={() => handleDeletar(item)}>
+                                                <button className="btn btn-danger btn-sm ml-3" onClick={() => deletarFuncionario(item)}>
                                                     <i className="fas fa-trash mr-2"></i>
                                                     Deletar
                                                 </button>
