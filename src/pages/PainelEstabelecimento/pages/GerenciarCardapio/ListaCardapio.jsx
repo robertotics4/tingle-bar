@@ -8,19 +8,63 @@ import api from '../../../../services/api';
 import ModalCardCardapio from './ModalCadCardapio';
 
 export default function ListaFuncionarios() {
-    const { estabelecimento } = useContext(AuthEstabelecimentoContext);
+    const [idEstabelecimento, setIdEstabelecimento] = useState(null);
+    const [cardapio, setCardapio] = useState([]);
     const [isModalVisible, setModalVisible] = useState(false);
 
-
     useEffect(() => {
+        const storagedEstabelecimento = localStorage.getItem('@TBAuth:estabelecimento');
 
+        if (storagedEstabelecimento) {
+            const estabelecimento = JSON.parse(storagedEstabelecimento);
+            getCardapio(estabelecimento.id_Estabelecimento);
+        }
     }, []);
 
-    useEffect(() => {
-    }, [estabelecimento]);
+    async function getCardapio(idEstabelecimento) {
+        try {
+            const response = await api.get('/Cardapio/' + idEstabelecimento);
+            setCardapio(response.data);
+            return response.data;
+        } catch (err) {
+            return err.response;
+        }
+    }
 
     async function handleCadastrar() {
         setModalVisible(true);
+    }
+
+    function ItensCardapio() {
+        let rows = [];
+
+        if (cardapio) {
+            cardapio.map((obj, objIndex) => {
+                rows.push(obj.itens.map((item, itemIndex) => {
+                    return <tr key={item.codigo_item}>
+                        <td>{item.codigo_item}</td>
+                        <td><a>{item.titulo}</a></td>
+                        <td><a>{obj.categoria}</a></td>
+                        <td><a>{item.item}</a></td>
+                        <td><a>{item.valor}</a></td>
+                        <td className="project-actions text-right">
+                            <button className="btn btn-primary btn-sm ml-3">
+                                <i className="fas fa-eye mr-2"></i>
+                            Visualizar
+                        </button>
+                            <button className="btn btn-danger btn-sm ml-3">
+                                <i className="fas fa-trash mr-2"></i>
+                            Deletar
+                        </button>
+                        </td>
+                    </tr>
+                }))
+            });
+
+            return rows;
+        }
+
+        return null;
     }
 
     return (
@@ -81,23 +125,10 @@ export default function ListaFuncionarios() {
                                 </thead>
 
                                 <tbody>
-                                    <tr>
-                                        <td>01</td>
-                                        <td><a>Nome do item</a></td>
-                                        <td><a>Categoria do item</a></td>
-                                        <td><a>Descrição do item</a></td>
-                                        <td><a>R$ 0.00</a></td>
-                                        <td className="project-actions text-right">
-                                            <button className="btn btn-primary btn-sm ml-3">
-                                                <i className="fas fa-eye mr-2"></i>
-                                                    Visualizar
-                                                </button>
-                                            <button className="btn btn-danger btn-sm ml-3">
-                                                <i className="fas fa-trash mr-2"></i>
-                                                    Deletar
-                                                </button>
-                                        </td>
-                                    </tr>
+
+                                    {ItensCardapio()}
+
+
 
                                 </tbody>
                             </table>

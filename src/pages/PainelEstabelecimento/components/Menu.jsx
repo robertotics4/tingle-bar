@@ -72,7 +72,7 @@ export default function Menu() {
 
                         <li className="nav-item">
                             <a onClick={handleLogout} className="nav-link">
-                                <i class="fas fa-sign-out-alt nav-icon"></i>
+                                <i className="fas fa-sign-out-alt nav-icon"></i>
                                 <p className="text" color="red">Sair</p>
                             </a>
                         </li>
