@@ -8,22 +8,32 @@ import api from '../../../../services/api';
 import ModalCardCardapio from './ModalCadCardapio';
 
 export default function ListaFuncionarios() {
-    const [idEstabelecimento, setIdEstabelecimento] = useState(null);
+    const [estabelecimento, setEstabelecimento] = useState(null);
     const [cardapio, setCardapio] = useState([]);
-    const [isModalVisible, setModalVisible] = useState(false);
+
+    const currencyFormatter = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
 
     useEffect(() => {
-        const storagedEstabelecimento = localStorage.getItem('@TBAuth:estabelecimento');
+        async function loadStoragedData() {
+            const storagedEstabelecimento = localStorage.getItem('@TBAuth:estabelecimento');
 
-        if (storagedEstabelecimento) {
-            const estabelecimento = JSON.parse(storagedEstabelecimento);
-            getCardapio(estabelecimento.id_Estabelecimento);
+            if (storagedEstabelecimento) {
+                setEstabelecimento(JSON.parse(storagedEstabelecimento));
+            }
         }
+
+        loadStoragedData();
+        getCardapio();
     }, []);
 
-    async function getCardapio(idEstabelecimento) {
+    useEffect(() => {
+        getCardapio();
+    }, [estabelecimento]);
+
+    async function getCardapio() {
         try {
-            const response = await api.get('/Cardapio/' + idEstabelecimento);
+            const response = await api.get('/Cardapio/' + estabelecimento.id_Estabelecimento);
+            console.log({ response });
             setCardapio(response.data);
             return response.data;
         } catch (err) {
@@ -32,7 +42,34 @@ export default function ListaFuncionarios() {
     }
 
     async function handleCadastrar() {
-        setModalVisible(true);
+
+    }
+
+    async function deletarItem(item) {
+        Swal.fire({
+            title: 'Deseja deletar o item?',
+            text: "Após deletar não será possivel recuperar!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Deletar'
+        }).then(async result => {
+            if (result.value) {
+                try {
+                    const response = await api.delete('/cardapio/' + item.codigo_item);
+
+                    if (response.status === 201 || response.status === 200) {
+                        Swal.fire('Sucesso!', 'Item deletado com sucesso!', 'success');
+                        getCardapio();
+                    }
+                } catch (err) {
+                    if (err.response.status === 401 || err.response.status === 400) {
+                        Swal.fire('Erro!', 'Falha ao deletar o item', 'error');
+                    }
+                }
+            }
+        })
     }
 
     function ItensCardapio() {
@@ -46,13 +83,13 @@ export default function ListaFuncionarios() {
                         <td><a>{item.titulo}</a></td>
                         <td><a>{obj.categoria}</a></td>
                         <td><a>{item.item}</a></td>
-                        <td><a>{item.valor}</a></td>
+                        <td><a>{currencyFormatter.format(item.valor)}</a></td>
                         <td className="project-actions text-right">
                             <button className="btn btn-primary btn-sm ml-3">
                                 <i className="fas fa-eye mr-2"></i>
                             Visualizar
                         </button>
-                            <button className="btn btn-danger btn-sm ml-3">
+                            <button className="btn btn-danger btn-sm ml-3" onClick={() => deletarItem(item)}>
                                 <i className="fas fa-trash mr-2"></i>
                             Deletar
                         </button>
@@ -128,8 +165,6 @@ export default function ListaFuncionarios() {
 
                                     {ItensCardapio()}
 
-
-
                                 </tbody>
                             </table>
                         </div>
@@ -139,8 +174,6 @@ export default function ListaFuncionarios() {
 
                 </div>
             </section>
-            {/* /.content */}
-            {isModalVisible ? <ModalCardCardapio /> : null}
 
         </div>
     );

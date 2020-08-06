@@ -9,18 +9,22 @@ import Loading from '../../../../components/Loading';
 
 export default function ListaFuncionarios() {
     const [funcionarios, setFuncionarios] = useState([]);
+    const [estabelecimento, setEstabelecimento] = useState([]);
     const [tiposFuncionario, setTiposFuncionario] = useState([]);
-    const { estabelecimento } = useContext(AuthEstabelecimentoContext);
     const { isLoadingVisible, setLoadingVisible } = useContext(GeralContext);
 
     useEffect(() => {
+        async function loadStoragedData() {
+            const storagedEstabelecimento = localStorage.getItem('@TBAuth:estabelecimento');
+
+            if (storagedEstabelecimento) {
+                setEstabelecimento(JSON.parse(storagedEstabelecimento));
+            }
+        }
+
+        loadStoragedData();
         getTiposFuncionario();
     }, []);
-
-    useEffect(() => {
-        getFuncionarios();
-        setFuncionarios(funcionarios);
-    }, [funcionarios]);
 
     useEffect(() => {
         getFuncionarios();
@@ -66,7 +70,8 @@ export default function ListaFuncionarios() {
             const response = await api.post('/Funcionario', payload);
 
             if (response.status === 201 || response.status === 200) {
-                Swal.fire('Sucesso!', 'Funcionário cadastrado com sucesso!', 'success')
+                Swal.fire('Sucesso!', 'Funcionário cadastrado com sucesso!', 'success');
+                getFuncionarios();
             }
 
         } catch (err) {
@@ -151,6 +156,7 @@ export default function ListaFuncionarios() {
 
                     if (response.status === 201 || response.status === 200) {
                         Swal.fire('Sucesso!', 'Funcionário deletado com sucesso!', 'success');
+                        getFuncionarios();
                     }
                 } catch (err) {
                     if (err.response.status === 401 || err.response.status === 400) {
@@ -228,7 +234,7 @@ export default function ListaFuncionarios() {
                                             </td>
 
                                             <td className="project-actions text-right">
-                                                <button className="btn btn-primary btn-sm ml-3">
+                                                <button disabled className="btn btn-primary btn-sm ml-3">
                                                     <i className="fas fa-eye mr-2"></i>
                                                     Visualizar
                                                 </button>
