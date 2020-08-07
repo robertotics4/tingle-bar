@@ -1,14 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
 import Swal from 'sweetalert2';
 
-import AuthEstabelecimentoContext from '../../../../contexts/auth-estabelecimento';
-import GeralContext from '../../../../contexts/geral';
-
 import api from '../../../../services/api';
-import ModalCardCardapio from './ModalCadCardapio';
+import ModalCadCardapio from './ModalCadCardapio';
+import ModalVisualizar from './ModalVisualizar';
 
 export default function ListaFuncionarios() {
-    const [isModalVisible, setModalVisible] = useState(false);
+    const [showModal, setShowModal] = useState(false);
     const [estabelecimento, setEstabelecimento] = useState(null);
     const [cardapio, setCardapio] = useState([]);
 
@@ -42,9 +40,7 @@ export default function ListaFuncionarios() {
     }
 
     async function handleCadastrar() {
-        setModalVisible(true);
-
-
+        setShowModal(true);
     }
 
     async function deletarItem(item) {
@@ -177,7 +173,15 @@ export default function ListaFuncionarios() {
                 </div>
             </section>
 
-            {isModalVisible ? <ModalCardCardapio idEstabelecimento={estabelecimento.id_Estabelecimento} setModalVisible={setModalVisible} /> : null}
+            {showModal
+                ? <ModalCadCardapio
+                    idEstabelecimento={estabelecimento.id_Estabelecimento}
+                    showModal={showModal}
+                    setShowModal={setShowModal}
+                    atualizarItens={getCardapio}
+                />
+                : null
+            }
 
         </div>
     );
