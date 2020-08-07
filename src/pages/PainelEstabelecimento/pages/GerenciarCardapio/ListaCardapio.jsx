@@ -8,6 +8,7 @@ import api from '../../../../services/api';
 import ModalCardCardapio from './ModalCadCardapio';
 
 export default function ListaFuncionarios() {
+    const [isModalVisible, setModalVisible] = useState(false);
     const [estabelecimento, setEstabelecimento] = useState(null);
     const [cardapio, setCardapio] = useState([]);
 
@@ -33,7 +34,6 @@ export default function ListaFuncionarios() {
     async function getCardapio() {
         try {
             const response = await api.get('/Cardapio/' + estabelecimento.id_Estabelecimento);
-            console.log({ response });
             setCardapio(response.data);
             return response.data;
         } catch (err) {
@@ -42,6 +42,8 @@ export default function ListaFuncionarios() {
     }
 
     async function handleCadastrar() {
+        setModalVisible(true);
+
 
     }
 
@@ -174,6 +176,8 @@ export default function ListaFuncionarios() {
 
                 </div>
             </section>
+
+            {isModalVisible ? <ModalCardCardapio idEstabelecimento={estabelecimento.id_Estabelecimento} /> : null}
 
         </div>
     );

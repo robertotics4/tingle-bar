@@ -99,10 +99,11 @@ export default function ListaFuncionarios() {
         }).queue([
             {
                 title: 'Pesquisar Usuário',
-                text: 'Digite o CPF'
+                text: 'Digite o CPF',
+                input: 'text',
+                inputPlaceholder: "000.000.000-00",
             }
         ]).then(async result => {
-            console.log(result.value);
             if (result.value) {
                 try {
                     const cpf = (result.value[0])
