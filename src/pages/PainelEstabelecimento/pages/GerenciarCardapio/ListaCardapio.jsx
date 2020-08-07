@@ -177,7 +177,7 @@ export default function ListaFuncionarios() {
                 </div>
             </section>
 
-            {isModalVisible ? <ModalCardCardapio idEstabelecimento={estabelecimento.id_Estabelecimento} /> : null}
+            {isModalVisible ? <ModalCardCardapio idEstabelecimento={estabelecimento.id_Estabelecimento} setModalVisible={setModalVisible} /> : null}
 
         </div>
     );

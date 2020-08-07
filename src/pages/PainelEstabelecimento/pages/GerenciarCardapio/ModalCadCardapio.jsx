@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from "react-hook-form";
 import CurrencyInput from 'react-currency-input';
 import Swal from 'sweetalert2';
-import fs from 'fs';
 
 import './styles/ModalCadCardapio.css';
 
@@ -47,27 +46,36 @@ export default function ModalCadCardapio(props) {
     }
 
     async function cadastrarItem(dados) {
-        const formData = new FormData();
+        const data = new FormData();
 
-        formData.append("titulo", dados.titulo);
-        formData.append("descricao", dados.descricao);
-        formData.append("valor", valores.valor);
-        formData.append("tempo_estimado_min", dados.tempoEstimadoMin);
-        formData.append("tempo_estimado_max", dados.tempoEstimadoMax);
-        formData.append("categoria", dados.categoria);
-        formData.append("iscozinha", valores.isCozinha);
-        formData.append("files", dados.imagem);
-        formData.append("estabelecimento", props.idEstabelecimento);
-        formData.append("iscardapio", valores.isCardapio);
+        data.append("titulo", dados.titulo);
+        data.append("descricao", dados.descricao);
+        data.append("valor", valores.valor);
+        data.append("tempo_estimado_min", dados.tempoEstimadoMin);
+        data.append("tempo_estimado_max", dados.tempoEstimadoMax);
+        data.append("categoria", dados.categoria);
+        data.append("estabelecimento", props.idEstabelecimento);
+        data.append("iscozinha", valores.isCozinha ? 1 : 0);
+        data.append("iscardapio", valores.isCardapio ? 1 : 0);
+        data.append("files", valores.imagem);
+
+        console.log(data.get("titulo"));
+        console.log(data.get("descricao"));
+        console.log(data.get("valor"));
+        console.log(data.get("tempo_estimado_min"));
+        console.log(data.get("tempo_estimado_max"));
+        console.log(data.get("categoria"));
+        console.log(data.get("estabelecimento"));
+        console.log(data.get("iscozinha"));
+        console.log(data.get("iscardapio"));
+        console.log(data.get("files"));
 
         try {
-            const response = await api.post('/Cardapio', formData, {
+            const response = await api.post('/Cardapio', data, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-
-            console.log({ response });
 
             if (response.status === 201 || response.status === 200) {
                 Swal.fire('Sucesso!', 'Item cadastrado com sucesso!', 'success');
@@ -88,6 +96,10 @@ export default function ModalCadCardapio(props) {
         setValores({ ...valores, valor: floatValue });
     }
 
+    function handleChangeImagem(e) {
+        setValores({ ...valores, imagem: e.target.files[0] });
+    }
+
     return (
         <div className="cad-cardapio-modal">
             <div className="card card-primary">
@@ -97,7 +109,7 @@ export default function ModalCadCardapio(props) {
                 {/* /.card-header */}
                 {/* form start */}
 
-                <form autoComplete="off" encType="multipart/form-data" onSubmit={handleSubmit(onSubmit)}>
+                <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
                     <div className="card-body">
 
                         <div className="form-group">
@@ -182,7 +194,7 @@ export default function ModalCadCardapio(props) {
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="descricaoItemCardapio">Tempo estimado mínimo</label>
+                            <label htmlFor="tempoEstimadoMin">Tempo estimado mínimo</label>
                             <input
                                 name="tempoEstimadoMin"
                                 type="number"
@@ -201,7 +213,7 @@ export default function ModalCadCardapio(props) {
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="descricaoItemCardapio">Tempo estimado máximo</label>
+                            <label htmlFor="tempoEstimadoMax">Tempo estimado máximo</label>
                             <input
                                 name="tempoEstimadoMax"
                                 type="number"
@@ -224,9 +236,10 @@ export default function ModalCadCardapio(props) {
                             <input
                                 name="imagem"
                                 type="file"
-                                accept=".jpg,.png"
+                                accept="image/png, image/jpeg"
                                 className={errors.imagem ? "form-control-file is-invalid" : "form-control-file"}
                                 id="imagemItemCardapio"
+                                onChange={handleChangeImagem}
                                 ref={register({
                                     required: {
                                         value: "Required",
@@ -264,7 +277,7 @@ export default function ModalCadCardapio(props) {
                     {/* /.card-body */}
                     <div className="card-footer">
                         <button type="submit" className="btn btn-primary">Cadastrar</button>
-                        <button type="submit" className="btn btn-secondary ml-3">Cancelar</button>
+                        <button type="button" className="btn btn-secondary ml-3" onClick={() => props.setModalVisible(false)}>Cancelar</button>
                     </div>
                 </form>
             </div>
