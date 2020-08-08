@@ -102,7 +102,13 @@ export default function ModalCadCardapio(props) {
 
     return (
         <>
-            <Modal show={props.showModal} onHide={handleClose}>
+            <Modal
+                show={props.showModal}
+                onHide={handleClose}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+            >
                 <Modal.Header closeButton>
                     <Modal.Title>Cadastro de item no Cardápio</Modal.Title>
                 </Modal.Header>

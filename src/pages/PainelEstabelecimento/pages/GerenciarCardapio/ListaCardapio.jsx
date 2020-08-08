@@ -7,6 +7,8 @@ import ModalVisualizar from './ModalVisualizar';
 
 export default function ListaFuncionarios() {
     const [showModal, setShowModal] = useState(false);
+    const [showModalVisualizar, setModalVisualizar] = useState(false);
+    const [itemSelecionado, setItemSelecionado] = useState(null);
     const [estabelecimento, setEstabelecimento] = useState(null);
     const [cardapio, setCardapio] = useState([]);
 
@@ -41,6 +43,11 @@ export default function ListaFuncionarios() {
 
     async function handleCadastrar() {
         setShowModal(true);
+    }
+
+    async function handleVisualizar(item) {
+        setItemSelecionado(item);
+        setModalVisualizar(true);
     }
 
     async function deletarItem(item) {
@@ -83,10 +90,10 @@ export default function ListaFuncionarios() {
                         <td><a>{item.item}</a></td>
                         <td><a>{currencyFormatter.format(item.valor)}</a></td>
                         <td className="project-actions text-right">
-                            <button className="btn btn-primary btn-sm ml-3">
+                            <button className="btn btn-primary btn-sm ml-3" onClick={() => handleVisualizar(item)}>
                                 <i className="fas fa-eye mr-2"></i>
                             Visualizar
-                        </button>
+                            </button>
                             <button className="btn btn-danger btn-sm ml-3" onClick={() => deletarItem(item)}>
                                 <i className="fas fa-trash mr-2"></i>
                             Deletar
@@ -179,6 +186,15 @@ export default function ListaFuncionarios() {
                     showModal={showModal}
                     setShowModal={setShowModal}
                     atualizarItens={getCardapio}
+                />
+                : null
+            }
+
+            {showModalVisualizar
+                ? <ModalVisualizar
+                    showModal={showModalVisualizar}
+                    setShowModal={setModalVisualizar}
+                    item={itemSelecionado}
                 />
                 : null
             }
