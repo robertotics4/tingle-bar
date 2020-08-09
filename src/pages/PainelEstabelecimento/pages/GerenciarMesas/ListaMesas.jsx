@@ -33,6 +33,33 @@ export default function ListaMesas() {
         }
     }
 
+    async function deletarMesas(item) {
+        Swal.fire({
+            html: `<h3>Deseja excluir a mesa <strong>${item.descricao}</strong>?</h3>`,
+            text: "Após deletar não será possivel recuperar!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Deletar'
+        }).then(async result => {
+            if (result.value) {
+                try {
+                    const response = await api.delete('/mesa/' + item.id);
+
+                    if (response.status === 201 || response.status === 200) {
+                        Swal.fire('Sucesso!', 'Mesa deletada com sucesso!', 'success');
+                        getMesas();
+                    }
+                } catch (err) {
+                    if (err.response.status === 401 || err.response.status === 400) {
+                        Swal.fire('Erro!', 'Falha ao deletar a mesa', 'error');
+                    }
+                }
+            }
+        })
+    }
+
     async function alterarMesas(item) {
         const { value } = Swal.fire({
             title: 'Digite a descrição da mesa',
@@ -157,6 +184,10 @@ export default function ListaMesas() {
                                                 <button className="btn btn-info btn-sm ml-3" onClick={() => alterarMesas(item)}>
                                                     <i className="fas fa-pencil-alt mr-2"></i>
                                                     Editar
+                                                </button>
+                                                <button className="btn btn-danger btn-sm ml-3" onClick={() => deletarMesas(item)}>
+                                                    <i className="fas fa-trash mr-2"></i>
+                                                    Deletar
                                                 </button>
 
                                             </td>
