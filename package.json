@@ -20,6 +20,7 @@
     "react-toastify": "^6.0.6",
     "sweetalert2": "^9.17.1"
   },
+  "homepage": "./",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
