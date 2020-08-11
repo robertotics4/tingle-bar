@@ -1,6 +1,6 @@
 import React from 'react';
 
-import CardPedido from './CardPedido';
+import Pedido from './Pedido';
 
 const listaPedidos = [
     {
@@ -86,12 +86,12 @@ export default function CozinhaContent() {
                 <div className="container-fluid">
                     <div className="row mb-2">
                         <div className="col-sm-6">
-                            <h1>Lista de pedidos</h1>
+                            <h1>Monitor de Preparo</h1>
                         </div>
                         <div className="col-sm-6">
                             <ol className="breadcrumb float-sm-right">
-                                <li className="breadcrumb-item"><a href="#">Home</a></li>
-                                <li className="breadcrumb-item active">Main</li>
+                                <li className="breadcrumb-item"><a href="#">Cozinha</a></li>
+                                <li className="breadcrumb-item active">Monitor de preparo</li>
                             </ol>
                         </div>
                     </div>
@@ -100,46 +100,13 @@ export default function CozinhaContent() {
 
             {/* Main content */}
             <section className="content">
-                {/* Default box */}
-                <div className="card card-solid">
-                    <div className="card-body pb-0">
-                        <div className="row d-flex align-items-stretch">
+                <div className="container-fluid">
 
-                            {listaPedidos.map((pedido, index) => (
-                                <CardPedido
-                                    key={pedido.numeroPedido}
-                                    mesa={pedido.mesa}
-                                    numeroPedido={pedido.numeroPedido}
-                                    itens={pedido.itens}
-                                    atendente={pedido.atendente}
-                                    tempoEspera={pedido.tempoEspera}
-                                />
-                            ))}
+                    <Pedido />
 
-                        </div>
-                    </div>
-                    {/* /.card-body */}
-                    <div className="card-footer">
-                        <nav aria-label="Contacts Page Navigation">
-                            <ul className="pagination justify-content-center m-0">
-                                <li className="page-item active"><a className="page-link" href="#">1</a></li>
-                                <li className="page-item"><a className="page-link" href="#">2</a></li>
-                                <li className="page-item"><a className="page-link" href="#">3</a></li>
-                                <li className="page-item"><a className="page-link" href="#">4</a></li>
-                                <li className="page-item"><a className="page-link" href="#">5</a></li>
-                                <li className="page-item"><a className="page-link" href="#">6</a></li>
-                                <li className="page-item"><a className="page-link" href="#">7</a></li>
-                                <li className="page-item"><a className="page-link" href="#">8</a></li>
-                            </ul>
-                        </nav>
-                    </div>
-                    {/* /.card-footer */}
                 </div>
-                {/* /.card */}
             </section>
             {/* /.content */}
-
-
         </div>
     );
 }
