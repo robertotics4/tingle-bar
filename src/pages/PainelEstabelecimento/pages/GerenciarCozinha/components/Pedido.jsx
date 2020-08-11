@@ -5,7 +5,7 @@ import '../styles/Pedido.css';
 export default function Pedido() {
     return (
         <div className="row">
-            <div className="col-sm-12 col-md-6 col-lg-4">
+            <div className="col-sm-12">
                 <div className="card card-default">
                     <div className="card-header">
                         <h5 className="text-center">
@@ -14,7 +14,7 @@ export default function Pedido() {
                     </div>
                     {/* /.card-header */}
                     <div className="card-body">
-                        <table className="table table-striped">
+                        <table className="table">
                             <thead>
                                 <tr>
                                     <th scope="col">Qtd</th>
@@ -36,7 +36,7 @@ export default function Pedido() {
                             </tbody>
                         </table>
                         <div className="pedido-acoes mt-3">
-                            <button className="btn btn-primary col-sm-12 col-md-6 btn-imprimir">
+                            <button className="btn btn-secondary col-sm-12 col-md-6 btn-imprimir">
                                 <i className="fas fa-print"></i>
                                 <span className="ml-2">IMPRIMIR PARA COZINHA</span>
                             </button>

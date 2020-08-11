@@ -87,7 +87,6 @@ export default function ListaFuncionarios() {
                         <td>{item.codigo_item}</td>
                         <td><a>{item.titulo}</a></td>
                         <td><a>{obj.categoria}</a></td>
-                        <td><a>{item.item}</a></td>
                         <td><a>{currencyFormatter.format(item.valor)}</a></td>
                         <td className="project-actions text-right">
                             <button className="btn btn-primary btn-sm ml-3" onClick={() => handleVisualizar(item)}>
@@ -147,22 +146,11 @@ export default function ListaFuncionarios() {
                             <table className="table table-striped projects">
                                 <thead>
                                     <tr>
-                                        <th style={{ width: '5%' }}>
-                                            ID
-                                        </th>
-                                        <th style={{ width: '20%' }}>
-                                            Título
-                                        </th>
-                                        <th style={{ width: '15%' }}>
-                                            Categoria
-                                        </th>
-                                        <th style={{ width: '30%' }}>
-                                            Descrição
-                                        </th>
-                                        <th style={{ width: '10%' }}>
-                                            Valor
-                                        </th>
-                                        <th style={{ width: '20%' }}></th>
+                                        <th style={{ width: '10%' }}>ID</th>
+                                        <th style={{ width: '30%' }}>Título</th>
+                                        <th style={{ width: '20%' }}>Categoria</th>
+                                        <th style={{ width: '20%' }}>Valor</th>
+                                        <th style={{ width: '30%' }}></th>
                                     </tr>
                                 </thead>
 

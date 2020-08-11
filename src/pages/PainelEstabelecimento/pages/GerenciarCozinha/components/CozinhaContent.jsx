@@ -2,81 +2,6 @@ import React from 'react';
 
 import Pedido from './Pedido';
 
-const listaPedidos = [
-    {
-        numeroPedido: 1,
-        mesa: 1,
-        atendente: 'Roberto',
-        itens: [
-            {
-                produto: 'Batata frita',
-                quantidade: null,
-                porcao: 'grande'
-            },
-            {
-                produto: 'Refri',
-                quantidade: 1,
-                porcao: 'lata'
-            },
-        ],
-        tempoEspera: 15
-    },
-    {
-        numeroPedido: 2,
-        mesa: 1,
-        atendente: 'Pedro',
-        itens: [
-            {
-                produto: 'Batata frita',
-                quantidade: null,
-                porcao: 'grande'
-            },
-            {
-                produto: 'Refri',
-                quantidade: 1,
-                porcao: 'lata'
-            },
-        ],
-        tempoEspera: 15
-    },
-    {
-        numeroPedido: 3,
-        mesa: 1,
-        atendente: 'Roberto',
-        itens: [
-            {
-                produto: 'Batata frita',
-                quantidade: null,
-                porcao: 'grande'
-            },
-            {
-                produto: 'Refri',
-                quantidade: 1,
-                porcao: 'lata'
-            },
-        ],
-        tempoEspera: 15
-    },
-    {
-        numeroPedido: 4,
-        mesa: 1,
-        atendente: 'Humberto',
-        itens: [
-            {
-                produto: 'Batata frita',
-                quantidade: null,
-                porcao: 'grande'
-            },
-            {
-                produto: 'Refri',
-                quantidade: 1,
-                porcao: 'lata'
-            },
-        ],
-        tempoEspera: 15
-    },
-];
-
 export default function CozinhaContent() {
     return (
         <div className="content-wrapper">
@@ -103,6 +28,12 @@ export default function CozinhaContent() {
                 <div className="container-fluid">
 
                     <Pedido />
+                    <Pedido />
+                    <Pedido />
+                    <Pedido />
+                    <Pedido />
+                    <Pedido />
+
 
                 </div>
             </section>
