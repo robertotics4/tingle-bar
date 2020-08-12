@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useForm } from "react-hook-form";
 import Swal from 'sweetalert2';
-import InputMask from 'react-input-mask';
 import { useHistory } from 'react-router-dom';
 
 import AuthEstabelecimentoContext from '../../contexts/auth-estabelecimento';
 import Loading from '../../components/Loading';
+import { cnpjMask } from '../../utils/masks';
 
 export default function LoginEstabelecimento() {
     const [valores, setValores] = useState({});
@@ -25,6 +25,11 @@ export default function LoginEstabelecimento() {
     function handleChange(event) {
         const { name, value } = event.target;
         setValores({ ...valores, [name]: value });
+    }
+
+    function handleChangeCNPJ(event) {
+        const { name, value } = event.target;
+        setValores({ ...valores, [name]: cnpjMask(value) });
     }
 
     async function loginEstabelecimento(credentials) {
@@ -58,7 +63,7 @@ export default function LoginEstabelecimento() {
         <div className="hold-transition login-page">
             <div className="login-box">
                 <div className="login-logo">
-                    <a href="../../index2.html"><b>Tingle</b>Bar</a>
+                    <a href="#"><b>Tingle</b>Bar</a>
                 </div>
                 {/* /.login-logo */}
                 <div className="card">
@@ -68,13 +73,13 @@ export default function LoginEstabelecimento() {
                         <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
 
                             <div className="input-group mb-3">
-                                <InputMask
+                                <input
+                                    value={valores.cnpj || ''}
                                     type="text"
                                     className={errors.cnpj ? "form-control is-invalid" : "form-control"}
                                     placeholder="CNPJ"
                                     name="cnpj"
-                                    onChange={handleChange}
-                                    mask="99.999.999/9999-99"
+                                    onChange={handleChangeCNPJ}
                                     ref={register({
                                         required: {
                                             value: "Required",
@@ -129,7 +134,7 @@ export default function LoginEstabelecimento() {
                         </form>
 
                         <p className="mb-1">
-                            <a href="forgot-password.html">Esqueci minha senha</a>
+                            <a href="#">Esqueci minha senha</a>
                         </p>
                         <p className="mb-0">
                             <a href="/cadastroEstabelecimento" className="text-center">Cadastrar um novo estabelecimento</a>

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from "react-hook-form";
-import CurrencyInput from 'react-currency-input';
 import Swal from 'sweetalert2';
 import { Modal } from 'react-bootstrap';
 
@@ -8,6 +7,7 @@ import '../../../../components/Loading';
 
 import api from '../../../../services/api';
 import Loading from '../../../../components/Loading';
+import { currencyMask } from '../../../../utils/masks';
 
 function initialState() {
     return {
@@ -57,7 +57,7 @@ export default function ModalCadCardapio(props) {
 
         data.append("titulo", dados.titulo);
         data.append("descricao", dados.descricao);
-        data.append("valor", valores.valor);
+        data.append("valor", getFloatFromCurrency(valores.valor));
         data.append("tempo_estimado_min", dados.tempoEstimadoMin);
         data.append("tempo_estimado_max", dados.tempoEstimadoMax);
         data.append("categoria", dados.categoria);
@@ -92,12 +92,19 @@ export default function ModalCadCardapio(props) {
         setValores({ ...valores, [name]: value });
     }
 
-    function handleChangeValor(event, maskedValue, floatValue) {
-        setValores({ ...valores, valor: floatValue });
+    function handleChangeValor(event) {
+        const { value } = event.target;
+        setValores({ ...valores, valor: currencyMask(value) });
     }
 
     function handleChangeImagem(e) {
         setValores({ ...valores, imagem: e.target.files[0] });
+    }
+
+    function getFloatFromCurrency(currencyValue) {
+        currencyValue = currencyValue.replace(/[.]/g, '');
+        currencyValue = currencyValue.replace(',', '.');
+        return parseFloat(currencyValue).toFixed(2);
     }
 
     return (
@@ -157,22 +164,20 @@ export default function ModalCadCardapio(props) {
 
                             <div className="form-group">
                                 <label htmlFor="valorItemCardapio">Valor</label>
-                                <CurrencyInput
+                                <input
                                     name="valor"
                                     type="text"
-                                    prefix="R$"
-                                    decimalSeparator=","
-                                    thousandSeparator="."
-                                    value={valores.valor}
+                                    placeholder="Valor em reais"
                                     className={errors.valor ? "form-control is-invalid" : "form-control"}
                                     id="valorItemCardapio"
-                                    onChangeEvent={handleChangeValor}
-                                // ref={register({
-                                //     required: {
-                                //         value: "Required",
-                                //         message: "O valor é obrigatório"
-                                //     },
-                                // })}
+                                    value={valores.valor || ''}
+                                    onChange={handleChangeValor}
+                                    ref={register({
+                                        required: {
+                                            value: "Required",
+                                            message: "O valor é obrigatório"
+                                        },
+                                    })}
                                 />
                                 <span className="error invalid-feedback">{errors.valorItemCardapio && errors.valorItemCardapio.message}</span>
                             </div>
