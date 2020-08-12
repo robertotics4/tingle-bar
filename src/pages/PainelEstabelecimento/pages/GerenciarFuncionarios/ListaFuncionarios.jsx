@@ -6,6 +6,7 @@ import GeralContext from '../../../../contexts/geral';
 
 import api from '../../../../services/api';
 import Loading from '../../../../components/Loading';
+import { cpfMask } from '../../../../utils/masks';
 
 export default function ListaFuncionarios() {
     const [funcionarios, setFuncionarios] = useState([]);
@@ -83,7 +84,6 @@ export default function ListaFuncionarios() {
 
     async function handleCadastrar() {
         Swal.mixin({
-            input: 'text',
             confirmButtonText: 'Pesquisar',
             showCancelButton: true,
             progressSteps: ['1'],
@@ -99,9 +99,14 @@ export default function ListaFuncionarios() {
         }).queue([
             {
                 title: 'Pesquisar Usuário',
-                text: 'Digite o CPF',
                 input: 'text',
-                inputPlaceholder: "000.000.000-00",
+                inputPlaceholder: 'Digite o CPF',
+                onOpen: () => {
+                    const input = Swal.getInput();
+                    input.oninput = (event) => {
+                        event.target.value = cpfMask(event.target.value)
+                    }
+                }
             }
         ]).then(async result => {
             if (result.value) {
@@ -128,8 +133,10 @@ export default function ListaFuncionarios() {
                                 });
                             }
                         }).then(result => {
-                            const idTipoFuncionario = tiposFuncionario[result.value].id;
-                            cadastrarFuncionario(pesquisaUsuario.id, idTipoFuncionario);
+                            if (result.value) {
+                                const idTipoFuncionario = tiposFuncionario[result.value].id;
+                                cadastrarFuncionario(pesquisaUsuario.id, idTipoFuncionario);
+                            }
                         });
                     } else {
                         Swal.fire('CPF não localizado', 'Tente novamente', 'error');
