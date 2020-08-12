@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
+import QRCode from 'qrcode';
 
 import api from '../../../../services/api';
 
@@ -64,6 +65,7 @@ export default function ListaMesas() {
         const { value } = Swal.fire({
             title: 'Digite a descrição da mesa',
             input: 'text',
+            inputValue: item.descricao,
             inputPlaceholder: 'Descrição da mesa',
             inputValidator: (value) => {
                 if (!value) {
@@ -114,16 +116,34 @@ export default function ListaMesas() {
                     const response = await api.post('/Mesa', payload);
 
                     if (response.status === 201 || response.status === 200) {
-                        Swal.fire('Sucesso!', 'Mesa cadastrada com sucesso!', 'success')
+                        Swal.fire('Sucesso!', 'Mesa cadastrada com sucesso!', 'success');
                         getMesas();
                     }
                 } catch (err) {
                     if (err.response.status === 401 || err.response.status === 400) {
-                        Swal.fire('Erro!', 'Falha ao cadastrar mesa', 'error')
+                        Swal.fire('Erro!', 'Falha ao cadastrar mesa', 'error');
                     }
                 }
             }
         })
+    }
+
+    const generateQR = async item => {
+        const text = JSON.stringify({ "idMesa": item.id, "idUsuario": 0, "publico": 0, "flagAbrirConta": "X" });
+        let qrCode = null;
+
+        try {
+            qrCode = await QRCode.toDataURL(text);
+
+            Swal.fire({
+                title: `QRCode - Mesa ${item.id}`,
+                text: 'QRCode gerado para abertura de conta',
+                imageUrl: qrCode,
+                imageAlt: 'QRCode',
+              });
+        } catch (err) {
+            Swal.fire('Erro!', 'Falha ao cadastrar mesagerar o QRCode', 'error');
+        }
     }
 
     return (
@@ -180,7 +200,10 @@ export default function ListaMesas() {
                                             <td>{item.descricao}</td>
 
                                             <td className="project-actions text-right">
-
+                                                <button className="btn btn-secondary btn-sm ml-3" onClick={() => generateQR(item)}>
+                                                    <i className="fas fa-qrcode mr-2"></i>
+                                                    QRCode
+                                                </button>
                                                 <button className="btn btn-info btn-sm ml-3" onClick={() => alterarMesas(item)}>
                                                     <i className="fas fa-pencil-alt mr-2"></i>
                                                     Editar
