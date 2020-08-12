@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from "react-hook-form";
+import { useHistory } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import InputMask from 'react-input-mask';
 
@@ -13,11 +14,11 @@ export default function CadastroEstabelecimento() {
     const [tiposEstabelecimento, setTiposEstabelecimento] = useState([]);
     const [isLoadingVisible, setLoadingVisible] = useState(false);
 
+    const history = useHistory();
     const { register, handleSubmit, errors, watch } = useForm();
 
     const onSubmit = data => {
         setValores(data);
-        console.log(valores);
         cadastrarEstabelecimento();
     };
 
@@ -52,7 +53,7 @@ export default function CadastroEstabelecimento() {
             "Numero": valores.numero,
             "Latitude": valores.latitude,
             "Longitude": valores.longitude,
-            "IdTipoEstabelecimento": valores.tipoEstabelecimento,
+            "fk_tipo_estabelecimento_id": valores.tipoEstabelecimento,
             "Imagem": "/uploads/default.png",
             "Distancia_km": "0",
             "Senha": valores.senha
@@ -70,6 +71,7 @@ export default function CadastroEstabelecimento() {
                 });
 
                 setValores({});
+                history.push('/');
             }
 
         } catch (err) {
