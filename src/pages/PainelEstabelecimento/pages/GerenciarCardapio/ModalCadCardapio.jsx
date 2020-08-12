@@ -199,13 +199,14 @@ export default function ModalCadCardapio(props) {
                             </div>
 
                             <div className="form-group">
-                                <label htmlFor="tempoEstimadoMin">Tempo estimado mínimo</label>
+                                <label htmlFor="tempoEstimadoMin">Tempo estimado mínimo (minutos)</label>
                                 <input
+                                    min="0"
                                     name="tempoEstimadoMin"
-                                    type="number"
+                                    type="text"
                                     className={errors.tempoEstimadoMin ? "form-control is-invalid" : "form-control"}
                                     id="tempoEstimadoMin"
-                                    placeholder="Tempo mínimo estimado"
+                                    placeholder="Tempo mínimo estimado em minutos"
                                     onChange={handleChange}
                                     ref={register({
                                         required: {
@@ -218,13 +219,14 @@ export default function ModalCadCardapio(props) {
                             </div>
 
                             <div className="form-group">
-                                <label htmlFor="tempoEstimadoMax">Tempo estimado máximo</label>
+                                <label htmlFor="tempoEstimadoMax">Tempo estimado máximo (minutos)</label>
                                 <input
+                                    min="0"
                                     name="tempoEstimadoMax"
                                     type="number"
                                     className={errors.tempoEstimadoMax ? "form-control is-invalid" : "form-control"}
                                     id="tempoEstimadoMax"
-                                    placeholder="Tempo mínimo máximo"
+                                    placeholder="Tempo mínimo máximo em minutos"
                                     onChange={handleChange}
                                     ref={register({
                                         required: {
