@@ -40,17 +40,3 @@
     font-size: 1.2em;
     font-weight: bold;
 }
-
-.pedido-acoes {
-    flex-direction: row;
-}
-
-.pedido-acoes .btn-imprimir {
-    height: 2.7em;
-    border-radius: 4px 0 0 4px;
-}
-
-.pedido-acoes .btn-finalizar {
-    height: 2.7em;
-    border-radius: 0 4px 4px 0;
-}
