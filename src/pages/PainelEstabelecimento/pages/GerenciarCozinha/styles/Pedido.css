@@ -2,6 +2,10 @@
     display: flex;
 }
 
+.btn-finalizar {
+    margin: 0.8em;
+}
+
 /* Small devices (landscape phones, 576px and up) */
 
 @media (max-width: 576px) {
