@@ -1,8 +1,60 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Pedido from './Pedido';
+import api from '../../../../../services/api';
 
 export default function CozinhaContent() {
+    const [estabelecimento, setEstabelecimento] = useState(null);
+    const [contas, setContas] = useState([]);
+
+    console.log(contas);
+
+    useEffect(() => {
+        async function loadStoragedData() {
+            const storagedEstabelecimento = localStorage.getItem('@TBAuth:estabelecimento');
+
+            if (storagedEstabelecimento) {
+                setEstabelecimento(JSON.parse(storagedEstabelecimento));
+            }
+        }
+
+        loadStoragedData();
+        getContas();
+    }, []);
+
+    useEffect(() => {
+        getContas();
+    }, [estabelecimento]);
+
+    async function getContas() {
+        try {
+            const response = await api.get(`/ContaDetalhe/GetByEstabelecimento?idEstabelecimento=${estabelecimento.id_Estabelecimento}&is_cozinha=1&status_conta=1`);
+            const { contas } = response.data;
+            setContas(contas);
+            return response.data;
+        } catch (err) {
+            return err.response;
+        }
+    }
+
+    function pedidosCozinha() {
+        let pedidos = [];
+
+        if (contas) {
+            {
+                contas.map((conta, contaIndex) => {
+                    conta.usuarios.map((usuario, usuarioIndex) => {
+                        usuario.pedidos.map((pedido, pedidoIndex) => {
+                            pedidos.push(<Pedido key={pedido.pedido_id} conta={conta} usuario={usuario} pedido={pedido} />);
+                        })
+                    })
+                })
+            }
+        }
+
+        return pedidos;
+    }
+
     return (
         <div className="content-wrapper">
 
@@ -27,13 +79,7 @@ export default function CozinhaContent() {
             <section className="content">
                 <div className="container-fluid">
 
-                    <Pedido />
-                    <Pedido />
-                    <Pedido />
-                    <Pedido />
-                    <Pedido />
-                    <Pedido />
-
+                    {pedidosCozinha()}
 
                 </div>
             </section>

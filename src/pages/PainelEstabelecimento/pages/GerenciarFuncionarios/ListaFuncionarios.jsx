@@ -104,7 +104,7 @@ export default function ListaFuncionarios() {
                 onOpen: () => {
                     const input = Swal.getInput();
                     input.oninput = (event) => {
-                        event.target.value = cpfMask(event.target.value)
+                        event.target.value = cpfMask(event.target.value);
                     }
                 }
             }

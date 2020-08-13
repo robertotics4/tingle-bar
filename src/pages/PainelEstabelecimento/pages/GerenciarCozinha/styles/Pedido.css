@@ -1,3 +1,46 @@
+.info-header {
+    display: flex;
+}
+
+/* Small devices (landscape phones, 576px and up) */
+
+@media (max-width: 576px) {
+    .info-header {
+        flex-direction: column;
+    }
+}
+
+/* Medium devices (tablets, 768px and up) */
+
+@media (max-width: 768px) {
+    .info-header {
+        flex-direction: column;
+    }
+}
+
+/* Large devices (desktops, 992px and up) */
+
+@media (min-width: 992px) {
+    .info-header {
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+
+@media (min-width: 1200px) {
+    .info-header {
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
+}
+
+.info-header .text-header {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
 .pedido-acoes {
     flex-direction: row;
 }
@@ -6,6 +49,7 @@
     height: 2.7em;
     border-radius: 4px 0 0 4px;
 }
+
 .pedido-acoes .btn-finalizar {
     height: 2.7em;
     border-radius: 0 4px 4px 0;

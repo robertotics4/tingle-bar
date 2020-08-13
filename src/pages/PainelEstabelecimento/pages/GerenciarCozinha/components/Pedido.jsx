@@ -2,37 +2,40 @@ import React from 'react';
 
 import '../styles/Pedido.css';
 
-export default function Pedido() {
+export default function Pedido(props) {
     return (
         <div className="row">
             <div className="col-sm-12">
                 <div className="card card-default">
                     <div className="card-header">
-                        <h5 className="text-center">
-                            <strong>PEDIDO Nº 1234 | MESA 1</strong>
-                        </h5>
+                        <div className="info-header">
+                            <div className="text-header">PEDIDO: <i>{props.pedido.pedido_id}</i></div>
+                            <div className="text-header">MESA: <i>{props.conta.desc_mesa.toUpperCase()}</i></div>
+                            <div className="text-header">GARÇOM: <i>{props.conta.garcom.toUpperCase()}</i></div>
+                            <div className="text-header">USUÁRIO: <i>{props.usuario.nome_usuario}</i></div>
+                            <div className="text-header">HORÁRIO: <i>{props.pedido.pedido_datahora}</i></div>
+                        </div>
                     </div>
                     {/* /.card-header */}
                     <div className="card-body">
                         <table className="table">
-                            <thead>
+                            <thead className="tabela-cabecalho">
                                 <tr>
                                     <th scope="col">Qtd</th>
                                     <th scope="col">Produto</th>
-                                    <th scope="col">Horário</th>
+                                    <th scope="col">Categoria</th>
+                                    <th scope="col">Previsão</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Hot-dog tradicional</td>
-                                    <td>20:54:33</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Suco de maracujá</td>
-                                    <td>20:54:33</td>
-                                </tr>
+                            <tbody className="tabela-corpo">
+                                {props.pedido.itens.map((item, index) => {
+                                    return <tr key={index}>
+                                        <th scope="row">{item.item_qtd}</th>
+                                        <td>{item.titulo}</td>
+                                        <td>{item.categoria}</td>
+                                        <td>{item.item_prev_max}</td>
+                                    </tr>
+                                })}
                             </tbody>
                         </table>
                         <div className="pedido-acoes mt-3">
