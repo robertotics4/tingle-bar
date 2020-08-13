@@ -7,8 +7,24 @@ import '../../../styles/Menu.css';
 import logo from '../../../assets/logo.png';
 
 export default function Menu() {
+    const [estabelecimento, setEstabelecimento] = useState(null);
     const { signOut } = useContext(AuthEstabelecimentoContext);
+
     const history = useHistory();
+
+    useEffect(() => {
+        async function loadStoragedData() {
+            const storagedEstabelecimento = localStorage.getItem('@TBAuth:estabelecimento');
+
+            if (storagedEstabelecimento) {
+                setEstabelecimento(JSON.parse(storagedEstabelecimento));
+            }
+        }
+
+        loadStoragedData();
+    }, []);
+
+    useEffect(() => { }, [estabelecimento]);
 
     function handleLogout() {
         signOut();
@@ -26,8 +42,14 @@ export default function Menu() {
                 {/* Sidebar user panel (optional) */}
                 <div className="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div className="info">
-                        <a href="#" className="d-block"><strong></strong></a>
-                        <a href="#" className="d-block">CNPJ: <strong></strong></a>
+                        {estabelecimento ?
+                            <>
+                                <a href="#" className="d-block"><strong>{estabelecimento.nome.toUpperCase()}</strong></a>
+                                <a href="#" className="d-block"><strong>CNPJ: {estabelecimento.cnpj}</strong></a>
+                            </>
+                            : null
+                        }
+
                     </div>
                 </div>
                 {/* Sidebar Menu */}
