@@ -264,7 +264,7 @@ export default function ListaFuncionarios() {
                 </div>
             </section>
             {/* /.content */}
-            {isLoadingVisible ? <Loading /> : null}
+            {isLoadingVisible ? <Loading shoModal={isLoadingVisible} /> : null}
 
         </div>
     );

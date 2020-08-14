@@ -6,7 +6,6 @@ import { Modal } from 'react-bootstrap';
 import '../../../../components/Loading';
 
 import api from '../../../../services/api';
-import Loading from '../../../../components/Loading';
 import { currencyMask } from '../../../../utils/masks';
 
 function initialState() {
@@ -26,7 +25,6 @@ function initialState() {
 export default function ModalCadCardapio(props) {
     const [categorias, setCategorias] = useState([]);
     const [valores, setValores] = useState(initialState);
-    const [isLoadingVisible, setLoadingVisible] = useState(false);
 
     const { register, handleSubmit, errors } = useForm();
 
@@ -51,7 +49,8 @@ export default function ModalCadCardapio(props) {
     }
 
     async function cadastrarItem(dados) {
-        setLoadingVisible(true);
+        handleClose();
+        props.setLoadingVisible(true);
 
         const data = new FormData();
 
@@ -81,9 +80,9 @@ export default function ModalCadCardapio(props) {
                 Swal.fire('Erro!', 'Falha ao cadastrar item', 'error');
             }
         } finally {
-            setLoadingVisible(false);
-            props.atualizarItens();
             handleClose();
+            props.atualizarItens();
+            props.setLoadingVisible(false);
         }
     }
 
@@ -293,8 +292,6 @@ export default function ModalCadCardapio(props) {
                     </Modal.Footer>
                 </form>
             </Modal>
-
-            {isLoadingVisible ? <Loading /> : null}
         </>
     );
 }

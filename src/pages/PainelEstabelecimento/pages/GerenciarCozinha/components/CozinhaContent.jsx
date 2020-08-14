@@ -40,10 +40,10 @@ export default function CozinhaContent() {
 
         if (contas) {
             {
-                contas.map((conta, contaIndex) => {
-                    conta.usuarios.map((usuario, usuarioIndex) => {
-                        usuario.pedidos.map((pedido, pedidoIndex) => {
-                            pedidos.push(<Pedido key={pedido.pedido_id} conta={conta} usuario={usuario} pedido={pedido} atualizarLista={getContas}/>);
+                contas.map(conta => {
+                    conta.usuarios.map(usuario => {
+                        usuario.pedidos.map(pedido => {
+                            pedidos.push(<Pedido key={pedido.pedido_id} conta={conta} usuario={usuario} pedido={pedido} atualizarLista={getContas} />);
                         })
                     })
                 })

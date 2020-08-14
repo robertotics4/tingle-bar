@@ -73,7 +73,7 @@ export default function Menu() {
 
                         <li className="nav-item">
                             <a href="/gerenciarCardapio" className="nav-link">
-                                <i className="fas fa-bars nav-icon"></i>
+                                <i className="fas fa-hamburger nav-icon"></i>
                                 <p>Cardápio</p>
                             </a>
                         </li>
@@ -87,7 +87,7 @@ export default function Menu() {
 
                         <li className="nav-item">
                             <a href="/gerenciarCozinha" className="nav-link">
-                                <i className="fas fa-hamburger nav-icon"></i>
+                                <i className="fas fa-utensils nav-icon"></i>
                                 <p>Cozinha</p>
                             </a>
                         </li>

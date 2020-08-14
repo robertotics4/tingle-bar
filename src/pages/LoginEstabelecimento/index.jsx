@@ -145,7 +145,7 @@ export default function LoginEstabelecimento() {
             </div>
             {/* /.login-box */}
 
-            {isLoadingVisible ? <Loading /> : null}
+            {isLoadingVisible ? <Loading showModal={isLoadingVisible} /> : null}
         </div>
     );
 }

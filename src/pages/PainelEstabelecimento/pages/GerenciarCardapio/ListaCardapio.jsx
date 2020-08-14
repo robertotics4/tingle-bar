@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import api from '../../../../services/api';
 import ModalCadCardapio from './ModalCadCardapio';
 import ModalVisualizar from './ModalVisualizar';
+import Loading from '../../../../components/Loading';
 
 export default function ListaFuncionarios() {
     const [showModal, setShowModal] = useState(false);
@@ -11,6 +12,7 @@ export default function ListaFuncionarios() {
     const [itemSelecionado, setItemSelecionado] = useState(null);
     const [estabelecimento, setEstabelecimento] = useState(null);
     const [cardapio, setCardapio] = useState([]);
+    const [isLoadingVisible, setLoadingVisible] = useState(false);
 
     const currencyFormatter = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
 
@@ -174,6 +176,7 @@ export default function ListaFuncionarios() {
                     showModal={showModal}
                     setShowModal={setShowModal}
                     atualizarItens={getCardapio}
+                    setLoadingVisible={setLoadingVisible}
                 />
                 : null
             }
@@ -187,6 +190,7 @@ export default function ListaFuncionarios() {
                 : null
             }
 
+            {isLoadingVisible ? <Loading showModal={isLoadingVisible} /> : null}
         </div>
     );
 }
