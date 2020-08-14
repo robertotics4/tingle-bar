@@ -1,0 +1,8 @@
+.itens-promocao {
+    height: 20em;
+    overflow-y: scroll;
+}
+
+.titulos-tabela {
+    color: steelblue;
+}
