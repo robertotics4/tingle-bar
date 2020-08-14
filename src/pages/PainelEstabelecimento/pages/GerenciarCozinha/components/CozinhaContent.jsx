@@ -7,8 +7,6 @@ export default function CozinhaContent() {
     const [estabelecimento, setEstabelecimento] = useState(null);
     const [contas, setContas] = useState([]);
 
-    console.log(contas);
-
     useEffect(() => {
         async function loadStoragedData() {
             const storagedEstabelecimento = localStorage.getItem('@TBAuth:estabelecimento');
@@ -45,7 +43,7 @@ export default function CozinhaContent() {
                 contas.map((conta, contaIndex) => {
                     conta.usuarios.map((usuario, usuarioIndex) => {
                         usuario.pedidos.map((pedido, pedidoIndex) => {
-                            pedidos.push(<Pedido key={pedido.pedido_id} conta={conta} usuario={usuario} pedido={pedido} />);
+                            pedidos.push(<Pedido key={pedido.pedido_id} conta={conta} usuario={usuario} pedido={pedido} atualizarLista={getContas}/>);
                         })
                     })
                 })

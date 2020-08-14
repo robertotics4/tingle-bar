@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import '../styles/Pedido.css';
+
+import api from '../../../../../services/api';
 
 import ModalVisualizarPedido from './ModalVisualizarPedido';
 
@@ -11,6 +13,28 @@ export default function Pedido(props) {
     function handleVisualizar(item) {
         setItemSelecionado(item);
         setModalVisualizar(true);
+    }
+
+    async function handleCheck(event, item) {
+        const { checked } = event.target;
+
+        let status = 1; // Solicitado
+
+        checked ? status = 4 : status = 1;
+
+        const payload = {
+            "id": item.item_id,
+            "fk_status_id": status
+        }
+
+        try {
+            const response = await api.post('/PedidoItem', payload);
+            props.atualizarLista();
+
+            return response.data;
+        } catch (err) {
+            return err.response;
+        }
     }
 
     return (
@@ -34,6 +58,7 @@ export default function Pedido(props) {
                                     <th>Qtd</th>
                                     <th>Produto</th>
                                     <th>Categoria</th>
+                                    <th>Status</th>
                                     <th>Previsão</th>
                                     <th></th>
                                 </tr>
@@ -45,8 +70,25 @@ export default function Pedido(props) {
                                         <th scope="row">{item.item_qtd}</th>
                                         <td>{item.titulo}</td>
                                         <td>{item.categoria}</td>
+                                        <td>{item.item_status}</td>
                                         <td>{item.item_prev_max}</td>
-                                        <td><a className="text-muted"><i className="fas fa-eye" onClick={() => handleVisualizar(item)}></i></a></td>
+                                        <td style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
+                                            <div className="form-group">
+                                                <div className="custom-control custom-switch">
+                                                    <input
+                                                        type="checkbox"
+                                                        className="custom-control-input"
+                                                        defaultChecked={item.item_status === "Pedido pronto" ? true : false}
+                                                        id={"checkItem" + item.item_id}
+                                                        onChange={event => handleCheck(event, item)}
+                                                    />
+                                                    <label className="custom-control-label" htmlFor={"checkItem" + item.item_id}>Item pronto?</label>
+                                                </div>
+                                            </div>
+                                            <a className="text-muted">
+                                                <i className="fas fa-eye" onClick={() => handleVisualizar(item)}></i>
+                                            </a>
+                                        </td>
                                     </tr>
 
                                 })}
