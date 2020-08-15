@@ -95,7 +95,7 @@ export default function ListaPromocoes() {
                             <div className="card-tools">
                                 <button className="btn btn-success btn-sm" onClick={handleCadastrar}>
                                     <i className="fas fa-user-plus mr-2"></i>
-                                                    Novo
+                                                    Nova promoção
                                 </button>
                             </div>
                         </div>

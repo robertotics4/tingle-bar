@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from "react-hook-form";
 import Swal from 'sweetalert2';
 import { Modal } from 'react-bootstrap';
+import { Multiselect } from 'react-widgets';
+import 'react-widgets/dist/css/react-widgets.css';
 
 import './styles/ModalCadPromocoes.css';
 
@@ -9,23 +11,27 @@ import '../../../../components/Loading';
 
 import api from '../../../../services/api';
 import Loading from '../../../../components/Loading';
-import { currencyMask } from '../../../../utils/masks';
 
 export default function ModalCadPromocoes(props) {
     const [valores, setValores] = useState({});
     const [cardapio, setCardapio] = useState([]);
+    const [itens, setItens] = useState([]);
+    const [itensAdicionados, setItensAdicionados] = useState([]);
     const [isLoadingVisible, setLoadingVisible] = useState(false);
 
     const { register, handleSubmit, errors } = useForm();
 
     useEffect(() => {
         getCardapio();
+        getItens();
     }, []);
 
-    useEffect(() => { }, [cardapio]);
+    useEffect(() => {
+        getItens();
+    }, [cardapio]);
 
     const onSubmit = data => {
-        console.log(data);
+        //  
         // cadastrarItem(data);
     };
 
@@ -35,9 +41,9 @@ export default function ModalCadPromocoes(props) {
         try {
             const response = await api.get('/Cardapio/' + props.idEstabelecimento);
             setCardapio(response.data);
-            return response.data;
+
         } catch (err) {
-            return err.response;
+            console.log(err.response);
         }
     }
 
@@ -83,42 +89,23 @@ export default function ModalCadPromocoes(props) {
         setValores({ ...valores, [name]: value });
     }
 
-    function handleChangeValor(event) {
-        const { value } = event.target;
-        setValores({ ...valores, valor: currencyMask(value) });
-    }
-
     function handleChangeImagem(e) {
         setValores({ ...valores, imagem: e.target.files[0] });
     }
 
-    function getFloatFromCurrency(currencyValue) {
-        currencyValue = currencyValue.replace(/[.]/g, '');
-        currencyValue = currencyValue.replace(',', '.');
-        return parseFloat(currencyValue).toFixed(2);
-    }
-
-    function listarCardapio() {
-        let lista = [];
+    function getItens() {
+        let itens = [];
 
         if (cardapio) {
-            cardapio.map((categoria, indexCategoria) => {
-                console.log(cardapio);
-                categoria.itens.map((item, indexItem) => {
-                    lista.push(
-                        <tr key={item.codigo_item}>
-                            <th scope="row">{item.titulo}</th>
-                            <td>teste</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    );
-                })
-            })
-        }
+            cardapio.map(categoria => {
+                categoria.itens.map(item => {
+                    itens.push(item);
+                });
+            });
 
-        return lista;
-    }
+            setItens(itens);
+        }
+    };
 
     return (
         <>
@@ -157,7 +144,7 @@ export default function ModalCadPromocoes(props) {
                             </div>
 
                             <div className="row">
-                                <div className="col">
+                                <div className="col-sm-12 col-md-6 col-lg-4">
                                     <div className="form-group">
                                         <label htmlFor="dataInicio">Início da promoção</label>
                                         <input
@@ -177,9 +164,9 @@ export default function ModalCadPromocoes(props) {
                                         <span className="error invalid-feedback">{errors.dataInicio && errors.dataInicio.message}</span>
                                     </div>
                                 </div>
-                                <div className="col">
+                                <div className="col-sm-12 col-md-6 col-lg-4">
                                     <div className="form-group">
-                                        <label htmlFor="validade">Validade da promoção (em dias)</label>
+                                        <label htmlFor="validade">Validade (em dias)</label>
                                         <input
                                             name="validade"
                                             type="number"
@@ -198,7 +185,7 @@ export default function ModalCadPromocoes(props) {
                                         <span className="error invalid-feedback">{errors.validade && errors.validade.message}</span>
                                     </div>
                                 </div>
-                                <div className="col">
+                                <div className="col-sm-12 col-md-6 col-lg-4">
                                     <div className="form-group">
                                         <label htmlFor="desconto">Desconto (%)</label>
                                         <input
@@ -241,21 +228,19 @@ export default function ModalCadPromocoes(props) {
                                 <span className="error invalid-feedback">{errors.imagem && errors.imagem.message}</span>
                             </div>
 
-                            <div className="card-body table-responsive p-0 itens-promocao">
-                                <table className="table table-valign-middle">
-                                    <thead>
-                                        <tr>
-                                            <th className="titulos-tabela">Título</th>
-                                            <th className="titulos-tabela">Categoria</th>
-                                            <th className="titulos-tabela">Quantidade</th>
-                                            <th className="titulos-tabela"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {listarCardapio()}
-                                    </tbody>
-                                </table>
+
+                            <div className="form-group">
+                                <label htmlFor="selecaoItens">Seleção de itens</label>
+                                <Multiselect
+                                    placeholder="Selecione os itens"
+                                    data={itens}
+                                    textField='titulo'
+                                    onSelect={item => {
+                                        setItensAdicionados([...itensAdicionados, item]);
+                                    }}
+                                />
                             </div>
+
 
                         </div>
                     </Modal.Body>
