@@ -96,11 +96,6 @@ export default function Pedido(props) {
                             </tbody>
                         </table>
 
-                        <div className="d-flex flex-row justify-content-end">
-                            <button className="btn btn-success btn-finalizar col-sm-12 col-md-3 col-lg-3">
-                                <i className="fas fa-check-circle"></i><span className="ml-2">FINALIZAR PEDIDO</span>
-                            </button>
-                        </div>
                     </div>
                 </div>
             </div>

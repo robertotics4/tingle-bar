@@ -3,20 +3,9 @@
     overflow-y: scroll;
 }
 
-.titulos-tabela {
-    color: steelblue;
-}
-
 .selecao-itens {
     border: thin solid rgba(0, 0, 0, 0.1);
     border-radius: 4px;
     margin-top: 2em;
     padding: 2em;
-}
-
-.selecao-itens table {
-    height: 8em;
-    overflow-y: auto;
-    display: flex;
-    justify-content: space-between;
 }

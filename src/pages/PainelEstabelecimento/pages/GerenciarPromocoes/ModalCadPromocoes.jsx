@@ -4,7 +4,6 @@ import Swal from 'sweetalert2';
 import { Modal } from 'react-bootstrap';
 import { Multiselect } from 'react-widgets';
 import 'react-widgets/dist/css/react-widgets.css';
-
 import './styles/ModalCadPromocoes.css';
 
 import '../../../../components/Loading';
@@ -229,16 +228,43 @@ export default function ModalCadPromocoes(props) {
                             </div>
 
 
-                            <div className="form-group">
+                            <div className="selecao-itens">
                                 <label htmlFor="selecaoItens">Seleção de itens</label>
-                                <Multiselect
-                                    placeholder="Selecione os itens"
-                                    data={itens}
-                                    textField='titulo'
-                                    onSelect={item => {
-                                        setItensAdicionados([...itensAdicionados, item]);
-                                    }}
-                                />
+                                <div className="row">
+                                    <div className="col-sm-12 col-md-8 col-lg-8">
+                                        <div className="form-group">
+                                            <select
+                                                defaultValue=""
+                                                name="selecionarItem"
+                                                className="form-control"
+                                                id="validade"
+                                            >
+                                                <option disabled value="">Selecione</option>
+                                                {itens.map(item => <option>{item.titulo}</option>)}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className="col-sm-12 col-md-2 col-lg-2">
+                                        <div className="form-group">
+                                            <input
+                                                name="quantidade"
+                                                type="number"
+                                                min="0"
+                                                placeholder="Qtd"
+                                                className="form-control"
+                                                id="validade"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="col-sm-12 col-md-2 col-lg-2">
+                                        <div className="form-group">
+                                            <button className="form-control btn btn-success btn-sm" onClick={() => { }}>
+                                                <i className="fas fa-plus-circle mr-2"></i>
+                                                    Add
+                                        </button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
 
