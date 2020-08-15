@@ -106,6 +106,10 @@ export default function ModalCadPromocoes(props) {
         }
     };
 
+    function handleChangeItem(event) {
+        console.log(event.target.value);
+    }
+
     return (
         <>
             <Modal
@@ -238,9 +242,10 @@ export default function ModalCadPromocoes(props) {
                                                 name="selecionarItem"
                                                 className="form-control"
                                                 id="validade"
+                                                onChange={handleChangeItem}
                                             >
                                                 <option disabled value="">Selecione</option>
-                                                {itens.map(item => <option>{item.titulo}</option>)}
+                                                {itens.map(item => <option key={item.codigo_item} value={item}>{item.titulo}</option>)}
                                             </select>
                                         </div>
                                     </div>
