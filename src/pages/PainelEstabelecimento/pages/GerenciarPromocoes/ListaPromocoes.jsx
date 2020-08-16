@@ -28,8 +28,9 @@ export default function ListaPromocoes() {
 
     async function getPromocoes() {
         try {
-            const response = await api.get('/promocoes?idestabelecimento=' + estabelecimento.id_Estabelecimento);
-            setPromocoes(response.data);
+            const response = await api.get('/promocoes?qtdLista=10&idestabelecimento=1');
+            setPromocoes(response.data.promocoes);
+            
         } catch (err) {
             return err.response;
         }
@@ -106,18 +107,26 @@ export default function ListaPromocoes() {
                                         <th style={{ width: '10%' }}>
                                             ID
                                         </th>
-                                        <th style={{ width: '40%' }}>
+                                        <th style={{ width: '30%' }}>
                                             Nome
+                                        </th>
+                                        <th style={{ width: '10%' }}>
+                                            Validade
+                                        </th>
+                                        <th style={{ width: '20%' }}>
+                                            Quantidade de Itens
                                         </th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
 
-                                    {/* {mesas.map((item, index) => {
-                                            return <tr key={item.id}>
-                                                <td>{item.id}</td>
+                                    {promocoes.map((item, index) => {
+                                            return <tr key={item.id_promocao}>
+                                                <td>{item.id_promocao}</td>
                                                 <td>{item.descricao}</td>
+                                                <td>{item.validade}</td>
+                                                <td>{item.itens.length}</td>
 
                                                 <td className="project-actions text-right">
                                                     <button className="btn btn-secondary btn-sm ml-3" onClick={() => {}}>
@@ -135,7 +144,7 @@ export default function ListaPromocoes() {
 
                                                 </td>
                                             </tr>
-                                        })} */}
+                                        })} 
                                 </tbody>
                             </table>
                         </div>
