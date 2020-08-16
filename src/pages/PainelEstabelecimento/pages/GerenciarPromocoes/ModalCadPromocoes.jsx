@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from "react-hook-form";
 import Swal from 'sweetalert2';
 import { Modal } from 'react-bootstrap';
-import { Multiselect } from 'react-widgets';
-import 'react-widgets/dist/css/react-widgets.css';
+import Select from 'react-select';
+
 import './styles/ModalCadPromocoes.css';
 
 import '../../../../components/Loading';
@@ -15,6 +15,7 @@ export default function ModalCadPromocoes(props) {
     const [valores, setValores] = useState({});
     const [cardapio, setCardapio] = useState([]);
     const [itens, setItens] = useState([]);
+    const [itemSelecionado, setItemSelecionado] = useState(null);
     const [itensAdicionados, setItensAdicionados] = useState([]);
     const [isLoadingVisible, setLoadingVisible] = useState(false);
 
@@ -86,6 +87,7 @@ export default function ModalCadPromocoes(props) {
     function handleChange(event) {
         const { name, value } = event.target;
         setValores({ ...valores, [name]: value });
+        console.log(value);
     }
 
     function handleChangeImagem(e) {
@@ -107,7 +109,13 @@ export default function ModalCadPromocoes(props) {
     };
 
     function handleChangeItem(event) {
-        console.log(event.target.value);
+        setItemSelecionado(event.target.value);
+    }
+
+    function adicionarItem() {
+        if (itemSelecionado && valores.quantidade) {
+            setItensAdicionados([...itensAdicionados, { id: itemSelecionado, quantidade: valores.quantidade }]);
+        }
     }
 
     return (
@@ -241,11 +249,10 @@ export default function ModalCadPromocoes(props) {
                                                 defaultValue=""
                                                 name="selecionarItem"
                                                 className="form-control"
-                                                id="validade"
                                                 onChange={handleChangeItem}
                                             >
                                                 <option disabled value="">Selecione</option>
-                                                {itens.map(item => <option key={item.codigo_item} value={item}>{item.titulo}</option>)}
+                                                {itens.map(item => <option key={item.codigo_item} value={item.codigo_item}>{item.titulo}</option>)}
                                             </select>
                                         </div>
                                     </div>
@@ -257,18 +264,36 @@ export default function ModalCadPromocoes(props) {
                                                 min="0"
                                                 placeholder="Qtd"
                                                 className="form-control"
-                                                id="validade"
+                                                onChange={handleChange}
                                             />
                                         </div>
                                     </div>
                                     <div className="col-sm-12 col-md-2 col-lg-2">
                                         <div className="form-group">
-                                            <button className="form-control btn btn-success btn-sm" onClick={() => { }}>
+                                            <button type="button" className="form-control btn btn-success btn-sm" onClick={adicionarItem}>
                                                 <i className="fas fa-plus-circle mr-2"></i>
                                                     Add
                                         </button>
                                         </div>
                                     </div>
+
+                                    <div className="col-12">
+                                        <div className="form-group">
+                                            <ul className="lista-itens">
+                                                {itensAdicionados.map(item => {
+                                                    return (
+                                                        <li key={item.id} className="item">
+                                                            <span>{item.id}</span>
+                                                            <span>x{item.quantidade}</span>
+                                                            <i className="fas fa-times btn-excluir"></i>
+                                                        </li>
+                                                    );
+                                                })}
+                                            </ul>
+                                        </div>
+                                    </div>
+
+
                                 </div>
                             </div>
 
