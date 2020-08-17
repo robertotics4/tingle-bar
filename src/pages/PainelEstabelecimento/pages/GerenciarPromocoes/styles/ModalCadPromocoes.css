@@ -3,29 +3,33 @@
     overflow-y: scroll;
 }
 
-.selecao-itens {
-    border: thin dashed rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
-    margin-top: 2em;
-    padding: 2em;
-}
-
 .lista-itens {
+    padding: 0 0;
     list-style: none;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     height: 8em;
     overflow-y: auto;
 }
 
-.lista-itens .item {
+.item-adicionado {
     display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    margin-bottom: 1em;
+    height: fit-content;
+    width: fit-content;
+    align-items: center;
+    padding: 0.3em 1em;
+    margin: 0.1em;
+    background-color: #DBF3FD;
+    border-radius: 4px;
+    border: thin solid #B4D9E9;
 }
 
-.lista-itens .item .btn-excluir {
-    color: red;
-    cursor: pointer;
+.itens-adicionados {
+    border: thin dashed rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    padding: 1em;
+    font-size: 0.8em;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }

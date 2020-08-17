@@ -87,7 +87,6 @@ export default function ModalCadPromocoes(props) {
     function handleChange(event) {
         const { name, value } = event.target;
         setValores({ ...valores, [name]: value });
-        console.log(value);
     }
 
     function handleChangeImagem(e) {
@@ -98,10 +97,8 @@ export default function ModalCadPromocoes(props) {
         let itens = [];
 
         if (cardapio) {
-            cardapio.map(categoria => {
-                categoria.itens.map(item => {
-                    itens.push(item);
-                });
+            cardapio.map(obj => {
+                itens.push(obj);
             });
 
             setItens(itens);
@@ -109,13 +106,25 @@ export default function ModalCadPromocoes(props) {
     };
 
     function handleChangeItem(event) {
-        setItemSelecionado(event.target.value);
+        setItemSelecionado(JSON.parse(event.target.value));
+        console.log(itensAdicionados);
     }
 
     function adicionarItem() {
         if (itemSelecionado && valores.quantidade) {
-            setItensAdicionados([...itensAdicionados, { id: itemSelecionado, quantidade: valores.quantidade }]);
+
+            itensAdicionados.map(i => {
+                if (i.obj.codigo_item === itemSelecionado.codigo_item) {
+                    return;
+                }
+            });
+
+            setItensAdicionados([...itensAdicionados, { obj: itemSelecionado, quantidade: valores.quantidade }]);
         }
+    }
+
+    function removerItem(index) {
+
     }
 
     return (
@@ -240,63 +249,68 @@ export default function ModalCadPromocoes(props) {
                             </div>
 
 
-                            <div className="selecao-itens">
-                                <label htmlFor="selecaoItens">Seleção de itens</label>
-                                <div className="row">
-                                    <div className="col-sm-12 col-md-8 col-lg-8">
-                                        <div className="form-group">
-                                            <select
-                                                defaultValue=""
-                                                name="selecionarItem"
-                                                className="form-control"
-                                                onChange={handleChangeItem}
-                                            >
-                                                <option disabled value="">Selecione</option>
-                                                {itens.map(item => <option key={item.codigo_item} value={item.codigo_item}>{item.titulo}</option>)}
-                                            </select>
-                                        </div>
+                            <label htmlFor="selecaoItens">Seleção de itens</label>
+                            <div className="row">
+                                <div className="col-sm-12 col-md-8 col-lg-8">
+                                    <div className="form-group">
+                                        <select
+                                            defaultValue=""
+                                            name="selecionarItem"
+                                            className="form-control"
+                                            onChange={handleChangeItem}
+                                        >
+                                            <option disabled value="">Selecione</option>
+
+                                            {itens.map((obj, objIndex) => {
+                                                return <optgroup key={objIndex} label={obj.categoria}>
+                                                    {obj.itens.map(objItem => (
+                                                        <option key={objItem.codigo_item} value={JSON.stringify(objItem)}>{objItem.titulo}</option>
+                                                    ))}
+                                                </optgroup>
+                                            })}
+
+                                        </select>
                                     </div>
-                                    <div className="col-sm-12 col-md-2 col-lg-2">
-                                        <div className="form-group">
-                                            <input
-                                                name="quantidade"
-                                                type="number"
-                                                min="0"
-                                                placeholder="Qtd"
-                                                className="form-control"
-                                                onChange={handleChange}
-                                            />
-                                        </div>
+                                </div>
+                                <div className="col-sm-12 col-md-2 col-lg-2">
+                                    <div className="form-group">
+                                        <input
+                                            name="quantidade"
+                                            type="number"
+                                            min="0"
+                                            placeholder="Qtd"
+                                            className="form-control"
+                                            onChange={handleChange}
+                                        />
                                     </div>
-                                    <div className="col-sm-12 col-md-2 col-lg-2">
-                                        <div className="form-group">
-                                            <button type="button" className="form-control btn btn-success btn-sm" onClick={adicionarItem}>
-                                                <i className="fas fa-plus-circle mr-2"></i>
+                                </div>
+                                <div className="col-sm-12 col-md-2 col-lg-2">
+                                    <div className="form-group">
+                                        <button type="button" className="form-control btn btn-success btn-sm" onClick={adicionarItem}>
+                                            <i className="fas fa-plus-circle mr-2"></i>
                                                     Add
                                         </button>
-                                        </div>
                                     </div>
-
-                                    <div className="col-12">
-                                        <div className="form-group">
-                                            <ul className="lista-itens">
-                                                {itensAdicionados.map(item => {
-                                                    return (
-                                                        <li key={item.id} className="item">
-                                                            <span>{item.id}</span>
-                                                            <span>x{item.quantidade}</span>
-                                                            <i className="fas fa-times btn-excluir"></i>
-                                                        </li>
-                                                    );
-                                                })}
-                                            </ul>
-                                        </div>
-                                    </div>
-
-
                                 </div>
-                            </div>
 
+                                <div className="col-12">
+                                    <div className="form-group">
+                                        <div className="itens-adicionados">
+                                            {itensAdicionados.map((item, index) => {
+                                                return (
+                                                    <div key={item.obj.codigo_item} className="item-adicionado">
+                                                        <strong>{item.obj.titulo}</strong>&nbsp;({item.quantidade})
+                                                        <button type="button" className="close ml-2" onClick={() => (removerItem(index))}>
+                                                            <span aria-hidden="true">×</span>
+                                                        </button>
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
 
                         </div>
                     </Modal.Body>
