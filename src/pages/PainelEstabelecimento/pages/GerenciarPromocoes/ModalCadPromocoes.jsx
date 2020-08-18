@@ -132,19 +132,24 @@ export default function ModalCadPromocoes(props) {
 
     function adicionarItem() {
         if (itemSelecionado && valores.quantidade) {
+            const item = { obj: itemSelecionado, quantidade: valores.quantidade };
+            let existe = false;
 
             itensAdicionados.map(i => {
-                if (i.obj.codigo_item === itemSelecionado.codigo_item) {
-                    return;
+                if (i.obj.codigo_item === item.obj.codigo_item) {
+                    existe = true;
                 }
             });
 
-            setItensAdicionados([...itensAdicionados, { obj: itemSelecionado, quantidade: valores.quantidade }]);
+            if (!existe) {
+                setItensAdicionados([...itensAdicionados, item]);
+            }
         }
     }
 
     function removerItem(index) {
-
+        const removed = itensAdicionados.splice(index, 1);
+        setItensAdicionados([...itensAdicionados]);
     }
 
     return (

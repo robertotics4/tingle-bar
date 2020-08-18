@@ -97,7 +97,7 @@ export default function ListaPromocoes() {
                             <h3 className="card-title">Lista de Promoções</h3>
                             <div className="card-tools">
                                 <button className="btn btn-success btn-sm" onClick={handleCadastrar}>
-                                    <i className="fas fa-user-plus mr-2"></i>
+                                    <i className="fas fa-percentage mr-2"></i>
                                                     Nova promoção
                                 </button>
                             </div>
