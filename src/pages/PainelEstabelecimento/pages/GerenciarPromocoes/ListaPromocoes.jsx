@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 
 import api from '../../../../services/api';
+import Loading from '../../../../components/Loading';
 
 import ModalCadPromocoes from './ModalCadPromocoes';
 
@@ -9,6 +10,7 @@ export default function ListaPromocoes() {
     const [showModal, setShowModal] = useState(false);
     const [estabelecimento, setEstabelecimento] = useState(null);
     const [promocoes, setPromocoes] = useState([]);
+    const [isLoadingVisible, setLoadingVisible] = useState(false);
 
     useEffect(() => {
         async function loadStoragedData() {
@@ -30,7 +32,7 @@ export default function ListaPromocoes() {
         try {
             const response = await api.get('/promocoes?qtdLista=10&idestabelecimento=1');
             setPromocoes(response.data.promocoes);
-            
+
         } catch (err) {
             return err.response;
         }
@@ -122,29 +124,29 @@ export default function ListaPromocoes() {
                                 <tbody>
 
                                     {promocoes.map((item, index) => {
-                                            return <tr key={item.id_promocao}>
-                                                <td>{item.id_promocao}</td>
-                                                <td>{item.descricao}</td>
-                                                <td>{item.validade}</td>
-                                                <td>{item.itens.length}</td>
+                                        return <tr key={item.id_promocao}>
+                                            <td>{item.id_promocao}</td>
+                                            <td>{item.descricao}</td>
+                                            <td>{item.validade}</td>
+                                            <td>{item.itens.length}</td>
 
-                                                <td className="project-actions text-right">
-                                                    <button className="btn btn-secondary btn-sm ml-3" onClick={() => {}}>
-                                                        <i className="fas fa-qrcode mr-2"></i>
+                                            <td className="project-actions text-right">
+                                                <button className="btn btn-secondary btn-sm ml-3" onClick={() => { }}>
+                                                    <i className="fas fa-qrcode mr-2"></i>
                                                         QRCode
                                                     </button>
-                                                    <button className="btn btn-info btn-sm ml-3" onClick={() => {}}>
-                                                        <i className="fas fa-pencil-alt mr-2"></i>
+                                                <button className="btn btn-info btn-sm ml-3" onClick={() => { }}>
+                                                    <i className="fas fa-pencil-alt mr-2"></i>
                                                         Editar
                                                     </button>
-                                                    <button className="btn btn-danger btn-sm ml-3" onClick={() => {}}>
-                                                        <i className="fas fa-trash mr-2"></i>
+                                                <button className="btn btn-danger btn-sm ml-3" onClick={() => { }}>
+                                                    <i className="fas fa-trash mr-2"></i>
                                                         Deletar
                                                     </button>
 
-                                                </td>
-                                            </tr>
-                                        })} 
+                                            </td>
+                                        </tr>
+                                    })}
                                 </tbody>
                             </table>
                         </div>
@@ -158,9 +160,12 @@ export default function ListaPromocoes() {
                     showModal={showModal}
                     setShowModal={setShowModal}
                     atualizarItens={getPromocoes}
+                    setLoadingVisible={setLoadingVisible}
                 />
                 : null
             }
+
+            {isLoadingVisible ? <Loading showModal={isLoadingVisible} /> : null}
         </div>
     );
 }

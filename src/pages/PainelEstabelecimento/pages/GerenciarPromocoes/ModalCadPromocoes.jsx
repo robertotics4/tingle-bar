@@ -2,14 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from "react-hook-form";
 import Swal from 'sweetalert2';
 import { Modal } from 'react-bootstrap';
-import Select from 'react-select';
 
 import './styles/ModalCadPromocoes.css';
 
 import '../../../../components/Loading';
-
+import { numberPositiveMask } from '../../../../utils/masks';
 import api from '../../../../services/api';
-import Loading from '../../../../components/Loading';
 
 export default function ModalCadPromocoes(props) {
     const [valores, setValores] = useState({});
@@ -17,7 +15,6 @@ export default function ModalCadPromocoes(props) {
     const [itens, setItens] = useState([]);
     const [itemSelecionado, setItemSelecionado] = useState(null);
     const [itensAdicionados, setItensAdicionados] = useState([]);
-    const [isLoadingVisible, setLoadingVisible] = useState(false);
 
     const { register, handleSubmit, errors } = useForm();
 
@@ -31,8 +28,7 @@ export default function ModalCadPromocoes(props) {
     }, [cardapio]);
 
     const onSubmit = data => {
-        //  
-        // cadastrarItem(data);
+        cadastrarPromocao(data);
     };
 
     const handleClose = () => props.setShowModal(false);
@@ -47,40 +43,60 @@ export default function ModalCadPromocoes(props) {
         }
     }
 
-    async function cadastrarItem(dados) {
-        setLoadingVisible(true);
+    async function cadastrarPromocao(dados) {
+        handleClose();
+        props.setLoadingVisible(true);
 
+        const lista = [];
         const data = new FormData();
+        let idPromocao = undefined;
+        let payload = null;
 
-        // data.append("titulo", dados.titulo);
-        // data.append("descricao", dados.descricao);
-        // data.append("valor", getFloatFromCurrency(valores.valor));
-        // data.append("tempo_estimado_min", dados.tempoEstimadoMin);
-        // data.append("tempo_estimado_max", dados.tempoEstimadoMax);
-        // data.append("categoria", dados.categoria);
-        // data.append("estabelecimento", props.idEstabelecimento);
-        // data.append("iscozinha", valores.isCozinha ? 1 : 0);
-        // data.append("iscardapio", valores.isCardapio ? 1 : 0);
-        // data.append("files", valores.imagem);
+        itensAdicionados.map(async i => {
+            payload = {
+                "DESCRICAO": dados.descricao,
+                "DATA_VIGENCIA": dados.dataInicio.toString(),
+                "VALIDADE": dados.validade,
+                "ID_ESTABELECIMENTO": props.idEstabelecimento,
+                "DESCONTO": dados.desconto / 100,
+                "CODIGO_ITEM": i.obj.codigo_item,
+                "QTD_ITEM": i.quantidade
+            };
+
+            lista.push(payload);
+        });
 
         try {
-            const response = await api.post('/Cardapio', data, {
+            const response = await api.post('/promocoes', lista, {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'application/json'
                 }
             });
 
-            if (response.status === 201 || response.status === 200) {
-                Swal.fire('Sucesso!', 'Item cadastrado com sucesso!', 'success');
+            Swal.fire('Sucesso!', 'Promoção cadastrada com sucesso!', 'success');
+
+            idPromocao = response.data.idPromocao;
+
+            if (idPromocao) {
+                data.append("idPromocao", idPromocao);
+                data.append("files", valores.imagem);
+
+                try {
+                    const responseTwo = await api.post('/promocoes/PostImagem', data, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    });
+                } catch (err) {
+                    Swal.fire('Erro!', 'Falha ao cadastrar a imagem da promoção', 'error');
+                }
             }
         } catch (err) {
-            if (err.response.status === 401 || err.response.status === 400) {
-                Swal.fire('Erro!', 'Falha ao cadastrar item', 'error');
-            }
+            Swal.fire('Erro!', 'Falha ao cadastrar promoção', 'error');
         } finally {
-            setLoadingVisible(false);
-            props.atualizarItens();
             handleClose();
+            props.atualizarItens();
+            props.setLoadingVisible(false);
         }
     }
 
@@ -91,6 +107,11 @@ export default function ModalCadPromocoes(props) {
 
     function handleChangeImagem(e) {
         setValores({ ...valores, imagem: e.target.files[0] });
+    }
+
+    function handleChangePositive(e) {
+        const { name, value } = e.target;
+        setValores({ ...valores, [name]: numberPositiveMask(value) });
     }
 
     function getItens() {
@@ -107,7 +128,6 @@ export default function ModalCadPromocoes(props) {
 
     function handleChangeItem(event) {
         setItemSelecionado(JSON.parse(event.target.value));
-        console.log(itensAdicionados);
     }
 
     function adicionarItem() {
@@ -189,12 +209,12 @@ export default function ModalCadPromocoes(props) {
                                         <label htmlFor="validade">Validade (em dias)</label>
                                         <input
                                             name="validade"
-                                            type="number"
-                                            min="0"
+                                            type="text"
                                             placeholder="Validade em dias"
                                             className={errors.validade ? "form-control is-invalid" : "form-control"}
                                             id="validade"
-                                            onChange={handleChange}
+                                            value={valores.validade || ''}
+                                            onChange={handleChangePositive}
                                             ref={register({
                                                 required: {
                                                     value: "Required",
@@ -210,13 +230,13 @@ export default function ModalCadPromocoes(props) {
                                         <label htmlFor="desconto">Desconto (%)</label>
                                         <input
                                             name="desconto"
-                                            type="number"
-                                            min="0"
+                                            type="text"
                                             max="100"
                                             placeholder="Desconto em %"
                                             className={errors.desconto ? "form-control is-invalid" : "form-control"}
                                             id="desconto"
-                                            onChange={handleChange}
+                                            value={valores.desconto || ''}
+                                            onChange={handleChangePositive}
                                             ref={register({
                                                 required: {
                                                     value: "Required",
@@ -276,11 +296,11 @@ export default function ModalCadPromocoes(props) {
                                     <div className="form-group">
                                         <input
                                             name="quantidade"
-                                            type="number"
-                                            min="0"
+                                            type="text"
                                             placeholder="Qtd"
                                             className="form-control"
-                                            onChange={handleChange}
+                                            value={valores.quantidade || ''}
+                                            onChange={handleChangePositive}
                                         />
                                     </div>
                                 </div>
@@ -321,8 +341,6 @@ export default function ModalCadPromocoes(props) {
                     </Modal.Footer>
                 </form>
             </Modal>
-
-            {isLoadingVisible ? <Loading /> : null}
         </>
     );
 }

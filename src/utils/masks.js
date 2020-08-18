@@ -49,11 +49,17 @@ function currencyMask(value) {
     .replace(/(?=(\d{3})+(\D))\B/g, ".")
 }
 
+function numberPositiveMask(value) {
+  return value
+    .replace(/[^0-9]{1,}$/, "")
+}
+
 export {
   cpfMask,
   cnpjMask,
   phoneMask,
   cepMask,
   pisMask,
-  currencyMask
+  currencyMask,
+  numberPositiveMask
 }
