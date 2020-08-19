@@ -15,7 +15,7 @@ export default function LoginEstabelecimento() {
         <div className="hold-transition login-page">
             <div className="login-box">
                 <div className="login-logo">
-                    <a href="#"><b>Tingle</b>Bar</a>
+                    <a href="/#"><b>Tingle</b>Bar</a>
                 </div>
                 {/* /.login-logo */}
 

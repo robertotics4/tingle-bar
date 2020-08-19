@@ -123,7 +123,7 @@ export default function FormLoginEstabelecimento(props) {
                 </form>
 
                 <p className="mb-1">
-                    <a href="#">Esqueci minha senha</a>
+                    <a href="/#">Esqueci minha senha</a>
                 </p>
                 <p className="mb-0">
                     <a href="/cadastroEstabelecimento" className="text-center">Cadastrar um novo estabelecimento</a>
