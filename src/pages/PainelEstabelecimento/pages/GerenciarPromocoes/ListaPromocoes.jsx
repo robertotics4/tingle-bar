@@ -12,6 +12,8 @@ export default function ListaPromocoes() {
     const [promocoes, setPromocoes] = useState([]);
     const [isLoadingVisible, setLoadingVisible] = useState(false);
 
+    console.log(promocoes);
+
     useEffect(() => {
         async function loadStoragedData() {
             const storagedEstabelecimento = localStorage.getItem('@TBAuth:estabelecimento');
@@ -30,9 +32,8 @@ export default function ListaPromocoes() {
 
     async function getPromocoes() {
         try {
-            const response = await api.get('/promocoes?qtdLista=10&idestabelecimento=1');
+            const response = await api.get('/promocoes?qtdLista=10&idestabelecimento=' + estabelecimento.id_Estabelecimento);
             setPromocoes(response.data.promocoes);
-
         } catch (err) {
             return err.response;
         }
@@ -106,18 +107,11 @@ export default function ListaPromocoes() {
                             <table className="table table-striped projects">
                                 <thead>
                                     <tr>
-                                        <th style={{ width: '10%' }}>
-                                            ID
-                                        </th>
-                                        <th style={{ width: '30%' }}>
-                                            Nome
-                                        </th>
-                                        <th style={{ width: '10%' }}>
-                                            Validade
-                                        </th>
-                                        <th style={{ width: '20%' }}>
-                                            Quantidade de Itens
-                                        </th>
+                                        <th style={{ width: '10%' }}>ID</th>
+                                        <th style={{ width: '40%' }}>Descrição</th>
+                                        <th style={{ width: '10%' }}>Validade</th>
+                                        <th style={{ width: '20%' }}>Quantidade de itens</th>
+                                        <th style={{ width: '20%' }}></th>
                                     </tr>
                                 </thead>
 
@@ -131,10 +125,6 @@ export default function ListaPromocoes() {
                                             <td>{item.itens.length}</td>
 
                                             <td className="project-actions text-right">
-                                                <button className="btn btn-secondary btn-sm ml-3" onClick={() => { }}>
-                                                    <i className="fas fa-qrcode mr-2"></i>
-                                                        QRCode
-                                                    </button>
                                                 <button className="btn btn-info btn-sm ml-3" onClick={() => { }}>
                                                     <i className="fas fa-pencil-alt mr-2"></i>
                                                         Editar
@@ -143,10 +133,10 @@ export default function ListaPromocoes() {
                                                     <i className="fas fa-trash mr-2"></i>
                                                         Deletar
                                                     </button>
-
                                             </td>
                                         </tr>
                                     })}
+                                    
                                 </tbody>
                             </table>
                         </div>
