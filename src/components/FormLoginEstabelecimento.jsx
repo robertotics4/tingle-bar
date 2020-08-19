@@ -54,7 +54,6 @@ export default function FormLoginEstabelecimento(props) {
         setValores({ ...valores, [name]: cnpjMask(value) });
     }
 
-
     return (
         <div className="card">
             <div className="card-body login-card-body">

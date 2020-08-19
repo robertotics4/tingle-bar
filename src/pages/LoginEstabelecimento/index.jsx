@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Tabs, Tab } from 'react-bootstrap';
 
 import Loading from '../../components/Loading';
 import FormLoginEstabelecimento from '../../components/FormLoginEstabelecimento';
 
 export default function LoginEstabelecimento() {
-
+    const [key, setKey] = useState('tabEstabelecimento');
     const [isLoadingVisible, setLoadingVisible] = useState(false);
 
     useEffect(() => { }, [isLoadingVisible]);
@@ -17,8 +18,18 @@ export default function LoginEstabelecimento() {
                 </div>
                 {/* /.login-logo */}
 
-                <FormLoginEstabelecimento setLoadingVisible={setLoadingVisible} />
-                
+                <Tabs
+                    activeKey={key}
+                    onSelect={(k) => setKey(k)}
+                >
+                    <Tab eventKey="tabEstabelecimento" title="Estabelecimento">
+                        <FormLoginEstabelecimento setLoadingVisible={setLoadingVisible}/>
+                    </Tab>
+                    <Tab eventKey="tabFuncionario" title="Funcionário">
+                        <FormLoginEstabelecimento setLoadingVisible={setLoadingVisible} />
+                    </Tab>
+                </Tabs>
+
             </div>
             {/* /.login-box */}
 
