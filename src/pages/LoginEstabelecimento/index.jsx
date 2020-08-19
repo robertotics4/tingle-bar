@@ -3,6 +3,7 @@ import { Tabs, Tab } from 'react-bootstrap';
 
 import Loading from '../../components/Loading';
 import FormLoginEstabelecimento from '../../components/FormLoginEstabelecimento';
+import FormLoginFuncionario from '../../components/FormLoginFuncionario';
 
 export default function LoginEstabelecimento() {
     const [key, setKey] = useState('tabEstabelecimento');
@@ -26,7 +27,7 @@ export default function LoginEstabelecimento() {
                         <FormLoginEstabelecimento setLoadingVisible={setLoadingVisible}/>
                     </Tab>
                     <Tab eventKey="tabFuncionario" title="Funcionário">
-                        <FormLoginEstabelecimento setLoadingVisible={setLoadingVisible} />
+                        <FormLoginFuncionario setLoadingVisible={setLoadingVisible} />
                     </Tab>
                 </Tabs>
 
