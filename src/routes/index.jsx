@@ -5,11 +5,6 @@ import AuthEstabelecimentoContext from '../contexts/auth-estabelecimento';
 import AuthFuncionarioContext from '../contexts/auth-funcionario';
 
 import AppRoutes from './app.routes';
-import AuthFuncionarioRoutes from './auth-funcionario.routes';
-import AuthEstabelecimentoRoutes from './auth-estabelecimento.routes';
-
-import EstabelecimentoRoutes from './estabelecimento.routes';
-import FuncionarioRoutes from './funcionario.routes';
 
 const Routes = () => {
     // const { tipoUsuario } = useContext(GeralContext);

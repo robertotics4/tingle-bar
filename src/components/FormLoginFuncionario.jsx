@@ -18,7 +18,7 @@ export default function FormLoginFuncionario(props) {
     };
 
     async function loginFuncionario(credentials) {
-        props.setLoadingVisible(true);
+        //props.setLoadingVisible(true);
 
         const response = await signIn(credentials);
 
@@ -43,9 +43,9 @@ export default function FormLoginFuncionario(props) {
                 });
 
                 setEstabelecimentoFuncionario(listaEstabelecimentos[value]);
+                history.push('/painelFuncionario');
             }
 
-            setEstabelecimentoFuncionario(listaEstabelecimentos.pop());
         } else if (response.status === 401) {
             Swal.fire({
                 title: 'Erro!',
@@ -121,10 +121,10 @@ export default function FormLoginFuncionario(props) {
                                     value: "Required",
                                     message: "A senha é obrigatória"
                                 },
-                                pattern: {
-                                    value: /(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, // Mínimo de oito caracteres, pelo menos uma letra e um número
-                                    message: "Mínimo de oito caracteres, com pelo menos uma letra e um número"
-                                }
+                                // pattern: {
+                                //     value: /(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, // Mínimo de oito caracteres, pelo menos uma letra e um número
+                                //     message: "Mínimo de oito caracteres, com pelo menos uma letra e um número"
+                                // }
                             })}
                         />
                         <div className="input-group-append">

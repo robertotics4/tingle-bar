@@ -44,12 +44,11 @@ export default function Menu() {
                     <div className="info">
                         {estabelecimento ?
                             <>
-                                <a href="#" className="d-block"><strong>{estabelecimento.nome.toUpperCase()}</strong></a>
-                                <a href="#" className="d-block"><strong>CNPJ: {estabelecimento.cnpj}</strong></a>
+                                <a href="/#" className="d-block"><strong>{estabelecimento.nome.toUpperCase()}</strong></a>
+                                <a href="/#" className="d-block"><strong>CNPJ: {estabelecimento.cnpj}</strong></a>
                             </>
                             : null
                         }
-
                     </div>
                 </div>
                 {/* Sidebar Menu */}

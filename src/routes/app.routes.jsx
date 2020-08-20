@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import {
     BrowserRouter as Router,
     Switch,
@@ -6,7 +6,8 @@ import {
     Redirect
 } from 'react-router-dom';
 
-import LoginEstabelecimento from '../pages/LoginEstabelecimento';
+import Login from '../pages/Login';
+
 import CadastroEstabelecimento from '../pages/CadastroEstabelecimento';
 import PainelEstabelecimento from '../pages/PainelEstabelecimento';
 import GerenciarFuncionarios from '../pages/PainelEstabelecimento/pages/GerenciarFuncionarios';
@@ -14,6 +15,8 @@ import GerenciarMesas from '../pages/PainelEstabelecimento/pages/GerenciarMesas'
 import GerenciarCardapio from '../pages/PainelEstabelecimento/pages/GerenciarCardapio';
 import GerenciarPromocoes from '../pages/PainelEstabelecimento/pages/GerenciarPromocoes';
 import GerenciarCozinha from '../pages/PainelEstabelecimento/pages/GerenciarCozinha';
+
+import PainelFuncinario from '../pages/PainelFuncionario';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
     const storagedToken = localStorage.getItem('@TBAuth:token');
@@ -29,19 +32,23 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
     );
 };
 
-const AppRoutes = () => (
-    <Router>
-        <Switch>
-            <Route path="/" component={LoginEstabelecimento} exact />
-            <Route path="/cadastroEstabelecimento" component={CadastroEstabelecimento} />
-            <PrivateRoute path="/painelEstabelecimento" component={PainelEstabelecimento} />
-            <PrivateRoute path="/gerenciarFuncionarios" component={GerenciarFuncionarios} />
-            <PrivateRoute path="/gerenciarMesas" component={GerenciarMesas} />
-            <PrivateRoute path="/gerenciarCardapio" component={GerenciarCardapio} />
-            <PrivateRoute path="/gerenciarPromocoes" component={GerenciarPromocoes} />
-            <PrivateRoute path="/gerenciarCozinha" component={GerenciarCozinha} />
-        </Switch>
-    </Router>
-);
+const AppRoutes = () => {
+    return (
+        <Router>
+            <Switch>
+                <Route path="/" component={Login} exact />
+                <Route path="/cadastroEstabelecimento" component={CadastroEstabelecimento} />
+                <PrivateRoute path="/painelEstabelecimento" component={PainelEstabelecimento} />
+                <PrivateRoute path="/gerenciarFuncionarios" component={GerenciarFuncionarios} />
+                <PrivateRoute path="/gerenciarMesas" component={GerenciarMesas} />
+                <PrivateRoute path="/gerenciarCardapio" component={GerenciarCardapio} />
+                <PrivateRoute path="/gerenciarPromocoes" component={GerenciarPromocoes} />
+                <PrivateRoute path="/gerenciarCozinha" component={GerenciarCozinha} />
+
+                <PrivateRoute path="/painelFuncionario" component={PainelFuncinario} />
+            </Switch>
+        </Router>
+    );
+};
 
 export default AppRoutes;

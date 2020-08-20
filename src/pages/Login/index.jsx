@@ -6,7 +6,7 @@ import FormLoginEstabelecimento from '../../components/FormLoginEstabelecimento'
 import FormLoginFuncionario from '../../components/FormLoginFuncionario';
 
 export default function LoginEstabelecimento() {
-    const [key, setKey] = useState('tabEstabelecimento');
+    const [key, setKey] = useState('estabelecimento');
     const [isLoadingVisible, setLoadingVisible] = useState(false);
 
     useEffect(() => { }, [isLoadingVisible]);
@@ -23,10 +23,10 @@ export default function LoginEstabelecimento() {
                     activeKey={key}
                     onSelect={(k) => setKey(k)}
                 >
-                    <Tab eventKey="tabEstabelecimento" title="Estabelecimento">
+                    <Tab eventKey="estabelecimento" title="Estabelecimento">
                         <FormLoginEstabelecimento setLoadingVisible={setLoadingVisible}/>
                     </Tab>
-                    <Tab eventKey="tabFuncionario" title="Funcionário">
+                    <Tab eventKey="funcionario" title="Funcionário">
                         <FormLoginFuncionario setLoadingVisible={setLoadingVisible} />
                     </Tab>
                 </Tabs>

@@ -1,14 +1,60 @@
-import React, { useContext } from 'react';
-import {useHistory} from 'react-router-dom';
+import React, { useContext, useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 
-import AuthEstabelecimentoContext from '../../../contexts/auth-estabelecimento';
+import AuthFuncionarioContext from '../../../contexts/auth-funcionario';
 
 import '../../../styles/Menu.css';
 import logo from '../../../assets/logo.png';
 
+import api from '../../../services/api';
+import { createFilter } from 'react-select';
+
 export default function Menu() {
-    const { signOut } = useContext(AuthEstabelecimentoContext);
+    const [funcionario, setFuncionario] = useState(null);
+    const [estabelecimento, setEstabelecimento] = useState(null);
+    const [tiposFuncionario, setTiposFuncionario] = useState([]);
+    const [tipoFuncionario, setTipoFuncionario] = useState(null);
+    const { signOut } = useContext(AuthFuncionarioContext);
+
     const history = useHistory();
+
+    useEffect(() => {
+        async function loadStoragedData() {
+            const storagedFuncionario = localStorage.getItem('@TBAuth:funcionario');
+            const storagedEstabelecimento = localStorage.getItem('@TBAuth:estabelecimento');
+
+            if (storagedFuncionario && storagedEstabelecimento) {
+                setFuncionario(JSON.parse(storagedFuncionario));
+                setEstabelecimento(JSON.parse(storagedEstabelecimento));
+            }
+        }
+
+        loadStoragedData();
+        getTiposFuncionario();
+    }, []);
+
+    useEffect(() => {
+        getTiposFuncionario();
+    }, [funcionario]);
+
+    async function getTiposFuncionario() {
+        try {
+            const response = await api.get('/tipofuncionario');
+            const tipos = response.data;
+
+            setTiposFuncionario([...tipos]);
+
+            tipos.map(tipo => {
+                if (tipo.id === estabelecimento.iD_TIPOFUNCIONARIO) {
+                    setTipoFuncionario(tipo);
+                }
+            });
+
+            return response.data;
+        } catch (err) {
+            return err.response;
+        }
+    }
 
     function handleLogout() {
         signOut();
@@ -26,8 +72,15 @@ export default function Menu() {
                 {/* Sidebar user panel (optional) */}
                 <div className="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div className="info">
-                        <a href="#" className="d-block">Usuário: <strong>{}</strong></a>
-                        <a href="#" className="d-block">Matrícula: <strong>{}</strong></a>
+                        {funcionario && tipoFuncionario ?
+                            <>
+                                <a href="/#" className="d-block"><strong>{funcionario.nome.toUpperCase()}</strong></a>
+                                <a href="/#" className="d-block"><strong>Tipo: {tipoFuncionario.descricao.toUpperCase()}</strong></a>
+                                <a href="/#" className="d-block"><strong>CPF: {funcionario.cpf}</strong></a>
+                                
+                            </>
+                            : null
+                        }
                     </div>
                 </div>
                 {/* Sidebar Menu */}
