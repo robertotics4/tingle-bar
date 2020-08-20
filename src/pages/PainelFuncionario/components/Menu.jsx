@@ -7,7 +7,6 @@ import '../../../styles/Menu.css';
 import logo from '../../../assets/logo.png';
 
 import api from '../../../services/api';
-import { createFilter } from 'react-select';
 
 export default function Menu() {
     const [funcionario, setFuncionario] = useState(null);

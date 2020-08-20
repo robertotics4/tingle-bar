@@ -85,7 +85,7 @@ export default function Pedido(props) {
                                                     <label className="custom-control-label" htmlFor={"checkItem" + item.item_id}>Item pronto?</label>
                                                 </div>
                                             </div>
-                                            <a className="text-muted">
+                                            <a href="/#" className="text-muted">
                                                 <i className="fas fa-eye" onClick={() => handleVisualizar(item)}></i>
                                             </a>
                                         </td>

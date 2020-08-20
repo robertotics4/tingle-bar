@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import Swal from 'sweetalert2';
 
-import AuthEstabelecimentoContext from '../../../../contexts/auth-estabelecimento';
 import GeralContext from '../../../../contexts/geral';
 
 import api from '../../../../services/api';

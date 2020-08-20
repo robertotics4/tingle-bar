@@ -6,7 +6,6 @@ import '../styles/ModalVisualizarPedido.css';
 const baseURL = 'http://52.45.128.89';
 
 export default function ModalVisualizarPedido(props) {
-    const dateFormater = new Intl.DateTimeFormat('pt-BR');
     const handleClose = () => props.setShowModal(false);
 
     return (

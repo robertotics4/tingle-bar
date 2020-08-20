@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React from 'react';
 import {
     BrowserRouter as Router,
     Switch,
@@ -18,13 +18,29 @@ import GerenciarCozinha from '../pages/PainelEstabelecimento/pages/GerenciarCozi
 
 import PainelFuncinario from '../pages/PainelFuncionario';
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
+const EstabelecimentoRoute = ({ component: Component, ...rest }) => {
     const storagedToken = localStorage.getItem('@TBAuth:token');
+    const storagedTipoUsuario = localStorage.getItem('@TBAuth:tipoUsuario');
 
     return (
         <Route
             {...rest}
-            render={() => storagedToken
+            render={() => storagedToken && storagedTipoUsuario === 'estabelecimento'
+                ? <Component {...rest} />
+                : <Redirect to="/" />
+            }
+        />
+    );
+};
+
+const FuncionarioRoute = ({ component: Component, ...rest }) => {
+    const storagedToken = localStorage.getItem('@TBAuth:token');
+    const storagedTipoUsuario = localStorage.getItem('@TBAuth:tipoUsuario');
+
+    return (
+        <Route
+            {...rest}
+            render={() => storagedToken && storagedTipoUsuario === 'funcionario'
                 ? <Component {...rest} />
                 : <Redirect to="/" />
             }
@@ -38,14 +54,14 @@ const AppRoutes = () => {
             <Switch>
                 <Route path="/" component={Login} exact />
                 <Route path="/cadastroEstabelecimento" component={CadastroEstabelecimento} />
-                <PrivateRoute path="/painelEstabelecimento" component={PainelEstabelecimento} />
-                <PrivateRoute path="/gerenciarFuncionarios" component={GerenciarFuncionarios} />
-                <PrivateRoute path="/gerenciarMesas" component={GerenciarMesas} />
-                <PrivateRoute path="/gerenciarCardapio" component={GerenciarCardapio} />
-                <PrivateRoute path="/gerenciarPromocoes" component={GerenciarPromocoes} />
-                <PrivateRoute path="/gerenciarCozinha" component={GerenciarCozinha} />
+                <EstabelecimentoRoute path="/painelEstabelecimento" component={PainelEstabelecimento} />
+                <EstabelecimentoRoute path="/gerenciarFuncionarios" component={GerenciarFuncionarios} />
+                <EstabelecimentoRoute path="/gerenciarMesas" component={GerenciarMesas} />
+                <EstabelecimentoRoute path="/gerenciarCardapio" component={GerenciarCardapio} />
+                <EstabelecimentoRoute path="/gerenciarPromocoes" component={GerenciarPromocoes} />
+                <EstabelecimentoRoute path="/gerenciarCozinha" component={GerenciarCozinha} />
 
-                <PrivateRoute path="/painelFuncionario" component={PainelFuncinario} />
+                <FuncionarioRoute path="/painelFuncionario" component={PainelFuncinario} />
             </Switch>
         </Router>
     );
