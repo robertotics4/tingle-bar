@@ -146,6 +146,9 @@ export default function FormLoginFuncionario(props) {
                 <p className="mb-1">
                     <a href="/#">Esqueci minha senha</a>
                 </p>
+                <p className="mb-0">
+                    <span className="text-center">Cadastro restrito aos estabelecimentos</span>
+                </p>
             </div>
             {/* /.login-card-body */}
         </div>

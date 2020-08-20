@@ -204,7 +204,7 @@ export default function ListaFuncionarios() {
                             <div className="card-tools">
                                 <button className="btn btn-success btn-sm" onClick={handleCadastrar}>
                                     <i className="fas fa-user-plus mr-2"></i>
-                                                    Novo
+                                                    Novo funcionário
                                 </button>
                             </div>
                         </div>

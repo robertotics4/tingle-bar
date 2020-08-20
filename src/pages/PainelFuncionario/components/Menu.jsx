@@ -7,6 +7,7 @@ import '../../../styles/Menu.css';
 import logo from '../../../assets/logo.png';
 
 import api from '../../../services/api';
+import ListaMenu from './ListaMenu';
 
 export default function Menu() {
     const [funcionario, setFuncionario] = useState(null);
@@ -84,75 +85,12 @@ export default function Menu() {
                 </div>
                 {/* Sidebar Menu */}
                 <nav className="mt-2">
-                    <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                        <li className="nav-item has-treeview menu-open">
-                            <ul className="nav nav-treeview">
 
-                                <li className="nav-item">
-                                    <a href="#" className="nav-link active">
-                                        <i className="far fa-circle nav-icon" />
-                                        <p>Mesas</p>
-                                    </a>
-                                </li>
-                                <li className="nav-item">
-                                    <a href="#" className="nav-link">
-                                        <i className="far fa-circle nav-icon" />
-                                        <p>Cardápio</p>
-                                    </a>
-                                </li>
-                                <li className="nav-item">
-                                    <a href="#" className="nav-link">
-                                        <i className="far fa-circle nav-icon" />
-                                        <p>Funcionários</p>
-                                    </a>
-                                </li>
-                                <li className="nav-item">
-                                    <a href="#" className="nav-link">
-                                        <i className="far fa-circle nav-icon" />
-                                        <p>Promoções</p>
-                                    </a>
-                                </li>
-                                <li className="nav-item">
-                                    <a href="#" className="nav-link">
-                                        <i className="far fa-circle nav-icon" />
-                                        <p>Cozinha</p>
-                                    </a>
-                                </li>
+                    <ListaMenu 
+                        handleLogout={handleLogout}
+                        tipoFuncionario={tipoFuncionario}
+                    />
 
-                                <li className="nav-item has-treeview">
-                                    <a href="#" className="nav-link">
-                                        <i className="nav-icon far fa-plus-square" />
-                                        <p>
-                                            Mesas
-                                <i className="fas fa-angle-left right" />
-                                        </p>
-                                    </a>
-                                    <ul className="nav nav-treeview">
-                                        <li className="nav-item">
-                                            <a href="pages/examples/login.html" className="nav-link">
-                                                <i className="far fa-circle nav-icon" />
-                                                <p>Cadastro de mesas</p>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-
-
-                            </ul>
-                        </li>
-
-                        <li className="nav-item">
-                            <a onClick={handleLogout} className="nav-link">
-
-                                <svg className="nav-icon bi bi-power" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path fillRule="evenodd" d="M5.578 4.437a5 5 0 1 0 4.922.044l.5-.866a6 6 0 1 1-5.908-.053l.486.875z" />
-                                    <path fillRule="evenodd" d="M7.5 8V1h1v7h-1z" />
-                                </svg>
-
-                                <p className="text" color="red">Sair</p>
-                            </a>
-                        </li>
-                    </ul>
                 </nav>
                 {/* /.sidebar-menu */}
             </div>
