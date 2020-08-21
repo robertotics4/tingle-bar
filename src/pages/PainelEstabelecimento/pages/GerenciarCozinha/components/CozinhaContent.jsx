@@ -26,7 +26,7 @@ export default function CozinhaContent() {
 
     async function getContas() {
         try {
-            const response = await api.get(`/ContaDetalhe/GetByEstabelecimento?idEstabelecimento=${estabelecimento.id_Estabelecimento}&is_cozinha=1&status_conta=1`);
+            const response = await api.get(`/ContaDetalhe/GetByEstabelecimento?idEstabelecimento=${estabelecimento.id_Estabelecimento}&is_cozinha=1&status_conta=1&status_item=1`);
             const { contas } = response.data;
             setContas(contas);
             return response.data;

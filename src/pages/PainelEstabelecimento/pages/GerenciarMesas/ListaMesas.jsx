@@ -140,7 +140,7 @@ export default function ListaMesas() {
                 text: 'QRCode gerado para abertura de conta',
                 imageUrl: qrCode,
                 imageAlt: 'QRCode',
-              });
+            });
         } catch (err) {
             Swal.fire('Erro!', 'Falha ao cadastrar mesagerar o QRCode', 'error');
         }
@@ -174,8 +174,8 @@ export default function ListaMesas() {
                             <h3 className="card-title">Lista de Mesas</h3>
                             <div className="card-tools">
                                 <button className="btn btn-success btn-sm" onClick={cadastrarMesas}>
-                                    <i className="fas fa-user-plus mr-2"></i>
-                                                    Novo
+                                    <i className="fas fa-table mr-2"></i>
+                                                    Nova Mesa
                                 </button>
                             </div>
                         </div>
@@ -183,12 +183,10 @@ export default function ListaMesas() {
                             <table className="table table-striped projects">
                                 <thead>
                                     <tr>
-                                        <th style={{ width: '10%' }}>
-                                            ID
-                                        </th>
-                                        <th style={{ width: '40%' }}>
-                                            Nome
-                                        </th>
+                                        <th style={{ width: '10%' }}>ID</th>
+                                        <th style={{ width: '30%' }}>Nome</th>
+                                        <th style={{ width: '30%' }}>Funcionário</th>
+                                        <th style={{ width: '40%' }}></th>
                                     </tr>
                                 </thead>
 
@@ -198,6 +196,7 @@ export default function ListaMesas() {
                                         return <tr key={item.id}>
                                             <td>{item.id}</td>
                                             <td>{item.descricao}</td>
+                                            <td>{item.nome_funcionario}</td>
 
                                             <td className="project-actions text-right">
                                                 <button className="btn btn-secondary btn-sm ml-3" onClick={() => generateQR(item)}>

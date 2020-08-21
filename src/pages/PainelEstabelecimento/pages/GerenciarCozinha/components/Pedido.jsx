@@ -10,21 +10,17 @@ export default function Pedido(props) {
     const [showModalVisualizar, setModalVisualizar] = useState(false);
     const [itemSelecionado, setItemSelecionado] = useState(null);
 
+    console.log(props.pedido);
+
     function handleVisualizar(item) {
         setItemSelecionado(item);
         setModalVisualizar(true);
     }
 
-    async function handleCheck(event, item) {
-        const { checked } = event.target;
-
-        let status = 1; // Solicitado
-
-        checked ? status = 4 : status = 1;
-
+    async function handleFinalizar(item) {
         const payload = {
             "id": item.item_id,
-            "fk_status_id": status
+            "fk_status_id": 4
         }
 
         try {
@@ -74,23 +70,16 @@ export default function Pedido(props) {
                                         <td>{item.item_prev_max}</td>
                                         <td style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
                                             <div className="form-group">
-                                                <div className="custom-control custom-switch">
-                                                    <input
-                                                        type="checkbox"
-                                                        className="custom-control-input"
-                                                        defaultChecked={item.item_status === "Pedido pronto" ? true : false}
-                                                        id={"checkItem" + item.item_id}
-                                                        onChange={event => handleCheck(event, item)}
-                                                    />
-                                                    <label className="custom-control-label" htmlFor={"checkItem" + item.item_id}>Item pronto?</label>
-                                                </div>
+                                                <button type="button" className="btn btn-success" onClick={() => handleFinalizar(item)}>
+                                                    <i className="fas fa-check-circle mr-2"></i>
+                                                        Finalizar pedido
+                                                    </button>
                                             </div>
                                             <a href="/#" className="text-muted">
                                                 <i className="fas fa-eye" onClick={() => handleVisualizar(item)}></i>
                                             </a>
                                         </td>
                                     </tr>
-
                                 })}
 
                             </tbody>
