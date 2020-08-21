@@ -139,8 +139,8 @@ export default function ListaFuncionarios() {
                             <h3 className="card-title">Lista de itens do Cardápio</h3>
                             <div className="card-tools">
                                 <button className="btn btn-success btn-sm" onClick={handleCadastrar}>
-                                    <i className="fas fa-user-plus mr-2"></i>
-                                                    Novo
+                                    <i className="fas fa-hamburger mr-2"></i>
+                                                    Novo item
                                 </button>
                             </div>
                         </div>

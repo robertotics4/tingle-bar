@@ -166,9 +166,7 @@ export default function ListaFuncionarios() {
                         getFuncionarios();
                     }
                 } catch (err) {
-                    if (err.response.status === 401 || err.response.status === 400) {
-                        Swal.fire('Erro!', 'Falha ao deletar o funcionário', 'error');
-                    }
+                    Swal.fire('Erro!', 'Falha ao deletar o funcionário', 'error');
                 }
             }
         })
@@ -241,10 +239,6 @@ export default function ListaFuncionarios() {
                                             </td>
 
                                             <td className="project-actions text-right">
-                                                <button disabled className="btn btn-primary btn-sm ml-3">
-                                                    <i className="fas fa-eye mr-2"></i>
-                                                    Visualizar
-                                                </button>
                                                 <button className="btn btn-danger btn-sm ml-3" onClick={() => deletarFuncionario(item)}>
                                                     <i className="fas fa-trash mr-2"></i>
                                                     Deletar

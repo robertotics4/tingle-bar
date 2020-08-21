@@ -23,7 +23,7 @@ export default function ListaMenu(props) {
                     component = (
                         <li className="nav-item">
                             <a href="#" className="nav-link">
-                                <i className="far fa-circle nav-icon" />
+                                <i className="fas fa-utensils nav-icon"></i>
                                 <p>Cozinha</p>
                             </a>
                         </li>

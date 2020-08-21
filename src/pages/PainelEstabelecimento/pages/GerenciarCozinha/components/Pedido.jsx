@@ -75,7 +75,7 @@ export default function Pedido(props) {
                                                         Finalizar pedido
                                                     </button>
                                             </div>
-                                            <a href="/#" className="text-muted">
+                                            <a href="#" className="text-muted">
                                                 <i className="fas fa-eye" onClick={() => handleVisualizar(item)}></i>
                                             </a>
                                         </td>
