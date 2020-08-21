@@ -51,6 +51,29 @@ export default function ListaPromocoes() {
         setModalVisualizar(true);
     }
 
+    function handleDeletar(promocao) {
+        Swal.fire({
+            html: `<h3>Deseja excluir a promoção <strong>${promocao.descricao}</strong>?</h3>`,
+            text: "Não será possível recuperar os dados",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Deletar'
+        }).then(async result => {
+            if (result.value) {
+                try {
+                    const response = await api.delete('/promocoes/' + promocao.id_promocao);
+
+                    Swal.fire('Sucesso!', 'Mesa deletada com sucesso!', 'success');
+                    getPromocoes();
+                } catch (err) {
+                    Swal.fire('Erro!', 'Falha ao deletar a mesa', 'error');
+                }
+            }
+        })
+    }
+
     return (
         <div className="content-wrapper">
 
@@ -110,7 +133,7 @@ export default function ListaPromocoes() {
                                                     <i className="fas fa-eye mr-2"></i>
                                                         Visualizar
                                                 </button>
-                                                <button className="btn btn-danger btn-sm ml-3" onClick={() => { }}>
+                                                <button className="btn btn-danger btn-sm ml-3" onClick={() => handleDeletar(item)}>
                                                     <i className="fas fa-trash mr-2"></i>
                                                         Deletar
                                                 </button>
