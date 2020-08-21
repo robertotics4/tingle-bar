@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import AuthEstabelecimentoContext from '../../../contexts/auth-estabelecimento';
 
 import '../../../styles/Menu.css';
-import logo from '../../../assets/logo.png';
+import logo from '../../../assets/logo.svg';
 
 export default function Menu() {
     const [estabelecimento, setEstabelecimento] = useState(null);

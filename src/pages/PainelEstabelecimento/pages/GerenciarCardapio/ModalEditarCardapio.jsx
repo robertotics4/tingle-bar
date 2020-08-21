@@ -29,6 +29,8 @@ export default function ModalEditarCardapio(props) {
 
     const { register, handleSubmit, errors } = useForm();
 
+    console.log(props.item);
+
     const onSubmit = data => {
         cadastrarItem(data);
     };
@@ -62,6 +64,7 @@ export default function ModalEditarCardapio(props) {
 
         const data = new FormData();
 
+        data.append("id", props.item.codigo_item);
         data.append("titulo", dados.titulo);
         data.append("descricao", dados.descricao);
         data.append("valor", getFloatFromCurrency(valores.valor));
@@ -74,19 +77,15 @@ export default function ModalEditarCardapio(props) {
         data.append("files", valores.imagem);
 
         try {
-            const response = await api.post('/Cardapio', data, {
+            const response = await api.put('/Cardapio', data, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             });
 
-            if (response.status === 201 || response.status === 200) {
-                Swal.fire('Sucesso!', 'Item cadastrado com sucesso!', 'success');
-            }
+            Swal.fire('Sucesso!', 'Item atualizado com sucesso!', 'success');
         } catch (err) {
-            if (err.response.status === 401 || err.response.status === 400) {
-                Swal.fire('Erro!', 'Falha ao cadastrar item', 'error');
-            }
+            Swal.fire('Erro!', 'Falha ao atualizar item', 'error');
         } finally {
             handleClose();
             props.atualizarItens();
@@ -283,17 +282,10 @@ export default function ModalEditarCardapio(props) {
                                     name="imagem"
                                     type="file"
                                     accept="image/png, image/jpeg"
-                                    className={errors.imagem ? "form-control-file is-invalid" : "form-control-file"}
+                                    className="form-control-file"
                                     id="imagemItemCardapio"
                                     onChange={handleChangeImagem}
-                                    ref={register({
-                                        required: {
-                                            value: "Required",
-                                            message: "A imagem é obrigatória"
-                                        },
-                                    })}
                                 />
-                                <span className="error invalid-feedback">{errors.imagem && errors.imagem.message}</span>
                             </div>
 
                             <div className="form-check">

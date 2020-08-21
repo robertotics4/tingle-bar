@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import AuthFuncionarioContext from '../../../contexts/auth-funcionario';
 
 import '../../../styles/Menu.css';
-import logo from '../../../assets/logo.png';
+import logo from '../../../assets/logo.svg';
 
 import api from '../../../services/api';
 import ListaMenu from './ListaMenu';
@@ -77,7 +77,6 @@ export default function Menu() {
                                 <a href="/#" className="d-block"><strong>{funcionario.nome.toUpperCase()}</strong></a>
                                 <a href="/#" className="d-block"><strong>Tipo: {tipoFuncionario.descricao.toUpperCase()}</strong></a>
                                 <a href="/#" className="d-block"><strong>CPF: {funcionario.cpf}</strong></a>
-                                
                             </>
                             : null
                         }
