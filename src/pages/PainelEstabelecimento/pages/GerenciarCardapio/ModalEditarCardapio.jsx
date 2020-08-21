@@ -29,8 +29,6 @@ export default function ModalEditarCardapio(props) {
 
     const { register, handleSubmit, errors } = useForm();
 
-    console.log(props.item);
-
     const onSubmit = data => {
         cadastrarItem(data);
     };
@@ -74,7 +72,11 @@ export default function ModalEditarCardapio(props) {
         data.append("estabelecimento", props.idEstabelecimento);
         data.append("iscozinha", valores.isCozinha ? 1 : 0);
         data.append("iscardapio", valores.isCardapio ? 1 : 0);
-        data.append("files", valores.imagem);
+
+        if (typeof valores.imagem !== 'string') {
+            console.log('imagem válida');
+            data.append("files", valores.imagem);
+        }
 
         try {
             const response = await api.put('/Cardapio', data, {
