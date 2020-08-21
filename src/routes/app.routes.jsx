@@ -17,6 +17,7 @@ import GerenciarPromocoes from '../pages/PainelEstabelecimento/pages/GerenciarPr
 import GerenciarCozinha from '../pages/PainelEstabelecimento/pages/GerenciarCozinha';
 
 import PainelFuncinario from '../pages/PainelFuncionario';
+import PainelCozinheiro from '../pages/PainelFuncionario/pages/PainelCozinheiro';
 
 const EstabelecimentoRoute = ({ component: Component, ...rest }) => {
     const storagedToken = localStorage.getItem('@TBAuth:token');
@@ -48,6 +49,24 @@ const FuncionarioRoute = ({ component: Component, ...rest }) => {
     );
 };
 
+const CozinheiroRoute = ({ component: Component, ...rest }) => {
+    const storagedToken = localStorage.getItem('@TBAuth:token');
+    const storagedTipoUsuario = localStorage.getItem('@TBAuth:tipoUsuario');
+    const storagedFuncionario = JSON.parse(localStorage.getItem('@TBAuth:funcionario'));
+
+    return (
+        <Route
+            {...rest}
+            render={() => storagedToken && storagedTipoUsuario === 'funcionario' && storagedFuncionario.id_Tipo_Usuario === 2
+            // && storagedFuncionario.id_Tipo_Usuario === 2
+                ? <Component {...rest} />
+                : <Redirect to="/" />
+            }
+        />
+    );
+};
+
+
 const AppRoutes = () => {
     return (
         <Router>
@@ -62,6 +81,7 @@ const AppRoutes = () => {
                 <EstabelecimentoRoute path="/gerenciarCozinha" component={GerenciarCozinha} />
 
                 <FuncionarioRoute path="/painelFuncionario" component={PainelFuncinario} />
+                <CozinheiroRoute path="/painelCozinheiro" component={PainelCozinheiro} />
             </Switch>
         </Router>
     );

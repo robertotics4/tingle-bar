@@ -2,8 +2,6 @@ import React from 'react';
 
 export default function ListaMenu(props) {
 
-    console.log(props.tipoFuncionario);
-
     function configMenu() {
         let component = null;
 
@@ -22,7 +20,7 @@ export default function ListaMenu(props) {
                 case 'Cozinheiro':
                     component = (
                         <li className="nav-item">
-                            <a href="#" className="nav-link">
+                            <a href="/painelCozinheiro" className="nav-link">
                                 <i className="fas fa-utensils nav-icon"></i>
                                 <p>Cozinha</p>
                             </a>
