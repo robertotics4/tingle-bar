@@ -6,7 +6,7 @@ import { Modal } from 'react-bootstrap';
 import '../../../../components/Loading';
 
 import api from '../../../../services/api';
-import { currencyMask } from '../../../../utils/masks';
+import { currencyMask, numberPositiveMask } from '../../../../utils/masks';
 
 function initialState() {
     return {
@@ -100,6 +100,11 @@ export default function ModalCadCardapio(props) {
         setValores({ ...valores, imagem: e.target.files[0] });
     }
 
+    function handleChangePositive(e) {
+        const { name, value } = e.target;
+        setValores({ ...valores, [name]: numberPositiveMask(value) });
+    }
+
     function getFloatFromCurrency(currencyValue) {
         currencyValue = currencyValue.replace(/[.]/g, '');
         currencyValue = currencyValue.replace(',', '.');
@@ -144,9 +149,9 @@ export default function ModalCadCardapio(props) {
 
                             <div className="form-group">
                                 <label htmlFor="descricaoItemCardapio">Descrição</label>
-                                <input
+                                <textarea
                                     name="descricao"
-                                    type="text"
+                                    rows="2"
                                     className={errors.descricao ? "form-control is-invalid" : "form-control"}
                                     id="descricaoItemCardapio"
                                     placeholder="Descrição do item"
@@ -161,85 +166,95 @@ export default function ModalCadCardapio(props) {
                                 <span className="error invalid-feedback">{errors.descricao && errors.descricao.message}</span>
                             </div>
 
-                            <div className="form-group">
-                                <label htmlFor="valorItemCardapio">Valor</label>
-                                <input
-                                    name="valor"
-                                    type="text"
-                                    placeholder="Valor em reais"
-                                    className={errors.valor ? "form-control is-invalid" : "form-control"}
-                                    id="valorItemCardapio"
-                                    value={valores.valor || ''}
-                                    onChange={handleChangeValor}
-                                    ref={register({
-                                        required: {
-                                            value: "Required",
-                                            message: "O valor é obrigatório"
-                                        },
-                                    })}
-                                />
-                                <span className="error invalid-feedback">{errors.valorItemCardapio && errors.valorItemCardapio.message}</span>
+                            <div className="row">
+                                <div className="col-sm-12 col-md-6 col-lg-6">
+                                    <div className="form-group">
+                                        <label htmlFor="valorItemCardapio">Valor</label>
+                                        <input
+                                            name="valor"
+                                            type="text"
+                                            placeholder="Valor em reais"
+                                            className={errors.valor ? "form-control is-invalid" : "form-control"}
+                                            id="valorItemCardapio"
+                                            value={valores.valor || ''}
+                                            onChange={handleChangeValor}
+                                            ref={register({
+                                                required: {
+                                                    value: "Required",
+                                                    message: "O valor é obrigatório"
+                                                },
+                                            })}
+                                        />
+                                        <span className="error invalid-feedback">{errors.valorItemCardapio && errors.valorItemCardapio.message}</span>
+                                    </div>
+                                </div>
+                                <div className="col-sm-12 col-md-6 col-lg-6">
+                                    <div className="form-group">
+                                        <label htmlFor="categoriaItemCardapio">Categoria</label>
+                                        <select
+                                            name="categoria"
+                                            className={errors.categoria ? "form-control is-invalid" : "form-control"}
+                                            id="categoriaItemCardapio"
+                                            ref={register({
+                                                required: {
+                                                    value: "Required",
+                                                    message: "A categoria é obrigatória"
+                                                },
+                                            })}
+                                        >
+                                            <option value="">Selecione</option>
+                                            {categorias.map((item, index) => (
+                                                <option key={item.id} value={item.id}>{item.descricao}</option>
+                                            ))}
+                                        </select>
+                                        <span className="error invalid-feedback">{errors.categoria && errors.categoria.message}</span>
+                                    </div>
+                                </div>
                             </div>
 
-                            <div className="form-group">
-                                <label htmlFor="categoriaItemCardapio">Categoria</label>
-                                <select
-                                    name="categoria"
-                                    className={errors.categoria ? "form-control is-invalid" : "form-control"}
-                                    id="categoriaItemCardapio"
-                                    ref={register({
-                                        required: {
-                                            value: "Required",
-                                            message: "A categoria é obrigatória"
-                                        },
-                                    })}
-                                >
-                                    <option value="">Selecione</option>
-                                    {categorias.map((item, index) => (
-                                        <option key={item.id} value={item.id}>{item.descricao}</option>
-                                    ))}
-                                </select>
-                                <span className="error invalid-feedback">{errors.categoria && errors.categoria.message}</span>
-                            </div>
-
-                            <div className="form-group">
-                                <label htmlFor="tempoEstimadoMin">Tempo estimado mínimo (minutos)</label>
-                                <input
-                                    min="0"
-                                    name="tempoEstimadoMin"
-                                    type="text"
-                                    className={errors.tempoEstimadoMin ? "form-control is-invalid" : "form-control"}
-                                    id="tempoEstimadoMin"
-                                    placeholder="Tempo mínimo estimado em minutos"
-                                    onChange={handleChange}
-                                    ref={register({
-                                        required: {
-                                            value: "Required",
-                                            message: "O tempo estimado min é obrigatório"
-                                        },
-                                    })}
-                                />
-                                <span className="error invalid-feedback">{errors.tempoEstimadoMin && errors.tempoEstimadoMin.message}</span>
-                            </div>
-
-                            <div className="form-group">
-                                <label htmlFor="tempoEstimadoMax">Tempo estimado máximo (minutos)</label>
-                                <input
-                                    min="0"
-                                    name="tempoEstimadoMax"
-                                    type="number"
-                                    className={errors.tempoEstimadoMax ? "form-control is-invalid" : "form-control"}
-                                    id="tempoEstimadoMax"
-                                    placeholder="Tempo mínimo máximo em minutos"
-                                    onChange={handleChange}
-                                    ref={register({
-                                        required: {
-                                            value: "Required",
-                                            message: "O tempo estimado max é obrigatório"
-                                        },
-                                    })}
-                                />
-                                <span className="error invalid-feedback">{errors.tempoEstimadoMax && errors.tempoEstimadoMax.message}</span>
+                            <div className="row">
+                                <div className="col-sm-12 col-md-6 col-lg-6">
+                                    <div className="form-group">
+                                        <label htmlFor="tempoEstimadoMin">Tempo estimado mínimo (minutos)</label>
+                                        <input
+                                            name="tempoEstimadoMin"
+                                            type="text"
+                                            className={errors.tempoEstimadoMin ? "form-control is-invalid" : "form-control"}
+                                            id="tempoEstimadoMin"
+                                            placeholder="Tempo mínimo em minutos"
+                                            value={valores.tempoEstimadoMin || ''}
+                                            onChange={handleChangePositive}
+                                            ref={register({
+                                                required: {
+                                                    value: "Required",
+                                                    message: "O tempo estimado min é obrigatório"
+                                                },
+                                            })}
+                                        />
+                                        <span className="error invalid-feedback">{errors.tempoEstimadoMin && errors.tempoEstimadoMin.message}</span>
+                                    </div>
+                                </div>
+                                <div className="col-sm-12 col-md-6 col-lg-6">
+                                    <div className="form-group">
+                                        <label htmlFor="tempoEstimadoMax">Tempo estimado máximo (minutos)</label>
+                                        <input
+                                            name="tempoEstimadoMax"
+                                            type="text"
+                                            className={errors.tempoEstimadoMax ? "form-control is-invalid" : "form-control"}
+                                            id="tempoEstimadoMax"
+                                            placeholder="Tempo máximo em minutos"
+                                            value={valores.tempoEstimadoMax || ''}
+                                            onChange={handleChangePositive}
+                                            ref={register({
+                                                required: {
+                                                    value: "Required",
+                                                    message: "O tempo estimado max é obrigatório"
+                                                },
+                                            })}
+                                        />
+                                        <span className="error invalid-feedback">{errors.tempoEstimadoMax && errors.tempoEstimadoMax.message}</span>
+                                    </div>
+                                </div>
                             </div>
 
                             <div className="form-group">
