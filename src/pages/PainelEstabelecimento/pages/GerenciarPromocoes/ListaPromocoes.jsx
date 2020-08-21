@@ -5,11 +5,14 @@ import api from '../../../../services/api';
 import Loading from '../../../../components/Loading';
 
 import ModalCadPromocoes from './ModalCadPromocoes';
+import ModalVisualizarPromocao from './ModalVisualizarPromocao';
 
 export default function ListaPromocoes() {
     const [showModal, setShowModal] = useState(false);
+    const [showModalVisualizar, setModalVisualizar] = useState(false);
     const [estabelecimento, setEstabelecimento] = useState(null);
     const [promocoes, setPromocoes] = useState([]);
+    const [promocaoSelecionada, setPromocaoSelecionada] = useState(null);
     const [isLoadingVisible, setLoadingVisible] = useState(false);
 
     console.log(promocoes);
@@ -43,32 +46,10 @@ export default function ListaPromocoes() {
         setShowModal(true);
     }
 
-    // async function deletarMesas(item) {
-    //     Swal.fire({
-    //         html: `<h3>Deseja excluir a mesa <strong>${item.descricao}</strong>?</h3>`,
-    //         text: "Após deletar não será possivel recuperar!",
-    //         icon: 'warning',
-    //         showCancelButton: true,
-    //         confirmButtonColor: '#d33',
-    //         cancelButtonColor: '#3085d6',
-    //         confirmButtonText: 'Deletar'
-    //     }).then(async result => {
-    //         if (result.value) {
-    //             try {
-    //                 const response = await api.delete('/mesa/' + item.id);
-
-    //                 if (response.status === 201 || response.status === 200) {
-    //                     Swal.fire('Sucesso!', 'Mesa deletada com sucesso!', 'success');
-    //                     getMesas();
-    //                 }
-    //             } catch (err) {
-    //                 if (err.response.status === 401 || err.response.status === 400) {
-    //                     Swal.fire('Erro!', 'Falha ao deletar a mesa', 'error');
-    //                 }
-    //             }
-    //         }
-    //     })
-    // }
+    function handleVisualizar(promocao) {
+        setPromocaoSelecionada(promocao);
+        setModalVisualizar(true);
+    }
 
     return (
         <div className="content-wrapper">
@@ -125,18 +106,18 @@ export default function ListaPromocoes() {
                                             <td>{item.itens.length}</td>
 
                                             <td className="project-actions text-right">
-                                                <button className="btn btn-info btn-sm ml-3" onClick={() => { }}>
-                                                    <i className="fas fa-pencil-alt mr-2"></i>
-                                                        Editar
-                                                    </button>
+                                                <button className="btn btn-info btn-sm ml-3" onClick={() => handleVisualizar(item)}>
+                                                    <i className="fas fa-eye mr-2"></i>
+                                                        Visualizar
+                                                </button>
                                                 <button className="btn btn-danger btn-sm ml-3" onClick={() => { }}>
                                                     <i className="fas fa-trash mr-2"></i>
                                                         Deletar
-                                                    </button>
+                                                </button>
                                             </td>
                                         </tr>
                                     })}
-                                    
+
                                 </tbody>
                             </table>
                         </div>
@@ -151,6 +132,15 @@ export default function ListaPromocoes() {
                     setShowModal={setShowModal}
                     atualizarItens={getPromocoes}
                     setLoadingVisible={setLoadingVisible}
+                />
+                : null
+            }
+
+            {showModalVisualizar
+                ? <ModalVisualizarPromocao
+                    showModal={showModalVisualizar}
+                    setShowModal={setModalVisualizar}
+                    promocao={promocaoSelecionada}
                 />
                 : null
             }

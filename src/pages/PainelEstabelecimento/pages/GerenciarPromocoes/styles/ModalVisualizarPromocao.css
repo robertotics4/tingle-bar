@@ -1,0 +1,24 @@
+.content-item {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.content-item .texto-item {
+    font-size: 1.2em;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.content-item .img-item {
+    max-height: 250px;
+    max-width: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.content-item .valor-item {
+    font-size: 2.5em;
+    color: #28a745;
+    font-weight: bold;
+    text-align: right;
+}
