@@ -6,8 +6,8 @@ import api from '../../../../services/api';
 
 export default function ListaMesas() {
     const [estabelecimento, setEstabelecimento] = useState(null);
+    const [funcionarios, setFuncionarios] = useState([]);
     const [mesas, setMesas] = useState([]);
-
 
     useEffect(() => {
         async function loadStoragedData() {
@@ -19,16 +19,28 @@ export default function ListaMesas() {
         }
         loadStoragedData();
         getMesas();
+        getFuncionarios();
     }, []);
 
     useEffect(() => {
         getMesas();
+        getFuncionarios();
     }, [estabelecimento]);
 
     async function getMesas() {
         try {
             const response = await api.get('/Mesa?idEstabelecimento=' + estabelecimento.id_Estabelecimento);
             setMesas(response.data);
+        } catch (err) {
+            return err.response;
+        }
+    }
+
+    async function getFuncionarios() {
+        try {
+            const response = await api.get('/Funcionario?idEstabelecimento=' + estabelecimento.id_Estabelecimento);
+            setFuncionarios(response.data);
+            return response.data;
         } catch (err) {
             return err.response;
         }
@@ -95,22 +107,72 @@ export default function ListaMesas() {
         })
     }
 
+    function configSelect() {
+        let lista = [];
+
+        lista.push({
+            "id_funcionario": 0,
+            "cpf": "",
+            "nome": "----------------------",
+            "sobrenome": null,
+            "telefone": null,
+            "imagem": "",
+            "id_tipo_funcionario": 0,
+            "descricao": ""
+        });
+
+        funcionarios.map(funcionario => {
+            lista.push(funcionario);
+        });
+
+        return lista;
+    }
+
     async function cadastrarMesas() {
-        const { value } = Swal.fire({
-            title: 'Digite a descrição da mesa',
+        Swal.mixin({
             input: 'text',
-            inputPlaceholder: 'Descrição da mesa',
-            inputValidator: (value) => {
-                if (!value) {
-                    return 'Favor digitar a Descrição da mesa!'
+            confirmButtonText: 'Próximo',
+            showCancelButton: true,
+            progressSteps: ['1', '2']
+        }).queue([
+            {
+                title: 'Descrição da mesa',
+                text: 'Informe a descrição da mesa',
+                inputPlaceholder: 'Descrição',
+                inputValidator: value => {
+                    if (!value) {
+                        return 'Favor digitar a Descrição da mesa!'
+                    }
+                },
+            },
+            {
+                title: 'Vincular funcionário',
+                text: 'Vincule um funcionário à mesa',
+                input: 'select',
+                inputPlaceholder: 'Selecione',
+                confirmButtonText: 'Confirmar',
+                inputOptions: configSelect().map(funcionario => funcionario.nome),
+                inputValidator: (value) => {
+                    return new Promise((resolve) => {
+                        if (value)
+                            resolve()
+                        else
+                            resolve('Você precisa selecionar uma opção');
+                    });
                 }
             },
-            showCancelButton: true
-        }).then(async result => {
+        ]).then(async result => {
             if (result.value) {
+                let idFuncionario = undefined;
+
+                if (Number(result.value[1]) !== 0) {
+                    idFuncionario = funcionarios[result.value[1] - 1].id_funcionario;
+                }
+
                 const payload = {
-                    "Descricao": result.value,
-                    "fk_id_estabelecimento": estabelecimento.id_Estabelecimento
+                    "Descricao": result.value[0],
+                    "fk_id_estabelecimento": estabelecimento.id_Estabelecimento,
+                    "fk_id_funcionario": idFuncionario !== 0 ? idFuncionario : ''
                 }
                 try {
                     const response = await api.post('/Mesa', payload);
