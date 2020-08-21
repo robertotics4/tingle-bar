@@ -3,13 +3,16 @@ import Swal from 'sweetalert2';
 
 import api from '../../../../services/api';
 import ModalCadCardapio from './ModalCadCardapio';
+import ModalEditarCardapio from './ModalEditarCardapio';
 import ModalVisualizar from './ModalVisualizar';
 import Loading from '../../../../components/Loading';
 
 export default function ListaFuncionarios() {
     const [showModal, setShowModal] = useState(false);
+    const [showModalEditar, setShowModalEditar] = useState(false);
     const [showModalVisualizar, setModalVisualizar] = useState(false);
     const [itemSelecionado, setItemSelecionado] = useState(null);
+    const [categoriaItem, setCategoriaItem] = useState(null);
     const [estabelecimento, setEstabelecimento] = useState(null);
     const [cardapio, setCardapio] = useState([]);
     const [isLoadingVisible, setLoadingVisible] = useState(false);
@@ -47,8 +50,15 @@ export default function ListaFuncionarios() {
         setShowModal(true);
     }
 
-    async function handleVisualizar(item) {
+    async function handleEditar(item, categoria) {
         setItemSelecionado(item);
+        setCategoriaItem(categoria);
+        setShowModalEditar(true);
+    }
+
+    async function handleVisualizar(item, categoria) {
+        setItemSelecionado(item);
+        setCategoriaItem(categoria);
         setModalVisualizar(true);
     }
 
@@ -91,13 +101,17 @@ export default function ListaFuncionarios() {
                         <td><a>{obj.categoria}</a></td>
                         <td><a>{currencyFormatter.format(item.valor)}</a></td>
                         <td className="project-actions text-right">
-                            <button className="btn btn-primary btn-sm ml-3" onClick={() => handleVisualizar(item)}>
+                            <button className="btn btn-secondary btn-sm ml-3" onClick={() => handleVisualizar(item, obj.categoria)}>
                                 <i className="fas fa-eye mr-2"></i>
-                            Visualizar
+                                Visualizar
+                            </button>
+                            <button className="btn btn-primary btn-sm ml-3" onClick={() => handleEditar(item, obj.categoria)}>
+                                <i className="fas fa-pencil-alt mr-2"></i>
+                                Editar
                             </button>
                             <button className="btn btn-danger btn-sm ml-3" onClick={() => deletarItem(item)}>
                                 <i className="fas fa-trash mr-2"></i>
-                            Deletar
+                                Deletar
                         </button>
                         </td>
                     </tr>
@@ -151,8 +165,8 @@ export default function ListaFuncionarios() {
                                         <th style={{ width: '10%' }}>ID</th>
                                         <th style={{ width: '30%' }}>Título</th>
                                         <th style={{ width: '20%' }}>Categoria</th>
-                                        <th style={{ width: '20%' }}>Valor</th>
-                                        <th style={{ width: '30%' }}></th>
+                                        <th style={{ width: '10%' }}>Valor</th>
+                                        <th style={{ width: '40%' }}></th>
                                     </tr>
                                 </thead>
 
@@ -177,6 +191,19 @@ export default function ListaFuncionarios() {
                     setShowModal={setShowModal}
                     atualizarItens={getCardapio}
                     setLoadingVisible={setLoadingVisible}
+                />
+                : null
+            }
+
+            {showModalEditar
+                ? <ModalEditarCardapio
+                    idEstabelecimento={estabelecimento.id_Estabelecimento}
+                    showModal={showModalEditar}
+                    setShowModal={setShowModalEditar}
+                    atualizarItens={getCardapio}
+                    setLoadingVisible={setLoadingVisible}
+                    item={itemSelecionado}
+                    categoria={categoriaItem}
                 />
                 : null
             }
