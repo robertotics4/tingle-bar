@@ -31,7 +31,7 @@ export default function GerenteContent() {
 
     async function getContas() {
         try {
-            const response = await api.get(`/ContaDetalhe/GetByEstabelecimento?idEstabelecimento=${estabelecimento.iD_ESTABELECIMENTO}&is_cozinha=${Number(isCozinha)}&status_conta=1&status_item=1`);
+            const response = await api.get(`/ContaDetalhe/GetByEstabelecimento?idEstabelecimento=${estabelecimento.iD_ESTABELECIMENTO}&is_cozinha=${isCozinha}&status_conta=1&status_item=1`);
             const { contas } = response.data;
             setContas(contas);
             return response.data;
@@ -59,7 +59,9 @@ export default function GerenteContent() {
     }
 
     function onRadioChange(event) {
-        setIsCozinha(event.target.value);
+        const { value } = event.target;
+
+        value === '' ? setIsCozinha(value) : setIsCozinha(Number(event.target.value));
     }
 
     return (
