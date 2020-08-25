@@ -19,6 +19,7 @@ import GerenciarCozinha from '../pages/PainelEstabelecimento/pages/GerenciarCozi
 import PainelFuncinario from '../pages/PainelFuncionario';
 import PainelCozinheiro from '../pages/PainelFuncionario/pages/PainelCozinheiro';
 import PainelGerente from '../pages/PainelFuncionario/pages/PainelGerente';
+import PainelGarcom from '../pages/PainelFuncionario/pages/PainelGarcom';
 
 const EstabelecimentoRoute = ({ component: Component, ...rest }) => {
     const storagedToken = localStorage.getItem('@TBAuth:token');
@@ -43,6 +44,22 @@ const FuncionarioRoute = ({ component: Component, ...rest }) => {
         <Route
             {...rest}
             render={() => storagedToken && storagedTipoUsuario === 'funcionario'
+                ? <Component {...rest} />
+                : <Redirect to="/" />
+            }
+        />
+    );
+};
+
+const GarcomRoute = ({ component: Component, ...rest }) => {
+    const storagedToken = localStorage.getItem('@TBAuth:token');
+    const storagedTipoUsuario = localStorage.getItem('@TBAuth:tipoUsuario');
+    const storagedFuncionario = JSON.parse(localStorage.getItem('@TBAuth:funcionario'));
+
+    return (
+        <Route
+            {...rest}
+            render={() => storagedToken && storagedTipoUsuario === 'funcionario' && storagedFuncionario.listaEstab[0].iD_TIPOFUNCIONARIO === 1
                 ? <Component {...rest} />
                 : <Redirect to="/" />
             }
@@ -98,6 +115,7 @@ const AppRoutes = () => {
                 <EstabelecimentoRoute path="/gerenciarCozinha" component={GerenciarCozinha} />
 
                 <FuncionarioRoute path="/painelFuncionario" component={PainelFuncinario} />
+                <GarcomRoute path="/painelGarcom" component={PainelGarcom} />
                 <CozinheiroRoute path="/painelCozinheiro" component={PainelCozinheiro} />
                 <GerenteRoute path="/painelGerente" component={PainelGerente} />
             </Switch>
