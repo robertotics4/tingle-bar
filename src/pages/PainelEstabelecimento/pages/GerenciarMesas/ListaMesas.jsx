@@ -94,7 +94,7 @@ export default function ListaMesas() {
     }
 
     async function alterarMesas(item) {
-        console.log(item)
+
         Swal.mixin({
             input: 'text',
             confirmButtonText: 'Próximo',
@@ -123,15 +123,15 @@ export default function ListaMesas() {
         ]).then(async result => {
             if (result.value) {
                 let idFuncionario = undefined;
-                console.log(item.fk_Id_funcionario)
 
                 if (Number(result.value[1]) !== 0) {
                     idFuncionario = funcionarios[result.value[1] - 1].id_funcionario;
-                    console.log(idFuncionario)
-                    if (item.id_funcionario_mesa !== null) {
-                        const response = await api.delete('/FuncionarioMesa/' + item.id_funcionario_mesa);
-                        console.log(response.data)
-                    }
+                } else {
+                    idFuncionario = null
+                }
+
+                if (item.id_funcionario_mesa !== null && item.fk_Id_funcionario !== idFuncionario) {
+                    const response = await api.delete('/FuncionarioMesa/' + item.id_funcionario_mesa);
                 }
 
                 const payloadCadastraFuncionario = {
@@ -148,7 +148,7 @@ export default function ListaMesas() {
                     const response = await api.put('/Mesa', payload);
 
                     if (response.status === 201 || response.status === 200) {
-                        if (Number(result.value[1]) !== 0) {
+                        if (Number(result.value[1]) !== 0 && item.fk_Id_funcionario !== idFuncionario) {
                             const response = await api.post('/FuncionarioMesa', payloadCadastraFuncionario);
                             if (response.status === 201 || response.status === 200) {
                                 Swal.fire('Sucesso!', 'Mesa alterada com sucesso!', 'success');
@@ -163,42 +163,6 @@ export default function ListaMesas() {
                 } catch (err) {
                     if (err.response.status === 401 || err.response.status === 400) {
                         Swal.fire('Erro!', 'Falha ao alterar mesa', 'error');
-                    }
-                }
-            }
-        })
-    }
-
-
-    async function alterarMesas1(item) {
-        console.log(item)
-        const { value } = Swal.fire({
-            title: 'Digite a descrição da mesa',
-            input: 'text',
-            inputValue: item.descricao,
-            inputPlaceholder: 'Descrição da mesa',
-            inputValidator: (value) => {
-                if (!value) {
-                    return 'Favor digitar a Descrição da mesa!'
-                }
-            },
-            showCancelButton: true
-        }).then(async result => {
-            if (result.value) {
-                const payload = {
-                    "id": item.id,
-                    "Descricao": result.value,
-                    "fk_id_estabelecimento": estabelecimento.id_Estabelecimento
-                }
-                try {
-                    const response = await api.put('/Mesa', payload)
-                    if (response.status === 201 || response.status === 200) {
-                        Swal.fire('Sucesso!', 'Mesa alterada com sucesso!', 'success')
-                        getMesas();
-                    }
-                } catch (err) {
-                    if (err.response.status === 401 || err.response.status === 400) {
-                        Swal.fire('Erro!', 'Falha ao alterar mesa', 'error')
                     }
                 }
             }

@@ -31,12 +31,14 @@ export default function ListaFuncionarios() {
     }, [estabelecimento]);
 
     async function getFuncionarios() {
-        try {
-            const response = await api.get('/Funcionario?idEstabelecimento=' + estabelecimento.id_Estabelecimento);
-            setFuncionarios(response.data);
-            return response.data;
-        } catch (err) {
-            return err.response;
+        if (estabelecimento) {
+            try {
+                const response = await api.get('/Funcionario?idEstabelecimento=' + estabelecimento.id_Estabelecimento);
+                setFuncionarios(response.data);
+                return response.data;
+            } catch (err) {
+                return err.response;
+            }
         }
     }
 

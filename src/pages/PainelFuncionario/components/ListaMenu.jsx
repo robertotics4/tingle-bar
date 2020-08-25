@@ -30,7 +30,7 @@ export default function ListaMenu(props) {
                 case 'Gerente':
                     component = (
                         <li className="nav-item">
-                            <a href="#" className="nav-link">
+                            <a href="/painelGerente" className="nav-link">
                                 <i className="far fa-circle nav-icon" />
                                 <p>Gerente</p>
                             </a>

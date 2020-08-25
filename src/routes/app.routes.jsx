@@ -18,6 +18,7 @@ import GerenciarCozinha from '../pages/PainelEstabelecimento/pages/GerenciarCozi
 
 import PainelFuncinario from '../pages/PainelFuncionario';
 import PainelCozinheiro from '../pages/PainelFuncionario/pages/PainelCozinheiro';
+import PainelGerente from '../pages/PainelFuncionario/pages/PainelGerente';
 
 const EstabelecimentoRoute = ({ component: Component, ...rest }) => {
     const storagedToken = localStorage.getItem('@TBAuth:token');
@@ -57,8 +58,7 @@ const CozinheiroRoute = ({ component: Component, ...rest }) => {
     return (
         <Route
             {...rest}
-            render={() => storagedToken && storagedTipoUsuario === 'funcionario' && storagedFuncionario.id_Tipo_Usuario === 2
-            // && storagedFuncionario.id_Tipo_Usuario === 2
+            render={() => storagedToken && storagedTipoUsuario === 'funcionario' && storagedFuncionario.listaEstab[0].iD_TIPOFUNCIONARIO === 2
                 ? <Component {...rest} />
                 : <Redirect to="/" />
             }
@@ -66,6 +66,23 @@ const CozinheiroRoute = ({ component: Component, ...rest }) => {
     );
 };
 
+const GerenteRoute = ({ component: Component, ...rest }) => {
+    const storagedToken = localStorage.getItem('@TBAuth:token');
+    const storagedTipoUsuario = localStorage.getItem('@TBAuth:tipoUsuario');
+    const storagedFuncionario = JSON.parse(localStorage.getItem('@TBAuth:funcionario'));
+
+    console.log(storagedFuncionario)
+
+    return (
+        <Route
+            {...rest}
+            render={() => storagedToken && storagedTipoUsuario === 'funcionario' && storagedFuncionario.listaEstab[0].iD_TIPOFUNCIONARIO === 3
+                ? <Component {...rest} />
+                : <Redirect to="/" />
+            }
+        />
+    );
+};
 
 const AppRoutes = () => {
     return (
@@ -82,6 +99,7 @@ const AppRoutes = () => {
 
                 <FuncionarioRoute path="/painelFuncionario" component={PainelFuncinario} />
                 <CozinheiroRoute path="/painelCozinheiro" component={PainelCozinheiro} />
+                <GerenteRoute path="/painelGerente" component={PainelGerente} />
             </Switch>
         </Router>
     );
