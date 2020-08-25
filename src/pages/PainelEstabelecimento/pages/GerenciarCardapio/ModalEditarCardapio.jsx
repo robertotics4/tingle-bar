@@ -73,17 +73,20 @@ export default function ModalEditarCardapio(props) {
         data.append("iscozinha", valores.isCozinha ? 1 : 0);
         data.append("iscardapio", valores.isCardapio ? 1 : 0);
 
-        if (typeof valores.imagem !== 'string') {
-            console.log('imagem válida');
-            data.append("files", valores.imagem);
-        }
-
         try {
-            const response = await api.put('/Cardapio', data, {
+            const config = {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
-            });
+            };
+
+            if (typeof valores.imagem !== 'string') {
+                data.append("files", valores.imagem);
+
+                await api.put('/Cardapio', data, config);
+            } else {
+                await api.put('/Cardapio/PutSemArquivo', data, config);
+            }
 
             Swal.fire('Sucesso!', 'Item atualizado com sucesso!', 'success');
         } catch (err) {
