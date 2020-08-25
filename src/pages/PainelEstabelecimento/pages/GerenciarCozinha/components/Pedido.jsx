@@ -34,7 +34,7 @@ export default function Pedido(props) {
     }
 
     return (
-        <div className="row">
+        <div className="row mb-3">
             <div className="col-sm-12">
                 <div className="card card-default">
                     <div className="card-header">

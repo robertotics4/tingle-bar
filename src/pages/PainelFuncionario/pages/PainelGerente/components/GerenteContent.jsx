@@ -6,8 +6,7 @@ import api from '../../../../../services/api';
 export default function GerenteContent() {
     const [estabelecimento, setEstabelecimento] = useState(null);
     const [contas, setContas] = useState([]);
-
-    console.log(estabelecimento);
+    const [isCozinha, setIsCozinha] = useState('');
 
     useEffect(() => {
         async function loadStoragedData() {
@@ -26,9 +25,13 @@ export default function GerenteContent() {
         getContas();
     }, [estabelecimento]);
 
+    useEffect(() => {
+        getContas();
+    }, [isCozinha]);
+
     async function getContas() {
         try {
-            const response = await api.get(`/ContaDetalhe/GetByEstabelecimento?idEstabelecimento=${estabelecimento.iD_ESTABELECIMENTO}&status_conta=1&status_item=1`);
+            const response = await api.get(`/ContaDetalhe/GetByEstabelecimento?idEstabelecimento=${estabelecimento.iD_ESTABELECIMENTO}&is_cozinha=${Number(isCozinha)}&status_conta=1&status_item=1`);
             const { contas } = response.data;
             setContas(contas);
             return response.data;
@@ -55,6 +58,10 @@ export default function GerenteContent() {
         return pedidos;
     }
 
+    function onRadioChange(event) {
+        setIsCozinha(event.target.value);
+    }
+
     return (
         <div className="content-wrapper">
 
@@ -72,6 +79,45 @@ export default function GerenteContent() {
                             </ol>
                         </div>
                     </div>
+
+                    <div className="row mb-2 ml-0">
+                        <div className="form-group" style={{ display: 'flex', flexDirection: 'row' }}>
+                            <div className="custom-control custom-radio">
+                                <input
+                                    className="custom-control-input"
+                                    type="radio" id="radioTodos"
+                                    name="customRadio"
+                                    value=""
+                                    onChange={onRadioChange}
+                                    defaultChecked
+                                />
+                                <label htmlFor="radioTodos" className="custom-control-label">Todos</label>
+                            </div>
+                            <div className="custom-control custom-radio ml-3">
+                                <input
+                                    className="custom-control-input"
+                                    type="radio"
+                                    id="radioApenasCozinha"
+                                    name="customRadio"
+                                    value="1"
+                                    onChange={onRadioChange}
+                                />
+                                <label htmlFor="radioApenasCozinha" className="custom-control-label">Apenas itens de cozinha</label>
+                            </div>
+                            <div className="custom-control custom-radio ml-3">
+                                <input
+                                    className="custom-control-input"
+                                    type="radio"
+                                    id="radioApenasImediatos"
+                                    name="customRadio"
+                                    value="0"
+                                    onChange={onRadioChange}
+                                />
+                                <label htmlFor="radioApenasImediatos" className="custom-control-label">Apenas itens de entrega imediata</label>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>{/* /.container-fluid */}
             </section>
 

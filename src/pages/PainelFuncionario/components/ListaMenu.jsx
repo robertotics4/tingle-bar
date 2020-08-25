@@ -11,7 +11,7 @@ export default function ListaMenu(props) {
                     component = (
                         <li className="nav-item">
                             <a href="#" className="nav-link active">
-                                <i className="far fa-circle nav-icon" />
+                                <i className="fas fa-concierge-bell nav-icon" />
                                 <p>Mesas</p>
                             </a>
                         </li>
@@ -31,7 +31,7 @@ export default function ListaMenu(props) {
                     component = (
                         <li className="nav-item">
                             <a href="/painelGerente" className="nav-link">
-                                <i className="far fa-circle nav-icon" />
+                                <i className="fas fa-user-cog nav-icon" />
                                 <p>Gerente</p>
                             </a>
                         </li>
