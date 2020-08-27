@@ -5,10 +5,12 @@ import '../styles/Pedido.css';
 import api from '../../../../../services/api';
 
 import ModalVisualizarPedido from './ModalVisualizarPedido';
+import Loading from '../../../../../components/Loading';
 
 export default function Pedido(props) {
     const [showModalVisualizar, setModalVisualizar] = useState(false);
     const [itemSelecionado, setItemSelecionado] = useState(null);
+    const [loadingVisible, setLoadingVisible] = useState(false);
 
     console.log(props.pedido);
 
@@ -18,6 +20,7 @@ export default function Pedido(props) {
     }
 
     async function handleFinalizar(item) {
+        setLoadingVisible(true);
         const payload = {
             "id": item.item_id,
             "fk_status_id": 4
@@ -30,6 +33,8 @@ export default function Pedido(props) {
             return response.data;
         } catch (err) {
             return err.response;
+        } finally {
+            setLoadingVisible(false);
         }
     }
 
@@ -97,6 +102,8 @@ export default function Pedido(props) {
                 />
                 : null
             }
+
+            {loadingVisible ? <Loading showModal={loadingVisible} /> : null}
         </div>
     );
 }

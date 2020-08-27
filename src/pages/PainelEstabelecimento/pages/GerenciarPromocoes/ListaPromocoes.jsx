@@ -112,10 +112,10 @@ export default function ListaPromocoes() {
                                 <thead>
                                     <tr>
                                         <th style={{ width: '10%' }}>ID</th>
-                                        <th style={{ width: '40%' }}>Descrição</th>
+                                        <th style={{ width: '30%' }}>Descrição</th>
                                         <th style={{ width: '10%' }}>Validade</th>
                                         <th style={{ width: '20%' }}>Quantidade de itens</th>
-                                        <th style={{ width: '20%' }}></th>
+                                        <th style={{ width: '30%' }}></th>
                                     </tr>
                                 </thead>
 

@@ -27,7 +27,7 @@ export default function ModalVisualizarPromocao(props) {
                 <Modal.Body>
                     <div className="card-body">
                         <div className="content-item">
-                            <Image className="img-item" src={baseURL + props.promocao.imagem} fluid />
+                            <Image className="img-item" src={baseURL + props.promocao.imagem_promocao} fluid />
                             <h4 className="mt-3"><strong>{props.promocao.descricao}</strong></h4>
                             <p className="texto-item">Promoção válida até <strong>{getValidade()}</strong></p>
                             <h4 className="mt-3"><strong>Itens da promoção:</strong></h4>
@@ -35,7 +35,7 @@ export default function ModalVisualizarPromocao(props) {
                             <ul>
                                 {props.promocao
                                     ? props.promocao.itens.map(item => {
-                                    return <li key={item.codigo_item} className="texto-item">{item.titulo}</li>
+                                    return <li key={item.codigo_item} className="texto-item">{item.titulo} - {item.qtd_item} itens</li>
                                     })
                                     : null
                                 }
