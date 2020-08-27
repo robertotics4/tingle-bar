@@ -5,10 +5,14 @@ import api from '../../../../../services/api';
 
 import '../styles/GarcomContent.css';
 
+import ModalVisualizarMesa from './ModalVisualizarMesa';
+
 export default function GarcomContent() {
     const [estabelecimento, setEstabelecimento] = useState(null);
     const [contas, setContas] = useState([]);
     const [isGarcom, setIsGarcom] = useState('');
+    const [showModal, setShowModal] = useState(false);
+    const [contaSelecionada, setContaSelecionada] = useState(null);
 
     useEffect(() => {
         async function loadStoragedData() {
@@ -46,6 +50,11 @@ export default function GarcomContent() {
         const { value } = event.target;
 
         value === '' ? setIsGarcom(value) : setIsGarcom(Number(estabelecimento.id));
+    }
+
+    function onClickMesa(conta) {
+        setContaSelecionada(conta);
+        setShowModal(true);
     }
 
     return (
@@ -103,7 +112,7 @@ export default function GarcomContent() {
                     <div className="row garcom-content">
                         {contas
                             ? contas.map(conta => (
-                                <Mesa className="col-sm-12 col-md-4 col-lg-3" key={conta.num_conta} conta={conta} />
+                                <Mesa className="col-sm-12 col-md-4 col-lg-3" key={conta.num_conta} conta={conta} onClick={() => onClickMesa(conta)} />
                             ))
                             : null
                         }
@@ -113,6 +122,16 @@ export default function GarcomContent() {
                 </div>
             </section>
             {/* /.content */}
+
+
+            {showModal
+                ? <ModalVisualizarMesa
+                    showModal={showModal}
+                    setShowModal={setShowModal}
+                    conta={contaSelecionada}
+                />
+                : null
+            }
         </div>
     );
 }
