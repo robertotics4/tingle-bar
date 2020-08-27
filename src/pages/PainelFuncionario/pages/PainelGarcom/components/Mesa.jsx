@@ -3,6 +3,8 @@ import React from 'react';
 import '../styles/Mesa.css';
 
 export default function Mesa(props) {
+    const currencyFormatter = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+
     return (
         <div className="card card-mesa" style={{ width: '18rem' }}>
             <div className="card-body">
@@ -19,12 +21,10 @@ export default function Mesa(props) {
                 </li>
                 <li className="list-group-item">
                     <i className="fas fa-file-invoice-dollar mr-2 icone-mesa"></i>
-                    <span className="card-text">Valor atual: R% 00,00</span>
+    <span className="card-text">Valor atual: {currencyFormatter.format(props.conta.valor_total_conta)}</span>
                 </li>
             </ul>
 
         </div>
-
-
     );
 }

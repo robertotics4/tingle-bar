@@ -2,6 +2,10 @@
     margin: 0.5em 0.8em;
 }
 
+.card-mesa:hover {
+    border: thin solid gray;
+}
+
 .cabecalho-mesa {
     text-align: center;
 }
