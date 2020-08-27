@@ -23,8 +23,8 @@ export default function ModalEditarCardapio(props) {
         tempoEstimadoMin: props.item.tempo_estimado_min,
         tempoEstimadoMax: props.item.tempo_estimado_max,
         imagem: props.item.imagem,
-        isCozinha: false,
-        isCardapio: true
+        isCozinha: props.item.is_cozinha,
+        isCardapio: props.item.is_cardapio
     });
 
     const { register, handleSubmit, errors } = useForm();
@@ -101,6 +101,12 @@ export default function ModalEditarCardapio(props) {
     function handleChange(event) {
         const { name, value } = event.target;
         setValores({ ...valores, [name]: value });
+    }
+
+    function handleChangeCheck(event) {
+        const { name, checked } = event.target;
+        setValores({ ...valores, [name]: checked });
+        console.log(checked);
     }
 
     function handleChangeValor(event) {
@@ -246,7 +252,7 @@ export default function ModalEditarCardapio(props) {
                                             className={errors.tempoEstimadoMin ? "form-control is-invalid" : "form-control"}
                                             id="tempoEstimadoMin"
                                             placeholder="Tempo mínimo em minutos"
-                                            value={valores.tempoEstimadoMin || ''}
+                                            value={valores.tempoEstimadoMin}
                                             onChange={handleChangePositive}
                                             ref={register({
                                                 required: {
@@ -267,7 +273,7 @@ export default function ModalEditarCardapio(props) {
                                             className={errors.tempoEstimadoMax ? "form-control is-invalid" : "form-control"}
                                             id="tempoEstimadoMax"
                                             placeholder="Tempo máximo em minutos"
-                                            value={valores.tempoEstimadoMax || ''}
+                                            value={valores.tempoEstimadoMax}
                                             onChange={handleChangePositive}
                                             ref={register({
                                                 required: {
@@ -298,10 +304,11 @@ export default function ModalEditarCardapio(props) {
                                     name="isCozinha"
                                     type="checkbox"
                                     className="form-check-input"
-                                    id="itemCozinhaCardapio"
-                                    onChange={handleChange}
+                                    id="isCozinha"
+                                    onChange={handleChangeCheck}
+                                    defaultChecked={Number(valores.isCozinha) === 1 ? true : false}
                                 />
-                                <label className="form-check-label" htmlFor="exampleCheck1">Item de cozinha ?</label>
+                                <label className="form-check-label" htmlFor="isCozinha">Item de cozinha ?</label>
                             </div>
 
                             <div className="form-check">
@@ -310,10 +317,10 @@ export default function ModalEditarCardapio(props) {
                                     type="checkbox"
                                     className="form-check-input"
                                     id="isCardapio"
-                                    onChange={handleChange}
-                                    defaultChecked={true}
+                                    onChange={handleChangeCheck}
+                                    defaultChecked={Number(valores.isCardapio) === 1 ? true : false}
                                 />
-                                <label className="form-check-label" htmlFor="exampleCheck1">Incluir no cardápio ?</label>
+                                <label className="form-check-label" htmlFor="isCardapio">Incluir no cardápio ?</label>
                             </div>
                         </div>
                     </Modal.Body>
