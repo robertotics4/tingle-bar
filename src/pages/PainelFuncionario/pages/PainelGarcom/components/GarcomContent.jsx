@@ -1,12 +1,51 @@
 import React, { useState, useEffect } from 'react';
 
+import Mesa from './Mesa';
 import api from '../../../../../services/api';
 
-import Mesa from './Mesa';
+import '../styles/GarcomContent.css';
 
 export default function GarcomContent() {
+    const [estabelecimento, setEstabelecimento] = useState(null);
+    const [contas, setContas] = useState([]);
+    const [isGarcom, setIsGarcom] = useState('');
+
+    useEffect(() => {
+        async function loadStoragedData() {
+            const storagedEstabelecimento = localStorage.getItem('@TBAuth:estabelecimento');
+
+            if (storagedEstabelecimento) {
+                setEstabelecimento(JSON.parse(storagedEstabelecimento));
+            }
+        }
+
+        loadStoragedData();
+        getContas();
+    }, []);
+
+    useEffect(() => {
+        getContas();
+    }, [estabelecimento]);
+
+    useEffect(() => {
+        getContas();
+    }, [isGarcom]);
+
+    async function getContas() {
+        try {
+            const response = await api.get(`/ContaDetalhe/GetByEstabelecimento?idEstabelecimento=${estabelecimento.iD_ESTABELECIMENTO}&idFuncionario=${isGarcom}&status_conta=1`);
+            const { contas } = response.data;
+            setContas(contas);
+            return response.data;
+        } catch (err) {
+            return err.response;
+        }
+    }
+
     function onRadioChange(event) {
         const { value } = event.target;
+
+        value === '' ? setIsGarcom(value) : setIsGarcom(Number(estabelecimento.id));
     }
 
     return (
@@ -61,6 +100,14 @@ export default function GarcomContent() {
             <section className="content">
                 <div className="container-fluid">
 
+                    <div className="row garcom-content">
+                        {contas
+                            ? contas.map(conta => (
+                                <Mesa className="col-sm-12 col-md-4 col-lg-3" key={conta.num_conta} conta={conta} />
+                            ))
+                            : null
+                        }
+                    </div>
 
 
                 </div>
