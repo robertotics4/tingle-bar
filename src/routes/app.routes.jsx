@@ -15,6 +15,7 @@ import GerenciarMesas from '../pages/PainelEstabelecimento/pages/GerenciarMesas'
 import GerenciarCardapio from '../pages/PainelEstabelecimento/pages/GerenciarCardapio';
 import GerenciarPromocoes from '../pages/PainelEstabelecimento/pages/GerenciarPromocoes';
 import GerenciarCozinha from '../pages/PainelEstabelecimento/pages/GerenciarCozinha';
+import GerenciarPedidos from '../pages/PainelEstabelecimento/pages/GerenciarPedidos';
 
 import PainelFuncinario from '../pages/PainelFuncionario';
 import PainelCozinheiro from '../pages/PainelFuncionario/pages/PainelCozinheiro';
@@ -107,12 +108,14 @@ const AppRoutes = () => {
             <Switch>
                 <Route path="/" component={Login} exact />
                 <Route path="/cadastroEstabelecimento" component={CadastroEstabelecimento} />
+
                 <EstabelecimentoRoute path="/painelEstabelecimento" component={PainelEstabelecimento} />
                 <EstabelecimentoRoute path="/gerenciarFuncionarios" component={GerenciarFuncionarios} />
                 <EstabelecimentoRoute path="/gerenciarMesas" component={GerenciarMesas} />
                 <EstabelecimentoRoute path="/gerenciarCardapio" component={GerenciarCardapio} />
                 <EstabelecimentoRoute path="/gerenciarPromocoes" component={GerenciarPromocoes} />
                 <EstabelecimentoRoute path="/gerenciarCozinha" component={GerenciarCozinha} />
+                <EstabelecimentoRoute path="/gerenciarPedidos" component={GerenciarPedidos} />
 
                 <FuncionarioRoute path="/painelFuncionario" component={PainelFuncinario} />
                 <GarcomRoute path="/painelGarcom" component={PainelGarcom} />

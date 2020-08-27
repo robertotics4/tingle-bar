@@ -92,6 +92,13 @@ export default function Menu() {
                         </li>
 
                         <li className="nav-item">
+                            <a href="/gerenciarPedidos" className="nav-link">
+                                <i className="fas fa-tasks nav-icon"></i>
+                                <p>Pedidos</p>
+                            </a>
+                        </li>
+
+                        <li className="nav-item">
                             <a onClick={handleLogout} className="nav-link">
                                 <i className="fas fa-sign-out-alt nav-icon"></i>
                                 <p className="text" color="red">Sair</p>
