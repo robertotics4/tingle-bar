@@ -9,13 +9,13 @@ export default function ModalVisualizarMesa(props) {
 
     function listarItens() {
         const usuarios = props.conta.usuarios;
-        let lista = []
+        let lista = [];
 
         usuarios.map(usuario => {
             usuario.pedidos.map(pedido => {
                 pedido.itens.map(item => {
                     lista.push(
-                        <tr>
+                        <tr key={item.item_id}>
                             <td>{item.item_qtd}</td>
                             <td>{item.titulo}</td>
                             <td>{usuario.nome_usuario}</td>
@@ -25,6 +25,13 @@ export default function ModalVisualizarMesa(props) {
                     );
                 });
             });
+            if (usuarios.length > 1) {
+                lista.push(
+                    <tr className="table-danger text-right" key={usuario.id_usuario_conta}>
+                        <td colSpan="5"><strong>SUBTOTAL: {currencyFormatter.format(usuario.valor_conta_usuario)}</strong></td>
+                    </tr>
+                );
+            }
         });
 
         return lista;
@@ -47,11 +54,11 @@ export default function ModalVisualizarMesa(props) {
                         <table className="table table-striped table-valign-middle">
                             <thead>
                                 <tr>
-                                    <th>Quantidade</th>
+                                    <th>Qtd</th>
                                     <th>Produto</th>
                                     <th>Cliente</th>
-                                    <th>Valor Unitário</th>
-                                    <th>Valor Total</th>
+                                    <th>Valor Unit.</th>
+                                    <th>Total</th>
                                 </tr>
                             </thead>
                             <tbody>
