@@ -6,9 +6,13 @@ export default function Mesa(props) {
     const currencyFormatter = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
 
     return (
-        <div className="card card-mesa" style={{ width: '18rem' }} onClick={props.onClick}>
+        <div className="card card-mesa" style={{ width: '18rem' }}>
             <div className="card-body">
-                <h5 className="card-title"><strong>{props.conta.desc_mesa.toUpperCase()}</strong></h5>
+                <div className="cabecalho-mesa">
+                    <h5 className="card-title mr-2"><strong>{props.conta.desc_mesa.toUpperCase()}</strong></h5>
+                    <h5><span className="badge badge-danger">4</span></h5>
+                </div>
+
             </div>
             <ul className="list-group list-group-flush">
                 <li className="list-group-item">
@@ -24,6 +28,10 @@ export default function Mesa(props) {
                     <span className="card-text">Valor atual: {currencyFormatter.format(props.conta.valor_total_conta)}</span>
                 </li>
             </ul>
+
+            <button type="button" className="btn-fechar" onClick={props.onClick}>
+                Fechar conta
+                </button>
 
         </div>
     );

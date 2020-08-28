@@ -2,12 +2,11 @@
     margin: 0.5em 0.8em;
 }
 
-.card-mesa:hover {
-    border: thin solid gray;
-}
-
 .cabecalho-mesa {
-    text-align: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .texto-mesa {
@@ -16,4 +15,19 @@
 
 .icone-mesa {
     color: gray;
+}
+
+.btn-fechar {
+    border: none;
+    padding: 0.5em;
+    background: #17A2B8;
+    color: #FFF;
+    font-weight: bold;
+}
+
+.btn-fechar:hover {
+    background: #186f7c;
+    -webkit-transition: background-color 1000ms linear;
+    -ms-transition: background-color 1000ms linear;
+    transition: background-color 200ms linear;
 }
