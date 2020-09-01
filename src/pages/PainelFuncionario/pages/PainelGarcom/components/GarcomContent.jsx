@@ -65,12 +65,12 @@ export default function GarcomContent() {
                 <div className="container-fluid">
                     <div className="row mb-2">
                         <div className="col-sm-6">
-                            <h1>Monitor de Gerente</h1>
+                            <h1>Monitor de Garçom</h1>
                         </div>
                         <div className="col-sm-6">
                             <ol className="breadcrumb float-sm-right">
-                                <li className="breadcrumb-item"><a href="#">Gerente</a></li>
-                                <li className="breadcrumb-item active">Monitor de Gerente</li>
+                                <li className="breadcrumb-item"><a href="#">Garçom</a></li>
+                                <li className="breadcrumb-item active">Monitor de Garçom</li>
                             </ol>
                         </div>
                     </div>
