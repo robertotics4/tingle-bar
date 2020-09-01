@@ -9,9 +9,6 @@ export default function ModalVisualizarMesa(props) {
     const currencyFormatter = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
     const handleClose = () => props.setShowModal(false);
 
-   
-
-
     async function fecharConta(a) {
         Swal.fire({
             title: 'Deseja fechar a conta?',
@@ -27,8 +24,9 @@ export default function ModalVisualizarMesa(props) {
                     const response = await api.post("Conta/Fecharconta?idConta=" + a.num_conta + "&total=" + a.valor_total_conta);
                     if (response.status === 201 || response.status === 200) {
                         Swal.fire('Sucesso!', 'Conta Fechada com sucesso!', 'success');
-                        handleClose(true)
-                        
+                        props.atualizarItens();
+                        handleClose(true);
+
                     }
                 } catch (err) {
                     Swal.fire('Erro!', 'Falha ao fechar conta', 'error');
@@ -99,12 +97,12 @@ export default function ModalVisualizarMesa(props) {
                 </Modal.Body>
 
                 <Modal.Footer className="footer-content">
-                    <div>
-                    <button className="btn btn-info  ml-3"onClick={() => fecharConta(props.conta)}   >
-                                                    <i className="fas fa-file-invoice-dollar mr-2"  ></i>
-                                                    Fechar Conta
-                    </button>
+                    <div className="footer">
                         <span className="texto-total">TOTAL A PAGAR: {currencyFormatter.format(props.conta.valor_total_conta)}</span>
+                        <button className="btn btn-info btn-block" onClick={() => fecharConta(props.conta)}>
+                            <i className="fas fa-file-invoice-dollar mr-2"  ></i>
+                                                    Fechar Conta
+                        </button>
                     </div>
                 </Modal.Footer>
             </Modal>

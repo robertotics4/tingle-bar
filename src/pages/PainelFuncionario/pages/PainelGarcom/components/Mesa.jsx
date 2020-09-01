@@ -10,7 +10,7 @@ export default function Mesa(props) {
             <div className="card-body p-3">
                 <div className="cabecalho-mesa">
                     <h5 className="card-title mr-2"><strong>{props.conta.desc_mesa.toUpperCase()}</strong></h5>
-                    <h4><span className="badge badge-danger">4</span></h4>
+                    <h4><span className="badge badge-danger">0</span></h4>
                 </div>
 
             </div>

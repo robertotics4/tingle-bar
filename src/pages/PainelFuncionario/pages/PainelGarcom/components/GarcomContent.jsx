@@ -129,6 +129,7 @@ export default function GarcomContent() {
                     showModal={showModal}
                     setShowModal={setShowModal}
                     conta={contaSelecionada}
+                    atualizarItens={getContas}
                 />
                 : null
             }
