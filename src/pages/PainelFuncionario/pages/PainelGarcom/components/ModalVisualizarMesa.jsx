@@ -1,11 +1,41 @@
 import React from 'react';
 import { Modal } from 'react-bootstrap';
+import Swal from 'sweetalert2';
+import api from '../../../../../services/api';
 
 import '../styles/ModalVisualizarMesa.css';
 
 export default function ModalVisualizarMesa(props) {
     const currencyFormatter = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
     const handleClose = () => props.setShowModal(false);
+
+   
+
+
+    async function fecharConta(a) {
+        Swal.fire({
+            title: 'Deseja fechar a conta?',
+            text: "A conta será fechada",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Fechar'
+        }).then(async result => {
+            if (result.value) {
+                try {
+                    const response = await api.post("Conta/Fecharconta?idConta=" + a.num_conta + "&total=" + a.valor_total_conta);
+                    if (response.status === 201 || response.status === 200) {
+                        Swal.fire('Sucesso!', 'Conta Fechada com sucesso!', 'success');
+                        handleClose(true)
+                        
+                    }
+                } catch (err) {
+                    Swal.fire('Erro!', 'Falha ao fechar conta', 'error');
+                }
+            }
+        })
+    }
 
     function listarItens() {
         const usuarios = props.conta.usuarios;
@@ -70,6 +100,10 @@ export default function ModalVisualizarMesa(props) {
 
                 <Modal.Footer className="footer-content">
                     <div>
+                    <button className="btn btn-info  ml-3"onClick={() => fecharConta(props.conta)}   >
+                                                    <i className="fas fa-file-invoice-dollar mr-2"  ></i>
+                                                    Fechar Conta
+                    </button>
                         <span className="texto-total">TOTAL A PAGAR: {currencyFormatter.format(props.conta.valor_total_conta)}</span>
                     </div>
                 </Modal.Footer>
