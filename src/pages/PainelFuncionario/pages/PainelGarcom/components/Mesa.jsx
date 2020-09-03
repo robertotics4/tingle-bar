@@ -1,16 +1,37 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import '../styles/Mesa.css';
 
 export default function Mesa(props) {
+    const [pedidosAbertos, setPedidosAbertos] = useState(0);
     const currencyFormatter = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+
+    useEffect(() => {
+        getPedidosAbertos();
+    }, []);
+
+    function getPedidosAbertos() {
+        let contador = 0;
+
+        props.conta.usuarios.map(usuario => {
+            usuario.pedidos.map(pedido => {
+                pedido.itens.map(item => {
+                    if (item.item_status === 'Solicitado') {
+                        contador += 1;
+                    }
+                });
+            });
+        });
+
+        setPedidosAbertos(contador);
+    }
 
     return (
         <div className="card card-mesa" style={{ width: '18rem' }}>
             <div className="card-body p-3">
                 <div className="cabecalho-mesa">
                     <h5 className="card-title mr-2"><strong>{props.conta.desc_mesa.toUpperCase()}</strong></h5>
-                    <h4><span className="badge badge-danger">0</span></h4>
+                    <h4><span className="badge badge-danger">{pedidosAbertos}</span></h4>
                 </div>
 
             </div>

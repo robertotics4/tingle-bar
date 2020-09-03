@@ -46,6 +46,7 @@ export default function ModalVisualizarMesa(props) {
                         <tr key={item.item_id}>
                             <td>{item.item_qtd}</td>
                             <td>{item.titulo}</td>
+                            <td>{item.item_status}</td>
                             <td>{usuario.nome_usuario}</td>
                             <td>{currencyFormatter.format(item.item_VALOR)}</td>
                             <td>{currencyFormatter.format(item.item_qtd * item.item_VALOR)}</td>

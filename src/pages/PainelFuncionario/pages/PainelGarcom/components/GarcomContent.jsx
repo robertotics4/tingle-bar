@@ -76,7 +76,7 @@ export default function GarcomContent() {
                     </div>
 
                     <div className="row mb-2 ml-0">
-                        <div className="form-group" style={{ display: 'flex', flexDirection: 'row' }}>
+                        <div className="form-group" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                             <div className="custom-control custom-radio">
                                 <input
                                     className="custom-control-input"
@@ -88,7 +88,7 @@ export default function GarcomContent() {
                                 />
                                 <label htmlFor="radioTodas" className="custom-control-label">Todas as mesas</label>
                             </div>
-                            <div className="custom-control custom-radio ml-3">
+                            <div className="custom-control custom-radio ml-3 mr-3">
                                 <input
                                     className="custom-control-input"
                                     type="radio"
@@ -99,7 +99,15 @@ export default function GarcomContent() {
                                 />
                                 <label htmlFor="radioApenasGarcom" className="custom-control-label">Apenas mesas do garçom</label>
                             </div>
+
+                            <div className="container-refresh">
+                                <div className="btn btn-light btn-atualizar">
+                                    <i className="fas fa-sync-alt ml-3 mr-2"></i>
+                                    Atualizar
+                                </div>
+                            </div>
                         </div>
+
                     </div>
 
                 </div>{/* /.container-fluid */}
