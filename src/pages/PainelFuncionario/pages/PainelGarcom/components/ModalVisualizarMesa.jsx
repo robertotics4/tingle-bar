@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import api from '../../../../../services/api';
 
 import '../styles/ModalVisualizarMesa.css';
+import BadgeStatus from './BadgeStatus';
 
 export default function ModalVisualizarMesa(props) {
     const currencyFormatter = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -46,7 +47,7 @@ export default function ModalVisualizarMesa(props) {
                         <tr key={item.item_id}>
                             <td>{item.item_qtd}</td>
                             <td>{item.titulo}</td>
-                            <td>{item.item_status}</td>
+                            <td><BadgeStatus status={item.item_status} /></td>
                             <td>{usuario.nome_usuario}</td>
                             <td>{currencyFormatter.format(item.item_VALOR)}</td>
                             <td>{currencyFormatter.format(item.item_qtd * item.item_VALOR)}</td>
@@ -85,6 +86,7 @@ export default function ModalVisualizarMesa(props) {
                                 <tr>
                                     <th>Qtd</th>
                                     <th>Produto</th>
+                                    <th>Status</th>
                                     <th>Cliente</th>
                                     <th>Valor Unit.</th>
                                     <th>Total</th>

@@ -16,7 +16,7 @@ export default function Mesa(props) {
         props.conta.usuarios.map(usuario => {
             usuario.pedidos.map(pedido => {
                 pedido.itens.map(item => {
-                    if (item.item_status === 'Solicitado') {
+                    if (item.item_status !== 'Entregue') {
                         contador += 1;
                     }
                 });
