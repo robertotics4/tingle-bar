@@ -129,7 +129,8 @@ export default function GarcomContent() {
                             ? contas.map(conta => (
                                 <Mesa
                                     className="col-sm-12 col-md-4 col-lg-3"
-                                    key={conta.num_conta} conta={conta}
+                                    key={conta.num_conta}
+                                    conta={conta}
                                     onClickFechar={() => onClickFechar(conta)}
                                     onClickVisualizar={() => onClickVisualizar(conta)}
                                 />

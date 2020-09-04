@@ -8,6 +8,7 @@ import BadgeStatus from './BadgeStatus';
 
 export default function ModalVisualizarMesa(props) {
     const currencyFormatter = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+
     const handleClose = () => props.setShowModal(false);
 
     function listarItens() {
@@ -69,8 +70,6 @@ export default function ModalVisualizarMesa(props) {
                 }
             }
         });
-
-
     }
 
     return (
