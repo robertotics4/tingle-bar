@@ -18,9 +18,11 @@ export default function FormLoginFuncionario(props) {
     };
 
     async function loginFuncionario(credentials) {
-        //props.setLoadingVisible(true);
+        props.setLoadingVisible(true);
 
         const response = await signIn(credentials);
+
+        props.setLoadingVisible(false);
 
         if (response.status === 200 || response.status === 201) {
             const listaEstabelecimentos = response.data.listaEstab;
@@ -61,8 +63,6 @@ export default function FormLoginFuncionario(props) {
                 confirmButtonText: 'Voltar'
             });
         }
-
-        props.setLoadingVisible(false);
     }
 
     function handleChange(event) {

@@ -5,13 +5,15 @@ import api from '../../../../../services/api';
 
 import '../styles/GarcomContent.css';
 
+import ModalFecharConta from './ModalFecharConta';
 import ModalVisualizarMesa from './ModalVisualizarMesa';
 
 export default function GarcomContent() {
     const [estabelecimento, setEstabelecimento] = useState(null);
     const [contas, setContas] = useState([]);
     const [isGarcom, setIsGarcom] = useState('');
-    const [showModal, setShowModal] = useState(false);
+    const [modalFechar, setModalFechar] = useState(false);
+    const [modalVisualizar, setModalVisualizar] = useState(false);
     const [contaSelecionada, setContaSelecionada] = useState(null);
 
     useEffect(() => {
@@ -52,9 +54,14 @@ export default function GarcomContent() {
         value === '' ? setIsGarcom(value) : setIsGarcom(Number(estabelecimento.id));
     }
 
-    function onClickMesa(conta) {
+    function onClickFechar(conta) {
         setContaSelecionada(conta);
-        setShowModal(true);
+        setModalFechar(true);
+    }
+
+    function onClickVisualizar(conta) {
+        setContaSelecionada(conta);
+        setModalVisualizar(true);
     }
 
     return (
@@ -69,7 +76,7 @@ export default function GarcomContent() {
                         </div>
                         <div className="col-sm-6">
                             <ol className="breadcrumb float-sm-right">
-                                <li className="breadcrumb-item"><a href="#">Garçom</a></li>
+                                <li className="breadcrumb-item"><a href="/#">Garçom</a></li>
                                 <li className="breadcrumb-item active">Monitor de Garçom</li>
                             </ol>
                         </div>
@@ -120,22 +127,36 @@ export default function GarcomContent() {
                     <div className="row garcom-content">
                         {contas
                             ? contas.map(conta => (
-                                <Mesa className="col-sm-12 col-md-4 col-lg-3" key={conta.num_conta} conta={conta} onClick={() => onClickMesa(conta)} />
+                                <Mesa
+                                    className="col-sm-12 col-md-4 col-lg-3"
+                                    key={conta.num_conta} conta={conta}
+                                    onClickFechar={() => onClickFechar(conta)}
+                                    onClickVisualizar={() => onClickVisualizar(conta)}
+                                />
                             ))
                             : null
                         }
                     </div>
-
 
                 </div>
             </section>
             {/* /.content */}
 
 
-            {showModal
+            {modalFechar
+                ? <ModalFecharConta
+                    showModal={modalFechar}
+                    setShowModal={setModalFechar}
+                    conta={contaSelecionada}
+                    atualizarItens={getContas}
+                />
+                : null
+            }
+
+            {modalVisualizar
                 ? <ModalVisualizarMesa
-                    showModal={showModal}
-                    setShowModal={setShowModal}
+                    showModal={modalVisualizar}
+                    setShowModal={setModalVisualizar}
                     conta={contaSelecionada}
                     atualizarItens={getContas}
                 />

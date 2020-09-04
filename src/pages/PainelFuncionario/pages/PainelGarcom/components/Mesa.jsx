@@ -29,7 +29,7 @@ export default function Mesa(props) {
     return (
         <div className="card card-mesa" style={{ width: '18rem' }}>
             <div className="card-body p-3">
-                <div className="cabecalho-mesa">
+                <div className="cabecalho-mesa" onClick={props.onClickVisualizar}>
                     <h5 className="card-title mr-2"><strong>{props.conta.desc_mesa.toUpperCase()}</strong></h5>
                     <h4><span className="badge badge-danger">{pedidosAbertos}</span></h4>
                 </div>
@@ -54,7 +54,7 @@ export default function Mesa(props) {
                 </li>
             </ul>
 
-            <button type="button" className="btn-fechar" onClick={props.onClick}>
+            <button type="button" className="btn-fechar" onClick={props.onClickFechar}>
                 <i className="fas fa-dollar-sign mr-2"></i>
                 Fechar conta
             </button>

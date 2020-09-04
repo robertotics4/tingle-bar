@@ -6,9 +6,35 @@ import api from '../../../../../services/api';
 import '../styles/ModalVisualizarMesa.css';
 import BadgeStatus from './BadgeStatus';
 
-export default function ModalVisualizarMesa(props) {
+export default function ModalFecharConta(props) {
     const currencyFormatter = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
     const handleClose = () => props.setShowModal(false);
+
+    async function fecharConta(a) {
+        Swal.fire({
+            title: 'Deseja fechar a conta?',
+            text: "A conta será fechada",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Fechar'
+        }).then(async result => {
+            if (result.value) {
+                try {
+                    const response = await api.post("Conta/Fecharconta?idConta=" + a.num_conta + "&total=" + a.valor_total_conta);
+                    if (response.status === 201 || response.status === 200) {
+                        Swal.fire('Sucesso!', 'Conta Fechada com sucesso!', 'success');
+                        props.atualizarItens();
+                        handleClose(true);
+
+                    }
+                } catch (err) {
+                    Swal.fire('Erro!', 'Falha ao fechar conta', 'error');
+                }
+            }
+        });
+    }
 
     function listarItens() {
         const usuarios = props.conta.usuarios;
@@ -21,56 +47,23 @@ export default function ModalVisualizarMesa(props) {
                         <tr key={item.item_id}>
                             <td>{item.item_qtd}</td>
                             <td>{item.titulo}</td>
-                            <td><BadgeStatus status={item.item_status} /></td>
                             <td>{usuario.nome_usuario}</td>
                             <td>{currencyFormatter.format(item.item_VALOR)}</td>
-                            <td>
-                                {item.item_status === 'Pedido pronto'
-                                    ? <button type="button" className="btn btn-success" onClick={() => handleEntregar(item)}>
-                                        <i className="fas fa-check"></i>
-                                    </button>
-                                    : null
-                                }
-                            </td>
+                            <td>{currencyFormatter.format(item.item_qtd * item.item_VALOR)}</td>
                         </tr>
                     );
                 });
             });
-        });
-
-        return lista;
-    }
-
-    async function handleEntregar(item) {
-        Swal.fire({
-            title: 'Deseja entregar o item?',
-            text: "O item será entregue",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Entregar'
-        }).then(async result => {
-            if (result.value) {
-                try {
-                    const payload = {
-                        "id": item.item_id,
-                        "fk_status_id": 5
-                    }
-
-                    const response = await api.post('/PedidoItem', payload);
-
-                    if (response.status === 201 || response.status === 200) {
-                        props.atualizarItens();
-                        Swal.fire('Sucesso!', 'Pedido entregue com sucesso!', 'success');
-                    }
-                } catch (err) {
-                    Swal.fire('Erro!', 'Falha ao entregar item', 'error');
-                }
+            if (usuarios.length > 1) {
+                lista.push(
+                    <tr className="table-danger text-right" key={usuario.id_usuario_conta}>
+                        <td colSpan="5"><strong>SUBTOTAL: {currencyFormatter.format(usuario.valor_conta_usuario)}</strong></td>
+                    </tr>
+                );
             }
         });
 
-
+        return lista;
     }
 
     return (
@@ -92,10 +85,9 @@ export default function ModalVisualizarMesa(props) {
                                 <tr>
                                     <th>Qtd</th>
                                     <th>Produto</th>
-                                    <th>Status</th>
                                     <th>Cliente</th>
                                     <th>Valor Unit.</th>
-                                    <th></th>
+                                    <th>Total</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -104,6 +96,16 @@ export default function ModalVisualizarMesa(props) {
                         </table>
                     </div>
                 </Modal.Body>
+
+                <Modal.Footer className="footer-content">
+                    <div className="footer">
+                        <span className="texto-total">TOTAL A PAGAR: {currencyFormatter.format(props.conta.valor_total_conta)}</span>
+                        <button className="btn btn-info btn-block" onClick={() => fecharConta(props.conta)}>
+                            <i className="fas fa-file-invoice-dollar mr-2"  ></i>
+                                                    Fechar Conta
+                        </button>
+                    </div>
+                </Modal.Footer>
             </Modal>
         </>
     );
