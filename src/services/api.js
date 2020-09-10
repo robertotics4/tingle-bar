@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: `http://52.45.128.89/api`,
+    baseURL: `https://www.papya.com.br/api`,
     timeout: 7000
 });
 
