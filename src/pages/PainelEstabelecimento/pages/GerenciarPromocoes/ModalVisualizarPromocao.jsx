@@ -3,7 +3,7 @@ import { Modal, Image } from 'react-bootstrap';
 
 import './styles/ModalVisualizarPromocao.css';
 
-const baseURL = 'http://52.45.128.89';
+const baseURL = 'https://www.papya.com.br';
 
 export default function ModalVisualizarPromocao(props) {
     const handleClose = () => props.setShowModal(false);

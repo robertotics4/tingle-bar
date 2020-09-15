@@ -40,12 +40,6 @@ export default function TabelaItens(props) {
         });
     }
 
-    function setItemEntregue(id) {
-        linhas.map(linha => {
-            console.log(linha.toString());
-        });
-    }
-
     async function handleEntregar(item, index) {
         Swal.fire({
             title: 'Deseja entregar o item?',
@@ -65,7 +59,6 @@ export default function TabelaItens(props) {
 
                     const response = await api.post('/PedidoItem', payload);
                     props.atualizarItens();
-                    setItemEntregue(item.item_id);
                     Swal.fire('Sucesso!', 'Pedido entregue com sucesso!', 'success');
                 } catch (err) {
                     Swal.fire('Erro!', 'Falha ao entregar item', 'error');

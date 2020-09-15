@@ -3,7 +3,7 @@ import { Modal, Image } from 'react-bootstrap';
 
 import './styles/ModalVisualizar.css';
 
-const baseURL = 'http://52.45.128.89';
+const baseURL = 'https://www.papya.com.br';
 
 export default function ModalVisualizar(props) {
     const currencyFormatter = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });

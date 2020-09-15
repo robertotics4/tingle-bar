@@ -10,7 +10,7 @@ import '../../../../components/Loading';
 import api from '../../../../services/api';
 import { currencyMask, numberPositiveMask } from '../../../../utils/masks';
 
-const baseURL = 'http://52.45.128.89';
+const baseURL = 'https://www.papya.com.br';
 
 export default function ModalEditarCardapio(props) {
     const [categorias, setCategorias] = useState([]);
