@@ -5,42 +5,29 @@ import api from '../../../../../services/api';
 import BadgeStatus from './BadgeStatus';
 
 export default function TabelaItens(props) {
-    const [linhas, setLinhas] = useState([]);
+    const [itens, setItens] = useState([]);
     const currencyFormatter = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
 
     useEffect(() => {
-        carregarTabela();
+        carregarItens();
     }, []);
 
-    function carregarTabela() {
+    useEffect(() => { }, [itens]);
+
+    function carregarItens() {
         const usuarios = props.conta.usuarios;
 
         usuarios.map(usuario => {
             usuario.pedidos.map(pedido => {
-                pedido.itens.map((item, index) => {
-                    setLinhas(oldLinhas => [...oldLinhas,
-                    <tr key={item.item_id}>
-                        <td>{item.item_qtd}</td>
-                        <td>{item.titulo}</td>
-                        <td><BadgeStatus status={item.item_status} /></td>
-                        <td>{usuario.nome_usuario}</td>
-                        <td>{currencyFormatter.format(item.item_VALOR)}</td>
-                        <td>
-                            {item.item_status === 'Pedido pronto' || !item.item_is_cozinha
-                                ? <button type="button" className="btn btn-success" onClick={() => handleEntregar(item, index)}>
-                                    <i className="fas fa-check"></i>
-                                </button>
-                                : null
-                            }
-                        </td>
-                    </tr>
-                    ]);
+                pedido.itens.map(item => {
+                    item.usuario = usuario.nome_usuario;
+                    setItens(oldItens => [...oldItens, item]);
                 });
             });
         });
     }
 
-    async function handleEntregar(item, index) {
+    async function handleEntregar(item) {
         Swal.fire({
             title: 'Deseja entregar o item?',
             text: "O item será entregue",
@@ -58,7 +45,15 @@ export default function TabelaItens(props) {
                     }
 
                     const response = await api.post('/PedidoItem', payload);
+
+                    itens.map(i => {
+                        if(i.item_id === item.item_id) {
+                            i.item_status = 'Entregue';
+                        }
+                    });
+
                     props.atualizarItens();
+
                     Swal.fire('Sucesso!', 'Pedido entregue com sucesso!', 'success');
                 } catch (err) {
                     Swal.fire('Erro!', 'Falha ao entregar item', 'error');
@@ -81,7 +76,26 @@ export default function TabelaItens(props) {
                     </tr>
                 </thead>
                 <tbody>
-                    {linhas}
+                    {itens
+                        ? itens.map(item => {
+                            return <tr key={item.item_id}>
+                                <td>{item.item_qtd}</td>
+                                <td>{item.titulo}</td>
+                                <td><BadgeStatus status={item.item_status} /></td>
+                                <td>{item.usuario}</td>
+                                <td>{currencyFormatter.format(item.item_VALOR)}</td>
+                                <td>
+                                    {item.item_status === 'Pedido pronto' || !item.item_is_cozinha
+                                        ? <button type="button" className="btn btn-success" onClick={() => handleEntregar(item)}>
+                                            <i className="fas fa-check"></i>
+                                        </button>
+                                        : null
+                                    }
+                                </td>
+                            </tr>
+                        })
+                        : null
+                    }
                 </tbody>
             </table>
         </div>

@@ -37,6 +37,8 @@ export default function GarcomContent() {
         getContas();
     }, [isGarcom]);
 
+    useEffect(() => { }, [contas]);
+
     async function getContas() {
         try {
             const response = await api.get(`/ContaDetalhe/GetByEstabelecimento?idEstabelecimento=${estabelecimento.iD_ESTABELECIMENTO}&idFuncionario=${isGarcom}&status_conta=1`);
@@ -105,13 +107,6 @@ export default function GarcomContent() {
                                     onChange={onRadioChange}
                                 />
                                 <label htmlFor="radioApenasGarcom" className="custom-control-label">Apenas mesas do garçom</label>
-                            </div>
-
-                            <div className="container-refresh">
-                                <div className="btn btn-light btn-atualizar">
-                                    <i className="fas fa-sync-alt ml-3 mr-2"></i>
-                                    Atualizar
-                                </div>
                             </div>
                         </div>
 
