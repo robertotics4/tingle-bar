@@ -85,7 +85,7 @@ export default function TabelaItens(props) {
                                 <td>{item.usuario}</td>
                                 <td>{currencyFormatter.format(item.item_VALOR)}</td>
                                 <td>
-                                    {item.item_status === 'Pedido pronto' || !item.item_is_cozinha
+                                    {item.item_status === 'Pedido pronto' || !item.item_is_cozinha && item.item_status !== 'Entregue'
                                         ? <button type="button" className="btn btn-success" onClick={() => handleEntregar(item)}>
                                             <i className="fas fa-check"></i>
                                         </button>
