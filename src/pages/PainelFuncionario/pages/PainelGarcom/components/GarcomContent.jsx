@@ -7,6 +7,7 @@ import '../styles/GarcomContent.css';
 
 import ModalFecharConta from './ModalFecharConta';
 import ModalVisualizarMesa from './ModalVisualizarMesa';
+import Loading from '../../../../../components/Loading';
 
 export default function GarcomContent() {
     const [estabelecimento, setEstabelecimento] = useState(null);
@@ -15,6 +16,7 @@ export default function GarcomContent() {
     const [modalFechar, setModalFechar] = useState(false);
     const [modalVisualizar, setModalVisualizar] = useState(false);
     const [contaSelecionada, setContaSelecionada] = useState(null);
+    const [loadingVisible, setLoadingVisible] = useState(false);
 
     useEffect(() => {
         async function loadStoragedData() {
@@ -37,11 +39,13 @@ export default function GarcomContent() {
         getContas();
     }, [isGarcom]);
 
-    useEffect(() => { 
+    useEffect(() => {
         console.log('render');
     }, [contas]);
 
     async function getContas() {
+        setLoadingVisible(true);
+        
         try {
             const response = await api.get(`/ContaDetalhe/GetByEstabelecimento?idEstabelecimento=${estabelecimento.iD_ESTABELECIMENTO}&idFuncionario=${isGarcom}&status_conta=1`);
             const { contas } = response.data;
@@ -49,6 +53,8 @@ export default function GarcomContent() {
             return response.data;
         } catch (err) {
             return err.response;
+        } finally {
+            setLoadingVisible(false);
         }
     }
 
@@ -160,6 +166,8 @@ export default function GarcomContent() {
                 />
                 : null
             }
+
+            {loadingVisible ? <Loading showModal={loadingVisible} /> : null}
         </div>
     );
 }

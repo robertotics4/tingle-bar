@@ -12,7 +12,7 @@ export default function Mesa(props) {
         getPedidosAbertos();
     }, []);
 
-    useEffect(() => { 
+    useEffect(() => {
         getPedidosAbertos();
     }, [conta]);
 
@@ -41,7 +41,7 @@ export default function Mesa(props) {
             <div className="card-body p-3">
                 <div className="cabecalho-mesa" onClick={props.onClickVisualizar}>
                     <h5 className="card-title mr-2"><strong>{conta ? conta.desc_mesa.toUpperCase() : ''}</strong></h5>
-                    <h4><span className="badge badge-danger">{pedidosAbertos}</span></h4>
+                    <h4><span className="badge badge-danger">{pedidosAbertos === 0 ? '' : pedidosAbertos}</span></h4>
                 </div>
 
             </div>
@@ -60,7 +60,7 @@ export default function Mesa(props) {
                 </li>
                 <li className="list-group-item">
                     <i className="fas fa-file-invoice-dollar mr-2 icone-mesa"></i>
-                    <span className="card-text">Valor atual: {conta ? currencyFormatter.format(conta.valor_total_conta) : ''}</span>
+                    <span className="card-text">Valor atual: <span style={{color: 'red'}}>{conta ? currencyFormatter.format(conta.valor_total_conta) : ''}</span></span>
                 </li>
             </ul>
 
