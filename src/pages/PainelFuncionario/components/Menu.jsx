@@ -74,9 +74,9 @@ export default function Menu() {
                     <div className="info">
                         {funcionario && tipoFuncionario ?
                             <>
-                                <a href="/#" className="d-block"><strong>{funcionario.nome.toUpperCase()}</strong></a>
-                                <a href="/#" className="d-block"><strong>Tipo: {tipoFuncionario.descricao.toUpperCase()}</strong></a>
-                                <a href="/#" className="d-block"><strong>CPF: {funcionario.cpf}</strong></a>
+                                <a role="button" className="d-block"><strong>{funcionario.nome.toUpperCase()}</strong></a>
+                                <a role="button" className="d-block"><strong>Tipo: {tipoFuncionario.descricao.toUpperCase()}</strong></a>
+                                <a role="button" className="d-block"><strong>CPF: {funcionario.cpf}</strong></a>
                             </>
                             : null
                         }

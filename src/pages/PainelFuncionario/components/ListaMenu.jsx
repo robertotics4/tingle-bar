@@ -37,6 +37,9 @@ export default function ListaMenu(props) {
                         </li>
                     );
                     break;
+                default:
+                    component = null;
+                    break;
             }
         }
 
@@ -54,7 +57,7 @@ export default function ListaMenu(props) {
             </li>
 
             <li className="nav-item">
-                <a onClick={props.handleLogout} className="nav-link">
+                <a role="button" onClick={props.handleLogout} className="nav-link">
 
                     <svg className="nav-icon bi bi-power" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                         <path fillRule="evenodd" d="M5.578 4.437a5 5 0 1 0 4.922.044l.5-.866a6 6 0 1 1-5.908-.053l.486.875z" />
