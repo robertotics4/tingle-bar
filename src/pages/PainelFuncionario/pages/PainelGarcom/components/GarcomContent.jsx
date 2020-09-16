@@ -37,7 +37,9 @@ export default function GarcomContent() {
         getContas();
     }, [isGarcom]);
 
-    useEffect(() => { }, [contas]);
+    useEffect(() => { 
+        console.log('render');
+    }, [contas]);
 
     async function getContas() {
         try {

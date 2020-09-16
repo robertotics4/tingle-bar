@@ -5,7 +5,10 @@ import '../styles/ModalVisualizarMesa.css';
 import TabelaItens from './TabelaItens';
 
 export default function ModalVisualizarMesa(props) {
-    const handleClose = () => props.setShowModal(false);
+    const handleClose = () => {
+        props.atualizarItens();
+        props.setShowModal(false);
+    } 
 
     return (
         <>
