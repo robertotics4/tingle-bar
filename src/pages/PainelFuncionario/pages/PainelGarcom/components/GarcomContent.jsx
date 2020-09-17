@@ -39,10 +39,6 @@ export default function GarcomContent() {
         getContas();
     }, [isGarcom]);
 
-    useEffect(() => {
-        console.log('render');
-    }, [contas]);
-
     async function getContas() {
         setLoadingVisible(true);
         
@@ -117,7 +113,6 @@ export default function GarcomContent() {
                                 <label htmlFor="radioApenasGarcom" className="custom-control-label">Apenas mesas do garçom</label>
                             </div>
                         </div>
-
                     </div>
 
                 </div>{/* /.container-fluid */}

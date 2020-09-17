@@ -7,6 +7,8 @@ export default function Mesa(props) {
     const [conta, setConta] = useState(null);
     const currencyFormatter = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
 
+    console.log(conta);
+
     useEffect(() => {
         setConta(props.conta);
         getPedidosAbertos();
@@ -14,7 +16,7 @@ export default function Mesa(props) {
 
     useEffect(() => {
         getPedidosAbertos();
-    }, [conta]);
+    }, [conta, getPedidosAbertos]);
 
     function getPedidosAbertos() {
         let contador = 0;
