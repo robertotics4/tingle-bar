@@ -47,7 +47,7 @@ export default function TabelaItens(props) {
                     const response = await api.post('/PedidoItem', payload);
 
                     itens.map(i => {
-                        if(i.item_id === item.item_id) {
+                        if (i.item_id === item.item_id) {
                             i.item_status = 'Entregue';
                         }
                     });
@@ -85,11 +85,15 @@ export default function TabelaItens(props) {
                                 <td>{item.usuario}</td>
                                 <td>{currencyFormatter.format(item.item_VALOR)}</td>
                                 <td>
-                                    {item.item_status === 'Pedido pronto' || !item.item_is_cozinha && item.item_status !== 'Entregue'
-                                        ? <button type="button" className="btn btn-success" onClick={() => handleEntregar(item)}>
+                                    {item.item_is_cozinha && item.item_status === 'Pedido pronto' ?
+                                        <button type="button" className="btn btn-success" onClick={() => handleEntregar(item)}>
                                             <i className="fas fa-check"></i>
                                         </button>
-                                        : null
+                                        : !item.item_is_cozinha && item.item_status !== 'Entregue' ?
+                                            <button type="button" className="btn btn-success" onClick={() => handleEntregar(item)}>
+                                                <i className="fas fa-check"></i>
+                                            </button>
+                                            : null
                                     }
                                 </td>
                             </tr>
