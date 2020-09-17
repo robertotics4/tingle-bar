@@ -17,9 +17,9 @@ export default function TabelaItens(props) {
     function carregarItens() {
         const usuarios = props.conta.usuarios;
 
-        usuarios.map(usuario => {
-            usuario.pedidos.map(pedido => {
-                pedido.itens.map(item => {
+        usuarios.forEach(usuario => {
+            usuario.pedidos.forEach(pedido => {
+                pedido.itens.forEach(item => {
                     item.usuario = usuario.nome_usuario;
                     setItens(oldItens => [...oldItens, item]);
                 });
@@ -44,9 +44,9 @@ export default function TabelaItens(props) {
                         "fk_status_id": 5
                     }
 
-                    const response = await api.post('/PedidoItem', payload);
+                    await api.post('/PedidoItem', payload);
 
-                    itens.map(i => {
+                    itens.forEach(i => {
                         if (i.item_id === item.item_id) {
                             i.item_status = 'Entregue';
                         }

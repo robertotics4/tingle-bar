@@ -13,11 +13,11 @@ export default function Mesa(props) {
 
     const getPedidosAbertos = useCallback(() => {
         let contador = 0;
-    
+
         if (conta) {
-            conta.usuarios.map(usuario => {
-                usuario.pedidos.map(pedido => {
-                    pedido.itens.map(item => {
+            conta.usuarios.forEach(usuario => {
+                usuario.pedidos.forEach(pedido => {
+                    pedido.itens.forEach(item => {
                         if (item.item_is_cozinha && item.item_status === 'Pedido pronto') {
                             contador += 1;
                         } else if (!item.item_is_cozinha && item.item_status !== 'Entregue') {
@@ -27,7 +27,7 @@ export default function Mesa(props) {
                 });
             });
         }
-    
+
         setPedidosAbertos(contador);
     }, [conta]);
 
