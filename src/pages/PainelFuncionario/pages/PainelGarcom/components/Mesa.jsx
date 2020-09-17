@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 
 import '../styles/Mesa.css';
 
@@ -7,20 +7,13 @@ export default function Mesa(props) {
     const [conta, setConta] = useState(null);
     const currencyFormatter = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
 
-    console.log(conta);
-
     useEffect(() => {
         setConta(props.conta);
-        getPedidosAbertos();
-    }, []);
+    }, [props.conta]);
 
-    useEffect(() => {
-        getPedidosAbertos();
-    }, [conta, getPedidosAbertos]);
-
-    function getPedidosAbertos() {
+    const getPedidosAbertos = useCallback(() => {
         let contador = 0;
-
+    
         if (conta) {
             conta.usuarios.map(usuario => {
                 usuario.pedidos.map(pedido => {
@@ -34,9 +27,13 @@ export default function Mesa(props) {
                 });
             });
         }
-
+    
         setPedidosAbertos(contador);
-    }
+    }, [conta]);
+
+    useEffect(() => {
+        getPedidosAbertos();
+    }, [conta, getPedidosAbertos]);
 
     return (
         <div className="card card-mesa" style={{ width: '18rem' }}>
@@ -62,7 +59,7 @@ export default function Mesa(props) {
                 </li>
                 <li className="list-group-item">
                     <i className="fas fa-file-invoice-dollar mr-2 icone-mesa"></i>
-                    <span className="card-text">Valor atual: <span style={{color: 'red'}}>{conta ? currencyFormatter.format(conta.valor_total_conta) : ''}</span></span>
+                    <span className="card-text">Valor atual: <span style={{ color: 'red' }}>{conta ? currencyFormatter.format(conta.valor_total_conta) : ''}</span></span>
                 </li>
             </ul>
 
