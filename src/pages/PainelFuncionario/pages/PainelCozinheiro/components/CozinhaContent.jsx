@@ -39,15 +39,13 @@ export default function CozinhaContent() {
         let pedidos = [];
 
         if (contas) {
-            {
-                contas.map(conta => {
-                    conta.usuarios.map(usuario => {
-                        usuario.pedidos.map(pedido => {
-                            pedidos.push(<Pedido key={pedido.pedido_id} conta={conta} usuario={usuario} pedido={pedido} atualizarLista={getContas} />);
-                        })
-                    })
-                })
-            }
+            contas.forEach(conta => {
+                conta.usuarios.forEach(usuario => {
+                    usuario.pedidos.forEach(pedido => {
+                        pedidos.push(<Pedido key={pedido.pedido_id} conta={conta} usuario={usuario} pedido={pedido} atualizarLista={getContas} />);
+                    });
+                });
+            });
         }
 
         return pedidos;

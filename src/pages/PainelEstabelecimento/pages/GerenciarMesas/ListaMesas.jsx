@@ -183,7 +183,7 @@ export default function ListaMesas() {
             "descricao": ""
         });
 
-        funcionarios.map(funcionario => {
+        funcionarios.forEach(funcionario => {
             lista.push(funcionario);
         });
 

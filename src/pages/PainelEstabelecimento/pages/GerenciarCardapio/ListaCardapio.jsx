@@ -93,8 +93,8 @@ export default function ListaFuncionarios() {
         let rows = [];
 
         if (cardapio) {
-            cardapio.map((obj, objIndex) => {
-                rows.push(obj.itens.map((item, itemIndex) => {
+            cardapio.forEach(obj => {
+                rows.push(obj.itens.map(item => {
                     return <tr key={item.codigo_item}>
                         <td>{item.codigo_item}</td>
                         <td><a>{item.titulo}</a></td>
@@ -115,7 +115,7 @@ export default function ListaFuncionarios() {
                         </button>
                         </td>
                     </tr>
-                }))
+                }));
             });
 
             return rows;

@@ -44,7 +44,7 @@ export default function ModalEditarCardapio(props) {
             const response = await api.get('/categoria?idEstabelecimento=' + props.idEstabelecimento);
             setCategorias(response.data);
 
-            response.data.map(c => {
+            response.data.forEach(c => {
                 if (c.descricao === props.categoria) {
                     setCategoria(c);
                 }

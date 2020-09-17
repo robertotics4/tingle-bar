@@ -44,7 +44,7 @@ export default function Menu() {
 
             setTiposFuncionario([...tipos]);
 
-            tipos.map(tipo => {
+            tipos.forEach(tipo => {
                 if (tipo.id === estabelecimento.iD_TIPOFUNCIONARIO) {
                     setTipoFuncionario(tipo);
                 }

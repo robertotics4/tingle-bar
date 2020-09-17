@@ -39,9 +39,9 @@ export default function ModalFecharConta(props) {
         const usuarios = props.conta.usuarios;
         let lista = [];
 
-        usuarios.map(usuario => {
-            usuario.pedidos.map(pedido => {
-                pedido.itens.map(item => {
+        usuarios.forEach(usuario => {
+            usuario.pedidos.forEach(pedido => {
+                pedido.itens.forEach(item => {
                     lista.push(
                         <tr key={item.item_id}>
                             <td>{item.item_qtd}</td>

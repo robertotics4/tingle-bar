@@ -118,7 +118,7 @@ export default function ModalCadPromocoes(props) {
         let itens = [];
 
         if (cardapio) {
-            cardapio.map(obj => {
+            cardapio.forEach(obj => {
                 itens.push(obj);
             });
 
@@ -135,7 +135,7 @@ export default function ModalCadPromocoes(props) {
             const item = { obj: itemSelecionado, quantidade: valores.quantidade };
             let existe = false;
 
-            itensAdicionados.map(i => {
+            itensAdicionados.forEach(i => {
                 if (i.obj.codigo_item === item.obj.codigo_item) {
                     existe = true;
                 }
