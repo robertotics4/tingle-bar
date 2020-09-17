@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 
 import '../styles/Pedido.css';
 
-import api from '../../../../../services/api';
-
 import ModalVisualizarPedido from './ModalVisualizarPedido';
 
 export default function Pedido(props) {
@@ -13,22 +11,6 @@ export default function Pedido(props) {
     function handleVisualizar(item) {
         setItemSelecionado(item);
         setModalVisualizar(true);
-    }
-
-    async function handleFinalizar(item) {
-        const payload = {
-            "id": item.item_id,
-            "fk_status_id": 4
-        }
-
-        try {
-            const response = await api.post('/PedidoItem', payload);
-            props.atualizarLista();
-
-            return response.data;
-        } catch (err) {
-            return err.response;
-        }
     }
 
     return (

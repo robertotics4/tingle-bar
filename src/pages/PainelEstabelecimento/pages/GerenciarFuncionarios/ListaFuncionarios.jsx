@@ -11,7 +11,7 @@ export default function ListaFuncionarios() {
     const [funcionarios, setFuncionarios] = useState([]);
     const [estabelecimento, setEstabelecimento] = useState([]);
     const [tiposFuncionario, setTiposFuncionario] = useState([]);
-    const { isLoadingVisible, setLoadingVisible } = useContext(GeralContext);
+    const { isLoadingVisible } = useContext(GeralContext);
 
     useEffect(() => {
         async function loadStoragedData() {
@@ -186,7 +186,7 @@ export default function ListaFuncionarios() {
                         </div>
                         <div className="col-sm-6">
                             <ol className="breadcrumb float-sm-right">
-                                <li className="breadcrumb-item"><a href="#">Home</a></li>
+                                <li className="breadcrumb-item"><a href="/painelEstabelecimento">Home</a></li>
                                 <li className="breadcrumb-item active">Funcionários</li>
                             </ol>
                         </div>
@@ -232,12 +232,12 @@ export default function ListaFuncionarios() {
                                         return <tr key={item.id_funcionario}>
                                             <td name="idFuncionario">{item.id_funcionario}</td>
                                             <td>
-                                                <a>{item.nome}</a>
+                                                <span>{item.nome}</span>
                                                 <br />
                                                 {/* <small>Created 01.01.2019</small> */}
                                             </td>
                                             <td>
-                                                <a>{item.descricao}</a>
+                                                <span>{item.descricao}</span>
                                             </td>
 
                                             <td className="project-actions text-right">

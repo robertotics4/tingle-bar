@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 
 import api from '../../../../services/api';
@@ -97,9 +97,9 @@ export default function ListaFuncionarios() {
                 rows.push(obj.itens.map(item => {
                     return <tr key={item.codigo_item}>
                         <td>{item.codigo_item}</td>
-                        <td><a>{item.titulo}</a></td>
-                        <td><a>{obj.categoria}</a></td>
-                        <td><a>{currencyFormatter.format(item.valor)}</a></td>
+                        <td><span>{item.titulo}</span></td>
+                        <td><span>{obj.categoria}</span></td>
+                        <td><span>{currencyFormatter.format(item.valor)}</span></td>
                         <td className="project-actions text-right">
                             <button className="btn btn-secondary btn-sm ml-3" onClick={() => handleVisualizar(item, obj.categoria)}>
                                 <i className="fas fa-eye mr-2"></i>
@@ -136,7 +136,7 @@ export default function ListaFuncionarios() {
                         </div>
                         <div className="col-sm-6">
                             <ol className="breadcrumb float-sm-right">
-                                <li className="breadcrumb-item"><a href="#">Home</a></li>
+                                <li className="breadcrumb-item"><a href="/painelEstabelecimento">Home</a></li>
                                 <li className="breadcrumb-item active">Cardápio</li>
                             </ol>
                         </div>
