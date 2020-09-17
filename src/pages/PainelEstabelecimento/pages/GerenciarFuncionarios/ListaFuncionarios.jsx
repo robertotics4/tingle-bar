@@ -116,7 +116,7 @@ export default function ListaFuncionarios() {
                     const pesquisaUsuario = await getUsuario(cpf);
 
                     if (pesquisaUsuario.cpf) {
-                        const { value } = Swal.fire({
+                        Swal.fire({
                             title: 'Cadastrar Funcionário',
                             html: `Nome: ${pesquisaUsuario.nome}
                                     <pre>cpf: ${pesquisaUsuario.cpf}</pre>`,

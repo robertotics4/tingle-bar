@@ -63,7 +63,7 @@ export default function ListaPromocoes() {
         }).then(async result => {
             if (result.value) {
                 try {
-                    const response = await api.delete('/promocoes/' + promocao.id_promocao);
+                    await api.delete('/promocoes/' + promocao.id_promocao);
 
                     Swal.fire('Sucesso!', 'Mesa deletada com sucesso!', 'success');
                     getPromocoes();

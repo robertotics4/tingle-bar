@@ -4,7 +4,6 @@ import Swal from 'sweetalert2';
 import api from '../../../../../services/api';
 
 import '../styles/ModalVisualizarMesa.css';
-import BadgeStatus from './BadgeStatus';
 
 export default function ModalFecharConta(props) {
     const currencyFormatter = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });

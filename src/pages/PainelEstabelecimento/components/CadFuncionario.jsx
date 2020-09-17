@@ -3,9 +3,7 @@ import React, { useState, useEffect } from 'react';
 import api from '../../../services/api';
 
 export default function CadFuncionario() {
-    const [valores, setValores] = useState({});
     const [tiposFuncionario, setTiposFuncionario] = useState([]);
-    const [usuario, setUsuario] = useState(null);
 
     useEffect(() => {
         getTiposFuncionario();

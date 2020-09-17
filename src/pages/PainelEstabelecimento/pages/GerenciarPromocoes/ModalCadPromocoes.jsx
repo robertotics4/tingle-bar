@@ -82,7 +82,7 @@ export default function ModalCadPromocoes(props) {
                 data.append("files", valores.imagem);
 
                 try {
-                    const responseTwo = await api.post('/promocoes/PostImagem', data, {
+                    await api.post('/promocoes/PostImagem', data, {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         }
@@ -148,7 +148,7 @@ export default function ModalCadPromocoes(props) {
     }
 
     function removerItem(index) {
-        const removed = itensAdicionados.splice(index, 1);
+        itensAdicionados.splice(index, 1);
         setItensAdicionados([...itensAdicionados]);
     }
 

@@ -131,7 +131,7 @@ export default function ListaMesas() {
                 }
 
                 if (item.id_funcionario_mesa !== null && item.fk_Id_funcionario !== idFuncionario) {
-                    const response = await api.delete('/FuncionarioMesa/' + item.id_funcionario_mesa);
+                    await api.delete('/FuncionarioMesa/' + item.id_funcionario_mesa);
                 }
 
                 const payloadCadastraFuncionario = {
