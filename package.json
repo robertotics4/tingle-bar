@@ -19,6 +19,7 @@
     "react-scripts": "3.4.1",
     "react-select": "^3.1.0",
     "react-spinkit": "^3.0.0",
+    "react-toastify": "^6.0.8",
     "react-widgets": "^4.5.0",
     "sweetalert2": "^9.17.1"
   },

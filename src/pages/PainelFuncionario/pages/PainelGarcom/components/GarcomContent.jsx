@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { ToastContainer, toast, Flip } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Mesa from './Mesa';
 import api from '../../../../../services/api';
@@ -33,15 +35,51 @@ export default function GarcomContent() {
 
     useEffect(() => {
         getContas();
-    }, [estabelecimento]);
+    }, [estabelecimento, isGarcom]);
 
-    useEffect(() => {
-        getContas();
-    }, [isGarcom]);
+    function showPushNotifications() {
+        if (contas) {
+            const toastConfig = {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                transition: Flip,
+            }
+
+            var pedidosProntos = 0;
+            var pedidosSolicitados = 0;
+
+            contas.forEach(conta => {
+                conta.usuarios.forEach(usuario => {
+                    usuario.pedidos.forEach(pedido => {
+                        pedido.itens.forEach(item => {
+                            if (item.item_status === 'Pedido pronto') {
+                                pedidosProntos += 1;
+                            } else if (item.item_status === 'Solicitado') {
+                                pedidosSolicitados += 1;
+                            }
+                        });
+                    });
+                });
+            });
+
+            if (pedidosProntos > 0) {
+                toast.warn(`Existem ${pedidosProntos} 'pedidos prontos' na cozinha`, { ...toastConfig, toastId: 'toast-prontos' });
+            }
+
+            if (pedidosSolicitados > 0) {
+                toast.info(`Existem ${pedidosSolicitados} 'pedidos novos'`, { ...toastConfig, toastId: 'toast-novos' });
+            }
+        }
+    }
 
     async function getContas() {
         setLoadingVisible(true);
-        
+
         try {
             const response = await api.get(`/ContaDetalhe/GetByEstabelecimento?idEstabelecimento=${estabelecimento.iD_ESTABELECIMENTO}&idFuncionario=${isGarcom}&status_conta=1`);
             const { contas } = response.data;
@@ -51,6 +89,7 @@ export default function GarcomContent() {
             return err.response;
         } finally {
             setLoadingVisible(false);
+            showPushNotifications();
         }
     }
 
@@ -163,6 +202,18 @@ export default function GarcomContent() {
             }
 
             {loadingVisible ? <Loading showModal={loadingVisible} /> : null}
+
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
         </div>
     );
 }
