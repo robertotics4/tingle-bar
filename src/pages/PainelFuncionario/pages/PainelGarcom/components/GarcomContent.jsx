@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { ToastContainer, toast, Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -11,6 +11,8 @@ import ModalFecharConta from './ModalFecharConta';
 import ModalVisualizarMesa from './ModalVisualizarMesa';
 import Loading from '../../../../../components/Loading';
 
+const TEMPO_LIMITE = 10;
+
 export default function GarcomContent() {
     const [estabelecimento, setEstabelecimento] = useState(null);
     const [contas, setContas] = useState([]);
@@ -19,6 +21,7 @@ export default function GarcomContent() {
     const [modalVisualizar, setModalVisualizar] = useState(false);
     const [contaSelecionada, setContaSelecionada] = useState(null);
     const [loadingVisible, setLoadingVisible] = useState(false);
+    const [segundosPassados, setSegundosPassados] = useState(0);
 
     useEffect(() => {
         async function loadStoragedData() {
@@ -32,6 +35,19 @@ export default function GarcomContent() {
         loadStoragedData();
         getContas();
     }, []);
+
+    useEffect(() => {
+        if(segundosPassados === TEMPO_LIMITE) {
+            setSegundosPassados(0);
+            getContas();
+        }
+
+        const interval = setInterval(passouSegundo, 1000);
+
+        return () => {
+            clearInterval(interval);
+        }
+    });
 
     useEffect(() => {
         getContas();
@@ -108,6 +124,10 @@ export default function GarcomContent() {
         setContaSelecionada(conta);
         setModalVisualizar(true);
     }
+
+    const passouSegundo = useCallback(() => {
+        setSegundosPassados(segundosPassados + 1);
+    }, [segundosPassados]);
 
     return (
         <div className="content-wrapper">
