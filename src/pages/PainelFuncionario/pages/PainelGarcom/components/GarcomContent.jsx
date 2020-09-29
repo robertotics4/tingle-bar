@@ -75,7 +75,7 @@ export default function GarcomContent() {
                         pedido.itens.forEach(item => {
                             if (item.item_status === 'Pedido pronto') {
                                 pedidosProntos += 1;
-                            } else if (item.item_status === 'Solicitado') {
+                            } else if (item.item_status === 'Solicitado' && !item.item_is_cozinha) {
                                 pedidosSolicitados += 1;
                             }
                         });
