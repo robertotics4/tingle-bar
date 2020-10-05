@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#343A40" />
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
   <!-- IonIcons -->
@@ -20,13 +21,30 @@
 <body class="hold-transition sidebar-mini">
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root" class="wrapper"></div>
-
+  <script src="/install.js"></script>
   <!-- jQuery -->
   <script src="plugins/jquery/jquery.min.js"></script>
   <!-- Bootstrap -->
   <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
   <!-- AdminLTE -->
   <script src="dist/js/adminlte.js"></script>
+
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('service-worker.js').then(function (registration) {
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        }, function (err) {
+          console.log('ServiceWorker registration failed: ', err);
+        }).catch(function (err) {
+          console.log(err)
+        });
+      });
+    } else {
+      console.log('service worker is not supported');
+    }
+  </script>
 
 </body>
 
