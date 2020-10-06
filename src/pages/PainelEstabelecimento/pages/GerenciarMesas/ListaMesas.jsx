@@ -46,8 +46,6 @@ export default function ListaMesas() {
         }
     }
 
-
-
     async function deletarMesas(item) {
         Swal.fire({
             html: `<h3>Deseja excluir a mesa <strong>${item.descricao}</strong>?</h3>`,
