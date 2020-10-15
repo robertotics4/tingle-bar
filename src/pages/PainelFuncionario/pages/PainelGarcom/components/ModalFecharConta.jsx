@@ -36,7 +36,7 @@ export default function ModalFecharConta(props) {
             {
                 title: 'Valor',
                 text: 'Valor total da conta',
-                inputValue: currencyFormatter.format(conta.valor_total_pago),
+                inputValue: currencyFormatter.format(conta.valor_total_conta),
                 inputAttributes: {
                     disabled: true
                 },
@@ -63,17 +63,19 @@ export default function ModalFecharConta(props) {
                 let total = result.value[0].replace('R$', '');
                 total = parseFloat(total.replace(',', '.'));
 
-                // try {
-                //     const response = await api.post(`/Conta/Fecharconta?idConta=${conta.num_conta}&idUsuarioConta=36&total=${total}&meioPagamento=${meiosPagamento[indiceMP].id_Meio_Pagamento}`);
+                try {
+                    const response = await api.post(`/Conta/Fecharconta?idConta=${conta.num_conta}&idUsuarioConta=36&total=${total}&meioPagamento=${meiosPagamento[indiceMP].id_Meio_Pagamento}`);
 
-                //     if (response.status === 201 || response.status === 200) {
-                //         Swal.fire('Sucesso!', 'Pagamento efetuado com sucesso!', 'success');
-                //     }
-                // } catch (err) {
-                //     if (err.response.status === 401 || err.response.status === 400) {
-                //         Swal.fire('Erro!', 'Falha no pagamento', 'error');
-                //     }
-                // }
+                    if (response.status === 201 || response.status === 200) {
+                        Swal.fire('Sucesso!', 'Pagamento efetuado com sucesso!', 'success');
+                    }
+                } catch (err) {
+                    if (err.response.status === 401 || err.response.status === 400) {
+                        Swal.fire('Erro!', 'Falha no pagamento', 'error');
+                    }
+                } finally {
+                    handleClose();
+                }
             }
         });
     }
@@ -144,7 +146,7 @@ export default function ModalFecharConta(props) {
         let lista = [];
 
         usuarios.forEach(usuario => {
-            // if (usuarios.length > 1) {
+            if (usuarios.length > 1) {
                 lista.push(
                     <tr className="table-secondary" key={usuario.cpf_usuario}>
                         <td colSpan="3">
@@ -158,7 +160,7 @@ export default function ModalFecharConta(props) {
                         </td>
                     </tr>
                 );
-            // }
+            }
             usuario.pedidos.forEach(pedido => {
                 pedido.itens.forEach(item => {
                     lista.push(
