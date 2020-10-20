@@ -61,7 +61,11 @@ export default function TabelaItens(props) {
             }
         });
     }
-
+    console.log(itens);
+    
+    let it = itens.filter(item => item.item_status != "Entregue");
+    
+    console.log(it);
     return (
         <div className="table-responsive p-0">
             <table className="table table-striped table-valign-middle">
@@ -76,12 +80,13 @@ export default function TabelaItens(props) {
                     </tr>
                 </thead>
                 <tbody>
-                    {itens
-                        ? itens.map(item => {
+                    
+                    {it
+                        ? it.map(item => {
                             return <tr key={item.item_id}>
                                 <td>{item.item_qtd}</td>
                                 <td>{item.titulo}</td>
-                                <td><BadgeStatus status={item.item_status} /></td>
+                                <td><BadgeStatus status={item.item_status } /></td>
                                 <td>{item.usuario}</td>
                                 <td>{currencyFormatter.format(item.item_VALOR_DESCONTO)}</td>
                                 <td>
