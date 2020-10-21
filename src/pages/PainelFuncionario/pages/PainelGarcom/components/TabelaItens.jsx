@@ -61,11 +61,11 @@ export default function TabelaItens(props) {
             }
         });
     }
-    console.log(itens);
     
-    let it = itens.filter(item => item.item_status != "Entregue");
     
-    console.log(it);
+    let it = itens.filter(item => item.item_is_cozinha && item.item_status === 'Pedido pronto' || !item.item_is_cozinha && item.item_status !== 'Entregue'  );
+    
+    
     return (
         <div className="table-responsive p-0">
             <table className="table table-striped table-valign-middle">

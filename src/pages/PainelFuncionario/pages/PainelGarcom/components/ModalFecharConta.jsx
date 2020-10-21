@@ -36,7 +36,7 @@ export default function ModalFecharConta(props) {
             {
                 title: 'Valor',
                 text: 'Valor total da conta',
-                inputValue: currencyFormatter.format(conta.valor_total_conta),
+                inputValue: currencyFormatter.format(conta.valor_total_conta - conta.valor_total_pago),
                 inputAttributes: {
                     disabled: true
                 },
@@ -64,7 +64,7 @@ export default function ModalFecharConta(props) {
                 total = parseFloat(total.replace(',', '.'));
 
                 try {
-                    const response = await api.post(`/Conta/Fecharconta?idConta=${conta.num_conta}&idUsuarioConta=36&total=${total}&meioPagamento=${meiosPagamento[indiceMP].id_Meio_Pagamento}`);
+                    const response = await api.post(`/Conta/Fecharconta?idConta=${conta.num_conta}&total=${total}&meioPagamento=${meiosPagamento[indiceMP].id_Meio_Pagamento}`);
 
                     if (response.status === 201 || response.status === 200) {
                         Swal.fire('Sucesso!', 'Pagamento efetuado com sucesso!', 'success');
@@ -127,7 +127,7 @@ export default function ModalFecharConta(props) {
                 total = parseFloat(total.replace(',', '.'));
 
                 try {
-                    const response = await api.post(`/Conta/FecharcontaParcial?idUsuarioConta=${usuario.id_usuario_conta}&total=${total}&meioPagamento=${meiosPagamento[indiceMP].id_Meio_Pagamento}`);
+                    const response = await api.post(`/Conta/FecharcontaParcial?idConta=${props.conta.num_conta}&idUsuarioConta=${usuario.id_usuario_conta}&total=${total}&meioPagamento=${meiosPagamento[indiceMP].id_Meio_Pagamento}`);
 
                     if (response.status === 201 || response.status === 200) {
                         Swal.fire('Sucesso!', 'Pagamento efetuado com sucesso!', 'success');
@@ -144,7 +144,7 @@ export default function ModalFecharConta(props) {
     function listarItens() {
         const usuarios = props.conta.usuarios;
         let lista = [];
-
+        
         usuarios.forEach(usuario => {
             if (usuarios.length > 1) {
                 lista.push(
@@ -152,10 +152,14 @@ export default function ModalFecharConta(props) {
                         <td colSpan="3">
                             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <strong>{usuario.nome_usuario.toUpperCase()}</strong>
+                                {usuario.status_conta_usuario == "Aberta"?
                                 <button type="button" className="btn btn-success btn-sm" onClick={() => fecharContaParcial(usuario)}>
                                     <strong>Receber</strong>
                                     <i className="ml-2 fas fa-hand-holding-usd"></i>
                                 </button>
+                                :  <strong> Valor Pago:  {currencyFormatter.format(usuario.valor_pago_conta_usuario)}</strong>
+                                
+                                }
                             </div>
                         </td>
                     </tr>
@@ -215,9 +219,10 @@ export default function ModalFecharConta(props) {
                 </Modal.Body>
 
                 <Modal.Footer className="footer-content">
-                    <div className="footer">
-                        <span className="texto-total">TOTAL PAGO: {currencyFormatter.format(props.conta.valor_total_pago)}</span>
-                        <span className="texto-total">TOTAL A PAGAR: {currencyFormatter.format(props.conta.valor_total_conta)}</span>
+                    <div className="footer" >
+                        <span className="texto-total">TOTAL DA CONTA: {currencyFormatter.format(props.conta.valor_total_conta)}</span>
+                        <span className="texto-total" >TOTAL PAGO: {currencyFormatter.format(props.conta.valor_total_pago)}</span>
+                        <span className="texto-total">SALDO A PAGAR: {currencyFormatter.format(props.conta.valor_total_conta - props.conta.valor_total_pago)}  </span>
                         <button className="btn btn-info btn-block" onClick={() => fecharConta(props.conta)}>
                             <i className="fas fa-file-invoice-dollar mr-2"  ></i>
                                                     Fechar Conta

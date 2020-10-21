@@ -65,7 +65,7 @@ export default function Mesa(props) {
 
             <button type="button" className="btn-fechar" onClick={props.onClickFechar}>
                 <i className="fas fa-dollar-sign mr-2"></i>
-                Fechar conta
+                Visualizar conta
             </button>
 
         </div>
