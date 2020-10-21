@@ -34,8 +34,6 @@ export default function Menu() {
     const baseURL = 'https://www.papya.com.br';
 
 
-    console.log(estabelecimento);
-
     return (
         <aside className="menu-content main-sidebar sidebar-dark-primary elevation-4">
             {/* Brand Logo */}
