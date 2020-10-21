@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { Image } from 'react-bootstrap';
 
 import AuthEstabelecimentoContext from '../../../contexts/auth-estabelecimento';
 
@@ -20,7 +21,6 @@ export default function Menu() {
                 setEstabelecimento(JSON.parse(storagedEstabelecimento));
             }
         }
-
         loadStoragedData();
     }, []);
 
@@ -31,11 +31,24 @@ export default function Menu() {
         history.push('/');
     }
 
+    const baseURL = 'https://www.papya.com.br';
+
+
+    console.log(estabelecimento);
+
     return (
         <aside className="menu-content main-sidebar sidebar-dark-primary elevation-4">
             {/* Brand Logo */}
-            <a href="#" className="brand-link logo">
-                <img src={logo} alt="Equatorial Logo" className="img-logo" style={{ opacity: '.8' }} />
+
+
+
+            <a href="" className="brand-link logo">
+                {estabelecimento ?
+                    <>
+                        <Image className="img-item" src={baseURL + estabelecimento.imagem} fluid />
+                    </>
+                    : null
+                }
             </a>
             {/* Sidebar */}
             <div className="sidebar">

@@ -134,13 +134,17 @@ export default function ModalFecharConta(props) {
 
                     if (response.status === 201 || response.status === 200) {
                         Swal.fire('Sucesso!', 'Pagamento efetuado com sucesso!', 'success');
+
                     }
                 } catch (err) {
                     if (err.response.status === 406) {
-                        Swal.fire('Erro!', err.response.retorno, 'error');
+                        Swal.fire('Atenção!', err.response.data.retorno, 'warning');
                     } else {
                         Swal.fire('Erro!', 'Falha no pagamento', 'error');
                     }
+                }
+                finally {
+                    handleClose();
                 }
             }
         });
@@ -157,13 +161,16 @@ export default function ModalFecharConta(props) {
                         <td colSpan="3">
                             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <strong>{usuario.nome_usuario.toUpperCase()}</strong>
+                                <strong>Status: {usuario.status_conta_usuario.toUpperCase()}</strong>
                                 {usuario.status_conta_usuario == "Solicita pagamento" ?
                                     <button type="button" className="btn btn-success btn-sm" onClick={() => fecharContaParcial(usuario)}>
                                         <strong>Receber</strong>
                                         <i className="ml-2 fas fa-hand-holding-usd"></i>
                                     </button>
-                                    : <strong> Valor Pago:  {currencyFormatter.format(usuario.valor_pago_conta_usuario)}</strong>
-
+                                    : usuario.status_conta_usuario == "Aberta" ?
+                                        <strong> Valor Pago:  {currencyFormatter.format(usuario.valor_pago_conta_usuario)}</strong>
+                                        :
+                                        <strong> Valor Pago:  {currencyFormatter.format(usuario.valor_pago_conta_usuario)}</strong>
                                 }
                             </div>
                         </td>
@@ -191,6 +198,7 @@ export default function ModalFecharConta(props) {
         });
 
         return lista;
+
     }
 
     return (
