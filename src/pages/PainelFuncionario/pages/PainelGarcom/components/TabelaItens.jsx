@@ -61,12 +61,66 @@ export default function TabelaItens(props) {
             }
         });
     }
-    
-    
-    let it = itens.filter(item => item.item_is_cozinha && item.item_status === 'Pedido pronto' || !item.item_is_cozinha && item.item_status !== 'Entregue'  );
-    
-    
+
+
+    let it = itens.filter(item => item.item_is_cozinha && item.item_status === 'Pedido pronto' || !item.item_is_cozinha && item.item_status !== 'Entregue');
+
+    function listarItens() {
+        const usuarios = props.conta.usuarios;
+        let lista = [];
+
+        usuarios.forEach(usuario => {
+            if (usuarios.length > 1) {
+                usuario.pedidos.forEach(pedido => {
+                    pedido.itens.forEach(item => {
+                        if (item.item_status === 'Pedido pronto') {
+                            lista.push(
+                                <tr className="table-secondary" key={usuario.cpf_usuario}>
+                                    <td colSpan="5">
+                                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                                            <strong>{usuario.nome_usuario.toUpperCase()}</strong>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            )
+                        };
+                    });
+                });
+            }
+
+            usuario.pedidos.forEach(pedido => {
+                const itens = pedido.itens.filter(it => it.item_is_cozinha && it.item_status === 'Pedido pronto' || !it.item_is_cozinha && it.item_status !== 'Entregue')
+
+                itens.forEach(item => {
+                    lista.push(
+                        <tr key={item.item_id}>
+                            <td>{item.item_qtd}</td>
+                            <td>{item.titulo}</td>
+                            <td><BadgeStatus status={item.item_status} /></td>
+                            <td>{currencyFormatter.format(item.item_VALOR_DESCONTO)}</td>
+                            <td>
+                                {item.item_is_cozinha && item.item_status === 'Pedido pronto' ?
+                                    <button type="button" className="btn btn-success" onClick={() => handleEntregar(item)}>
+                                        <i className="fas fa-check"></i>
+                                    </button>
+                                    : !item.item_is_cozinha && item.item_status !== 'Entregue' ?
+                                        <button type="button" className="btn btn-success" onClick={() => handleEntregar(item)}>
+                                            <i className="fas fa-check"></i>
+                                        </button>
+                                        : null
+                                }
+                            </td>
+                        </tr>
+                    );
+                });
+            });
+        });
+
+        return lista;
+    }
     return (
+
         <div className="table-responsive p-0">
             <table className="table table-striped table-valign-middle">
                 <thead>
@@ -74,37 +128,13 @@ export default function TabelaItens(props) {
                         <th>Qtd</th>
                         <th>Produto</th>
                         <th>Status</th>
-                        <th>Cliente</th>
                         <th>Valor Unit.</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    
-                    {it
-                        ? it.map(item => {
-                            return <tr key={item.item_id}>
-                                <td>{item.item_qtd}</td>
-                                <td>{item.titulo}</td>
-                                <td><BadgeStatus status={item.item_status } /></td>
-                                <td>{item.usuario}</td>
-                                <td>{currencyFormatter.format(item.item_VALOR_DESCONTO)}</td>
-                                <td>
-                                    {item.item_is_cozinha && item.item_status === 'Pedido pronto' ?
-                                        <button type="button" className="btn btn-success" onClick={() => handleEntregar(item)}>
-                                            <i className="fas fa-check"></i>
-                                        </button>
-                                        : !item.item_is_cozinha && item.item_status !== 'Entregue' ?
-                                            <button type="button" className="btn btn-success" onClick={() => handleEntregar(item)}>
-                                                <i className="fas fa-check"></i>
-                                            </button>
-                                            : null
-                                    }
-                                </td>
-                            </tr>
-                        })
-                        : null
-                    }
+
+                    {listarItens()}
                 </tbody>
             </table>
         </div>

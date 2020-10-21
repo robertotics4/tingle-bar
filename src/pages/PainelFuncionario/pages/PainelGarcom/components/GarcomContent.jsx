@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { ToastContainer, toast, Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Swal from 'sweetalert2';
 
 import Mesa from './Mesa';
 import api from '../../../../../services/api';
@@ -37,7 +38,7 @@ export default function GarcomContent() {
     }, []);
 
     useEffect(() => {
-        if(segundosPassados === TEMPO_LIMITE) {
+        if (segundosPassados === TEMPO_LIMITE) {
             setSegundosPassados(0);
             getContas();
         }
@@ -122,7 +123,26 @@ export default function GarcomContent() {
 
     function onClickVisualizar(conta) {
         setContaSelecionada(conta);
-        setModalVisualizar(true);
+
+        if (!existeItens(conta)) {
+            Swal.fire('Erro!', 'Não existem pedidos abertos', 'warning');
+        } else {
+            setModalVisualizar(true);
+        }
+    }
+
+    function existeItens(conta) {
+        var existe = false;
+
+        conta.usuarios.forEach(usuario => {
+            usuario.pedidos.forEach(pedido => {
+                if (pedido.itens.length > 0) {
+                    existe = true;
+                }
+            });
+        });
+
+        return existe;
     }
 
     const passouSegundo = useCallback(() => {

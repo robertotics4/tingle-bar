@@ -70,7 +70,10 @@ export default function ModalFecharConta(props) {
                         Swal.fire('Sucesso!', 'Pagamento efetuado com sucesso!', 'success');
                     }
                 } catch (err) {
-                    if (err.response.status === 401 || err.response.status === 400) {
+                    console.log({ err });
+                    if (err.status === 406) {
+                        Swal.fire('Erro!', err.response.retorno, 'error');
+                    } else {
                         Swal.fire('Erro!', 'Falha no pagamento', 'error');
                     }
                 } finally {
@@ -133,7 +136,9 @@ export default function ModalFecharConta(props) {
                         Swal.fire('Sucesso!', 'Pagamento efetuado com sucesso!', 'success');
                     }
                 } catch (err) {
-                    if (err.response.status === 401 || err.response.status === 400) {
+                    if (err.response.status === 406) {
+                        Swal.fire('Erro!', err.response.retorno, 'error');
+                    } else {
                         Swal.fire('Erro!', 'Falha no pagamento', 'error');
                     }
                 }
@@ -144,7 +149,7 @@ export default function ModalFecharConta(props) {
     function listarItens() {
         const usuarios = props.conta.usuarios;
         let lista = [];
-        
+
         usuarios.forEach(usuario => {
             if (usuarios.length > 1) {
                 lista.push(
@@ -152,13 +157,13 @@ export default function ModalFecharConta(props) {
                         <td colSpan="3">
                             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <strong>{usuario.nome_usuario.toUpperCase()}</strong>
-                                {usuario.status_conta_usuario == "Aberta"?
-                                <button type="button" className="btn btn-success btn-sm" onClick={() => fecharContaParcial(usuario)}>
-                                    <strong>Receber</strong>
-                                    <i className="ml-2 fas fa-hand-holding-usd"></i>
-                                </button>
-                                :  <strong> Valor Pago:  {currencyFormatter.format(usuario.valor_pago_conta_usuario)}</strong>
-                                
+                                {usuario.status_conta_usuario == "Solicita pagamento" ?
+                                    <button type="button" className="btn btn-success btn-sm" onClick={() => fecharContaParcial(usuario)}>
+                                        <strong>Receber</strong>
+                                        <i className="ml-2 fas fa-hand-holding-usd"></i>
+                                    </button>
+                                    : <strong> Valor Pago:  {currencyFormatter.format(usuario.valor_pago_conta_usuario)}</strong>
+
                                 }
                             </div>
                         </td>
@@ -219,7 +224,7 @@ export default function ModalFecharConta(props) {
                 </Modal.Body>
 
                 <Modal.Footer className="footer-content">
-                    <div className="footer" >
+                    <div className="footer">
                         <span className="texto-total">TOTAL DA CONTA: {currencyFormatter.format(props.conta.valor_total_conta)}</span>
                         <span className="texto-total" >TOTAL PAGO: {currencyFormatter.format(props.conta.valor_total_pago)}</span>
                         <span className="texto-total">SALDO A PAGAR: {currencyFormatter.format(props.conta.valor_total_conta - props.conta.valor_total_pago)}  </span>
