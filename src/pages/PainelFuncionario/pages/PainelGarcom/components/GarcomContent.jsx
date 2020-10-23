@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { ToastContainer, toast, Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Swal from 'sweetalert2';
+import * as SignalR from '@aspnet/signalr';
 
 import Mesa from './Mesa';
 import api from '../../../../../services/api';
@@ -25,6 +26,8 @@ export default function GarcomContent() {
     const [segundosPassados, setSegundosPassados] = useState(0);
 
     useEffect(() => {
+        configureSocketConnection();
+
         async function loadStoragedData() {
             const storagedEstabelecimento = localStorage.getItem('@TBAuth:estabelecimento');
 
@@ -53,6 +56,24 @@ export default function GarcomContent() {
     useEffect(() => {
         getContas();
     }, [estabelecimento, isGarcom]);
+
+    function configureSocketConnection() {
+        const connection = new SignalR.HubConnectionBuilder()
+            .withUrl("https://www.papya.com.br/pushhub")
+            .build();
+
+        connection.on("ReceiveMessage", (user, message) => {
+            const msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            const encodedMsg = user + " says " + msg;
+            Swal.fire('Mensagem', encodedMsg, 'info');
+        });
+
+        connection.start().then(() => {
+            alert("SignalR Conectado");
+        }).catch(function (err) {
+            return console.error(err.toString());
+        });
+    }
 
     function showPushNotifications() {
         if (contas) {
