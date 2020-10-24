@@ -20,7 +20,7 @@ export default function LoginEstabelecimento() {
         connection.on("ReceiveMessage", (user, message) => {
             const msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
             const encodedMsg = user + " - " + msg;
-            Swal.fire('Mensagem', encodedMsg, 'info');
+            //Swal.fire('Mensagem', encodedMsg, 'info');
                         
             console.log('pedro'+navigator.serviceWorker.controller)
             if (navigator.serviceWorker.controller) {
