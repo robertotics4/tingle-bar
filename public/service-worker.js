@@ -1,6 +1,11 @@
+/* global self */
+/* eslint-disable */
+var self = this;
+
 var doCache = true;
 
 var CACHE_NAME = "my-pwa-cache-v1";
+
 
 self.addEventListener("activate", event => {
   const cacheWhitelist = [CACHE_NAME];
@@ -27,7 +32,7 @@ self.addEventListener("install", function(event) {
             response.json();
           })
           .then(assets => {
-            const urlsToCache = ["/", assets["main.js"]];
+            //const urlsToCache = ["/", assets["main.js"]];
             cache.addAll(urlsToCache);
             console.log("cached");
           });
@@ -68,29 +73,34 @@ function urlB64ToUint8Array(base64String) {
   return outputArray;
 }
 
+
+
 self.addEventListener('push', function(event) {
+  
+  
   console.log('[Service Worker] Push Received.');
   console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
 
   const title = 'PEDRO';
   const options = {
-    body: 'Yay it works.',
+    body: 'Yay s.',
     icon: 'images/icon.png',
     badge: 'images/badge.png'
   };
+  
 
   event.waitUntil(self.registration.showNotification(title, options));
 });
 
-self.addEventListener('notificationclick', function(event) {
-  console.log('[Service Worker] Notification click Received.');
+//self.addEventListener('notificationclick', function(event) {
+//  console.log('[Service Worker] Notification click Received.');
 
-  event.notification.close();
+//  event.notification.close();
 
-  event.waitUntil(
-    clients.openWindow('https://developers.google.com/web/')
-  );
-});
+//  event.waitUntil(
+//    clients.openWindow('https:pe.com')
+//  );
+//});
 
 self.addEventListener('pushsubscriptionchange', function(event) {
   console.log('[Service Worker]: \'pushsubscriptionchange\' event fired.');
@@ -105,4 +115,31 @@ self.addEventListener('pushsubscriptionchange', function(event) {
       console.log('[Service Worker] New subscription: ', newSubscription);
     })
   );
+});
+
+self.addEventListener('message', function(event) {
+  var data = event.data;
+
+  if (data.command == "oneWayCommunication") {
+      //console.log("Message the Page : ", data.message);
+      console.log(data);
+      const title = data.title;
+      const options = {
+        body: data.message,
+        icon: 'images/icon.png',
+        badge: 'images/badge.png'
+      };
+    
+  event.waitUntil(self.registration.showNotification(title,options));
+      
+  } 
+  self.addEventListener('notificationclick', function(event) {
+    console.log('[Service Worker] Notification click Received.');
+  
+    event.notification.close();
+  
+    event.waitUntil(
+      clients.openWindow('https://pedro.com')
+    );
+  });
 });

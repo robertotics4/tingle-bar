@@ -4,11 +4,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import Swal from 'sweetalert2';
 import * as SignalR from '@aspnet/signalr';
 
+
 import Mesa from './Mesa';
 import api from '../../../../../services/api';
-
-import '../styles/GarcomContent.css';
-
 import ModalFecharConta from './ModalFecharConta';
 import ModalVisualizarMesa from './ModalVisualizarMesa';
 import Loading from '../../../../../components/Loading';
@@ -64,8 +62,20 @@ export default function GarcomContent() {
 
         connection.on("ReceiveMessage", (user, message) => {
             const msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-            const encodedMsg = user + " says " + msg;
-            Swal.fire('Mensagem', encodedMsg, 'info');
+            const encodedMsg = user + " - " + msg;
+            //Swal.fire('Mensagem', encodedMsg, 'info');
+             
+            
+            if (navigator.serviceWorker.controller) {
+                console.log("Sendingage to service worker");
+                navigator.serviceWorker.controller.postMessage({
+                    "command": "oneWayCommunication",
+                    "message": encodedMsg,
+                    "title":"Pedidos"
+                });}
+              
+            
+  
         });
 
         connection.start().then(() => {

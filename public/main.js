@@ -118,8 +118,10 @@ function unsubscribeUser() {
 }
 
 function initializeUI() {
+  componentDidMount();
   pushButton.addEventListener('click', function() {
     pushButton.disabled = true;
+    componentDidMount()
     if (isSubscribed) {
       unsubscribeUser();
     } else {
@@ -152,7 +154,9 @@ if ('serviceWorker' in navigator && 'PushManager' in window) {
     console.log('Service Worker is registered', swReg);
 
     swRegistration = swReg;
-    initializeUI();
+    Notification.requestPermission();
+    //initializeUI();
+    
   })
   .catch(function(error) {
     console.error('Service Worker Error', error);
@@ -160,4 +164,26 @@ if ('serviceWorker' in navigator && 'PushManager' in window) {
 } else {
   console.warn('Push messaging is not supported');
   pushButton.textContent = 'Push Not Supported';
+  
+}
+
+function oneWayCommunication() {
+  // ONE WAY COMMUNICATION
+  if (navigator.serviceWorker.controller) {
+      console.log("Sendingage to service worker");
+      navigator.serviceWorker.controller.postMessage({
+          "command": "oneWayCommunication",
+          "message": "Hi, SW"
+      });
+  } else {
+      console.log("Nove ServiceWorker");
+  }
+}
+
+function componentDidMount() {
+    if (!("Notification" in window)) {
+      console.log("This browser does not support desktop notification");
+    } else {
+      Notification.requestPermission();
+    }
 }
