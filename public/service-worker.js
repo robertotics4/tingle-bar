@@ -23,10 +23,10 @@ self.addEventListener("activate", event => {
   );
 });
 
-self.addEventListener("install", function(event) {
+self.addEventListener("install", function (event) {
   if (doCache) {
     event.waitUntil(
-      caches.open(CACHE_NAME).then(function(cache) {
+      caches.open(CACHE_NAME).then(function (cache) {
         fetch("manifest.json")
           .then(response => {
             response.json();
@@ -41,10 +41,10 @@ self.addEventListener("install", function(event) {
   }
 });
 
-self.addEventListener("fetch", function(event) {
+self.addEventListener("fetch", function (event) {
   if (doCache) {
     event.respondWith(
-      caches.match(event.request).then(function(response) {
+      caches.match(event.request).then(function (response) {
         return response || fetch(event.request);
       })
     );
@@ -75,9 +75,7 @@ function urlB64ToUint8Array(base64String) {
 
 
 
-self.addEventListener('push', function(event) {
-  
-  
+self.addEventListener('push', function (event) {
   console.log('[Service Worker] Push Received.');
   console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
 
@@ -87,7 +85,7 @@ self.addEventListener('push', function(event) {
     icon: 'images/icon.png',
     badge: 'images/badge.png'
   };
-  
+
 
   event.waitUntil(self.registration.showNotification(title, options));
 });
@@ -102,7 +100,7 @@ self.addEventListener('push', function(event) {
 //  );
 //});
 
-self.addEventListener('pushsubscriptionchange', function(event) {
+self.addEventListener('pushsubscriptionchange', function (event) {
   console.log('[Service Worker]: \'pushsubscriptionchange\' event fired.');
   const applicationServerKey = urlB64ToUint8Array(applicationServerPublicKey);
   event.waitUntil(
@@ -110,34 +108,34 @@ self.addEventListener('pushsubscriptionchange', function(event) {
       userVisibleOnly: true,
       applicationServerKey: applicationServerKey
     })
-    .then(function(newSubscription) {
-      // TODO: Send to application server
-      console.log('[Service Worker] New subscription: ', newSubscription);
-    })
+      .then(function (newSubscription) {
+        // TODO: Send to application server
+        console.log('[Service Worker] New subscription: ', newSubscription);
+      })
   );
 });
 
-self.addEventListener('message', function(event) {
+self.addEventListener('message', function (event) {
   var data = event.data;
 
   if (data.command == "oneWayCommunication") {
-      //console.log("Message the Page : ", data.message);
-      console.log(data);
-      const title = data.title;
-      const options = {
-        body: data.message,
-        icon: 'images/icon.png',
-        badge: 'images/badge.png'
-      };
-    
-  event.waitUntil(self.registration.showNotification(title,options));
-      
-  } 
-  self.addEventListener('notificationclick', function(event) {
+    //console.log("Message the Page : ", data.message);
+    console.log(data);
+    const title = data.title;
+    const options = {
+      body: data.message,
+      icon: 'images/icon.png',
+      badge: 'images/badge.png'
+    };
+
+    event.waitUntil(self.registration.showNotification(title, options));
+  }
+  
+  self.addEventListener('notificationclick', function (event) {
     console.log('[Service Worker] Notification click Received.');
-  
+
     event.notification.close();
-  
+
     event.waitUntil(
       clients.openWindow('https://pedro.com')
     );

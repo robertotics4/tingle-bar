@@ -40,6 +40,14 @@ export default function GarcomContent() {
 
     useEffect(() => {
         if (segundosPassados === TEMPO_LIMITE) {
+            if (navigator.serviceWorker.controller) {
+                console.log("Sendingage to service worker");
+                navigator.serviceWorker.controller.postMessage({
+                    "command": "oneWayCommunication",
+                    "message": "teste",
+                    "title": "Pedidos"
+                });
+            }
             setSegundosPassados(0);
             getContas();
         }
@@ -63,19 +71,16 @@ export default function GarcomContent() {
         connection.on("ReceiveMessage", (user, message) => {
             const msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
             const encodedMsg = user + " - " + msg;
-            //Swal.fire('Mensagem', encodedMsg, 'info');
-             
-            
-            if (navigator.serviceWorker.controller) {
-                console.log("Sendingage to service worker");
-                navigator.serviceWorker.controller.postMessage({
-                    "command": "oneWayCommunication",
-                    "message": encodedMsg,
-                    "title":"Pedidos"
-                });}
-              
-            
-  
+
+            // if (navigator.serviceWorker.controller) {
+            //     console.log("Sendingage to service worker");
+            //     navigator.serviceWorker.controller.postMessage({
+            //         "command": "oneWayCommunication",
+            //         "message": encodedMsg,
+            //         "title": "Pedidos"
+            //     });
+            // }
+
         });
 
         connection.start().then(() => {
