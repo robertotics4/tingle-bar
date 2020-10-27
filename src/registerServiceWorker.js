@@ -19,28 +19,24 @@ const isLocalhost = Boolean(
 );
 
 export default function register() {
-  if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
-    // The URL constructor is available in all browsers that support SW.
+  if ('serviceWorker' in navigator) {
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location);
     if (publicUrl.origin !== window.location.origin) {
-      console.log('pedro aquii')
-      // Our service worker won't work if PUBLIC_URL is on a different origin
-      // from what our page is served on. This might happen if a CDN is used to
-      // serve assets; see https://github.com/facebookincubator/create-react-app/issues/2374
       return;
     }
 
     window.addEventListener('load', () => {
-      const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
+      const swUrl = process.env.NODE_ENV === 'production'? '/service-worker.js': ' http://localhost:3000/custom-service-worker.js';
 
       if (isLocalhost) {
         // This is running on localhost. Lets check if a service worker still exists or not.
+        
         checkValidServiceWorker(swUrl);
 
         // Add some additional logging to localhost, pointing developers to the
         // service worker/PWA documentation.
-        
         navigator.serviceWorker.ready.then(() => {
+          Notification.requestPermission();
           console.log(
             'This web app is being served cache-first by a service ' +
               'worker. To learn more, visit https://goo.gl/SC7cgQ'
@@ -58,6 +54,16 @@ function registerValidSW(swUrl) {
   navigator.serviceWorker
     .register(swUrl)
     .then(registration => {
+      registration.pushManager.getSubscription().then(function(sub) {
+        if (sub != null) {
+          console.log('Subscription object: ', sub);subscribeUser()
+        }
+        else 
+        {
+          subscribeUser();
+        }
+      });
+
       registration.onupdatefound = () => {
         const installingWorker = registration.installing;
         installingWorker.onstatechange = () => {
@@ -82,6 +88,26 @@ function registerValidSW(swUrl) {
       console.error('Error during service worker registration:', error);
     });
 }
+
+function subscribeUser() {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.ready.then(function(reg) {
+      reg.pushManager.subscribe({
+        userVisibleOnly: true
+      }).then(function(sub) {
+        console.log('Endpoint URL: ', sub.endpoint);
+        console.log(sub)
+      }).catch(function(e) {
+        if (Notification.permission === 'denied') {
+          console.warn('Permission for notifications was denied');
+        } else {
+          console.error('Unable to subscribe to push', e);
+        }
+      });
+    })
+  }
+}
+
 
 function checkValidServiceWorker(swUrl) {
   // Check if the service worker can be found. If it can't reload the page.
@@ -117,3 +143,4 @@ export function unregister() {
     });
   }
 }
+

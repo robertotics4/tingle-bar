@@ -1,5 +1,6 @@
 {
   "name": "Tingle Bar",
+  "gcm_sender_id": "370072803732",
   "short_name": "Tingle Bar",
     "start_url": ".",
     "display": "standalone",

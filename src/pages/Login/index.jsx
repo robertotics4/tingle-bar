@@ -9,6 +9,7 @@ import FormLoginFuncionario from '../../components/FormLoginFuncionario';
 export default function LoginEstabelecimento() {
     const [key, setKey] = useState('estabelecimento');
     const [isLoadingVisible, setLoadingVisible] = useState(false);
+    console.log(navigator.serviceWorker.controller)
 
     useEffect(() => { configureSocketConnection();}, [isLoadingVisible]);
 
@@ -22,14 +23,13 @@ export default function LoginEstabelecimento() {
             const encodedMsg = user + " - " + msg;
             //Swal.fire('Mensagem', encodedMsg, 'info');
                         
-            console.log('pedro'+navigator.serviceWorker.controller)
-            if (navigator.serviceWorker.controller) {
+            
                 console.log("Sendingage to service worker");
                 navigator.serviceWorker.controller.postMessage({
                     "command": "oneWayCommunication",
                     "message": encodedMsg,
                     "title":"Pedidos"
-                });}
+                });
               
             
   

@@ -1,143 +1,110 @@
-/* global self */
-/* eslint-disable */
-var self = this;
+self.addEventListener('notificationclose', function (e) {
+  var notification = e.notification;
+  var data = notification.data || {};
+  var primaryKey = data.primaryKey;
+  console.debug('Closed notification: ' + primaryKey);
+});
+self.addEventListener('notificationclick', function(e) {
+  var notification = e.notification;
+  var data = notification.data || {};
+  var primaryKey = data.primaryKey;
+  var action = e.action;
+  console.debug('Clicked notification: ' + primaryKey);
+  if (action === 'close') {
+    console.debug('Notification clicked and closed', primaryKey);
+    notification.close();
+  } 
+  else {
+    console.debug('Notification actioned', primaryKey);
+    clients.openWindow('/');
+    notification.close();
+  }
+});
 
-var doCache = true;
-
-var CACHE_NAME = "my-pwa-cache-v1";
-
-
-self.addEventListener("activate", event => {
-  const cacheWhitelist = [CACHE_NAME];
-  event.waitUntil(
-    caches.keys().then(keyList =>
-      Promise.all(
-        keyList.map(key => {
-          if (!cacheWhitelist.includes(key)) {
-            console.log("Deleting cache: " + key);
-            return caches.delete(key);
-          }
-        })
-      )
-    )
+self.addEventListener('push', function(e) {
+  console.log('[Service Worker] Push Received.');
+  console.log(`[Service Worker] Push had this data: "${e.data.text()}"`);
+  var options = {
+    body: 'This notification was generated from a push!',
+    icon: 'images/example.png',
+    vibrate: [100, 50, 100],
+    data: {
+      dateOfArrival: Date.now(),
+      primaryKey: '2'
+    },
+    actions: [
+      {action: 'explore', title: 'Explore this new world',
+        icon: 'images/checkmark.png'},
+      {action: 'close', title: 'Close',
+        icon: 'images/xmark.png'},
+    ]
+  };
+  e.waitUntil(
+    self.registration.showNotification('Hello world!', options)
   );
 });
 
-self.addEventListener("install", function (event) {
-  if (doCache) {
-    event.waitUntil(
-      caches.open(CACHE_NAME).then(function (cache) {
-        fetch("manifest.json")
-          .then(response => {
-            response.json();
-          })
-          .then(assets => {
-            //const urlsToCache = ["/", assets["main.js"]];
-            cache.addAll(urlsToCache);
-            console.log("cached");
-          });
-      })
-    );
-  }
+var CACHE_NAME = 'v1';
+var urlsToCache = [
+'/',
+'/offline-page.html',
+];
+
+self.addEventListener('install', function(event) {
+event.waitUntil(
+  caches.open(CACHE_NAME).then(function(cache) {
+    return cache.addAll(urlsToCache);
+  })
+);
 });
 
-self.addEventListener("fetch", function (event) {
-  if (doCache) {
-    event.respondWith(
-      caches.match(event.request).then(function (response) {
-        return response || fetch(event.request);
+self.addEventListener('activate', function(event) {
+event.waitUntil(
+  caches.keys().then(function(cacheNames) {
+    return Promise.all(
+      cacheNames.filter(function(cacheName) {
+        return cacheName !== CACHE_NAME;
+      }).map(function(cacheName) {
+        console.log('Deleting '+ cacheName);
+        return caches.delete(cacheName);
       })
     );
-  }
+  })
+);
 });
-'use strict';
 
-/* eslint-disable max-len */
+self.addEventListener('fetch', function(event) {
+event.respondWith(
+  // If network fetch fails serve offline page form cache
+  fetch(event.request).catch(function(error) {
+    return caches.open(CACHE_NAME).then(function(cache) {
+      return cache.match('/offline-page.html');
+    });
+  })
+);
+});
 
-const applicationServerPublicKey = 'BH8-hIchXKMI6AKSee8gD0hhPThRqaEhIEtMJwcTjEQhiOKdG-_2tTIO-6hOAK4kwg5M9Saedjxp4hVE-khhWxY';
+self.addEventListener('message', function (event) {
+var data = event.data;
 
-/* eslint-enable max-len */
-
-function urlB64ToUint8Array(base64String) {
-  const padding = '='.repeat((4 - base64String.length % 4) % 4);
-  const base64 = (base64String + padding)
-    .replace(/\-/g, '+')
-    .replace(/_/g, '/');
-
-  const rawData = window.atob(base64);
-  const outputArray = new Uint8Array(rawData.length);
-
-  for (let i = 0; i < rawData.length; ++i) {
-    outputArray[i] = rawData.charCodeAt(i);
-  }
-  return outputArray;
-}
-
-
-
-self.addEventListener('push', function (event) {
-  console.log('[Service Worker] Push Received.');
-  console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
-
-  const title = 'PEDRO';
+if (data.command == "oneWayCommunication") {
+  //console.log("Message the Page : ", data.message);
+  console.log(data);
+  const title = data.title;
   const options = {
-    body: 'Yay s.',
+    body: data.message,
     icon: 'images/icon.png',
     badge: 'images/badge.png'
   };
 
-
   event.waitUntil(self.registration.showNotification(title, options));
+}
 });
 
-//self.addEventListener('notificationclick', function(event) {
-//  console.log('[Service Worker] Notification click Received.');
-
-//  event.notification.close();
-
-//  event.waitUntil(
-//    clients.openWindow('https:pe.com')
-//  );
-//});
-
-self.addEventListener('pushsubscriptionchange', function (event) {
-  console.log('[Service Worker]: \'pushsubscriptionchange\' event fired.');
-  const applicationServerKey = urlB64ToUint8Array(applicationServerPublicKey);
-  event.waitUntil(
-    self.registration.pushManager.subscribe({
-      userVisibleOnly: true,
-      applicationServerKey: applicationServerKey
-    })
-      .then(function (newSubscription) {
-        // TODO: Send to application server
-        console.log('[Service Worker] New subscription: ', newSubscription);
-      })
-  );
+self.addEventListener('install', function(event) {
+event.waitUntil(self.skipWaiting()); // Activate worker immediately
 });
 
-self.addEventListener('message', function (event) {
-  var data = event.data;
-
-  if (data.command == "oneWayCommunication") {
-    //console.log("Message the Page : ", data.message);
-    console.log(data);
-    const title = data.title;
-    const options = {
-      body: data.message,
-      icon: 'images/icon.png',
-      badge: 'images/badge.png'
-    };
-
-    event.waitUntil(self.registration.showNotification(title, options));
-  }
-  
-  self.addEventListener('notificationclick', function (event) {
-    console.log('[Service Worker] Notification click Received.');
-
-    event.notification.close();
-
-    event.waitUntil(
-      clients.openWindow('https://pedro.com')
-    );
-  });
+self.addEventListener('activate', function(event) {
+event.waitUntil(self.clients.claim()); // Become available to all pages
 });

@@ -1,189 +1,84 @@
-/*
-*
-*  Push Notifications codelab
-*  Copyright 2015 Google Inc. All rights reserved.
-*
-*  Licensed under the Apache License, Version 2.0 (the "License");
-*  you may not use this file except in compliance with the License.
-*  You may obtain a copy of the License at
-*
-*      https://www.apache.org/licenses/LICENSE-2.0
-*
-*  Unless required by applicable law or agreed to in writing, software
-*  distributed under the License is distributed on an "AS IS" BASIS,
-*  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-*  See the License for the specific language governing permissions and
-*  limitations under the License
-*
-*/
-
-/* eslint-env browser, es6 */
-
-'use strict';
-
-const applicationServerPublicKey = 'BHdd2PwLOsYaDQQOmqw_8KIIYOQYECWN' +
-  'lat0K8GScnytjV88e6Xifn0GMz7MbScAkxf_kVJhnp-0NrB_P4u6WHw';
-
-const pushButton = document.querySelector('.js-push-btn');
-
-let isSubscribed = false;
-let swRegistration = null;
-
-function urlB64ToUint8Array(base64String) {
-  const padding = '='.repeat((4 - base64String.length % 4) % 4);
-  const base64 = (base64String + padding)
-    .replace(/\-/g, '+')
-    .replace(/_/g, '/');
-
-  const rawData = window.atob(base64);
-  const outputArray = new Uint8Array(rawData.length);
-
-  for (let i = 0; i < rawData.length; ++i) {
-    outputArray[i] = rawData.charCodeAt(i);
-  }
-  return outputArray;
-}
-
-function updateBtn() {
-  if (Notification.permission === 'denied') {
-    pushButton.textContent = 'Push Messaging Blocked.';
-    pushButton.disabled = true;
-    updateSubscriptionOnServer(null);
-    return;
-  }
-
-  if (isSubscribed) {
-    pushButton.textContent = 'Disable Push Messaging';
-  } else {
-    pushButton.textContent = 'Enable Push Messaging';
-  }
-
-  pushButton.disabled = false;
-}
-
-function updateSubscriptionOnServer(subscription) {
-  // TODO: Send subscription to application server
-
-  const subscriptionJson = document.querySelector('.js-subscription-json');
-  const subscriptionDetails =
-    document.querySelector('.js-subscription-details');
-
-  if (subscription) {
-    subscriptionJson.textContent = JSON.stringify(subscription);
-    subscriptionDetails.classList.remove('is-invisible');
-  } else {
-    subscriptionDetails.classList.add('is-invisible');
-  }
-}
-
-function subscribeUser() {
-  const applicationServerKey = urlB64ToUint8Array(applicationServerPublicKey);
-  swRegistration.pushManager.subscribe({
-    userVisibleOnly: true,
-    applicationServerKey: applicationServerKey
-  })
-  .then(function(subscription) {
-    console.log('User is subscribed.');
-
-    updateSubscriptionOnServer(subscription);
-
-    isSubscribed = true;
-
-    updateBtn();
-  })
-  .catch(function(err) {
-    console.log('Failed to subscribe the user: ', err);
-    updateBtn();
-  });
-}
-
-function unsubscribeUser() {
-  swRegistration.pushManager.getSubscription()
-  .then(function(subscription) {
-    if (subscription) {
-      return subscription.unsubscribe();
-    }
-  })
-  .catch(function(error) {
-    console.log('Error unsubscribing', error);
-  })
-  .then(function() {
-    updateSubscriptionOnServer(null);
-
-    console.log('User is unsubscribed.');
-    isSubscribed = false;
-
-    updateBtn();
-  });
-}
-
-function initializeUI() {
-  componentDidMount();
-  pushButton.addEventListener('click', function() {
-    pushButton.disabled = true;
-    componentDidMount()
-    if (isSubscribed) {
-      unsubscribeUser();
-    } else {
-      subscribeUser();
-    }
-  });
-
-  // Set the initial subscription value
-  swRegistration.pushManager.getSubscription()
-  .then(function(subscription) {
-    isSubscribed = !(subscription === null);
-
-    updateSubscriptionOnServer(subscription);
-
-    if (isSubscribed) {
-      console.log('User IS subscribed.');
-    } else {
-      console.log('User is NOT subscribed.');
-    }
-
-    updateBtn();
-  });
-}
-
-if ('serviceWorker' in navigator && 'PushManager' in window) {
-  console.log('Service Worker and Push is supported');
-
-  navigator.serviceWorker.register('service-worker.js')
-  .then(function(swReg) {
-    console.log('Service Worker is registered', swReg);
-
-    swRegistration = swReg;
-    Notification.requestPermission();
-    //initializeUI();
-    
-  })
-  .catch(function(error) {
-    console.error('Service Worker Error', error);
-  });
-} else {
-  console.warn('Push messaging is not supported');
-  pushButton.textContent = 'Push Not Supported';
   
-}
-
-function oneWayCommunication() {
-  // ONE WAY COMMUNICATION
-  if (navigator.serviceWorker.controller) {
-      console.log("Sendingage to service worker");
-      navigator.serviceWorker.controller.postMessage({
-          "command": "oneWayCommunication",
-          "message": "Hi, SW"
-      });
-  } else {
-      console.log("Nove ServiceWorker");
+self.addEventListener('notificationclose', function (e) {
+  var notification = e.notification;
+  var data = notification.data || {};
+  var primaryKey = data.primaryKey;
+  console.debug('Closed notification: ' + primaryKey);
+});
+self.addEventListener('notificationclick', function(e) {
+  var notification = e.notification;
+  var data = notification.data || {};
+  var primaryKey = data.primaryKey;
+  var action = e.action;
+  console.debug('Clicked notification: ' + primaryKey);
+  if (action === 'close') {
+    console.debug('Notification clicked and closed', primaryKey);
+    notification.close();
+  } 
+  else {
+    console.debug('Notification actioned', primaryKey);
+    clients.openWindow('/');
+    notification.close();
   }
-}
+});
 
-function componentDidMount() {
-    if (!("Notification" in window)) {
-      console.log("This browser does not support desktop notification");
-    } else {
-      Notification.requestPermission();
-    }
-}
+self.addEventListener('push', function(e) {
+  var options = {
+    body: 'This notification was generated from a push!',
+    icon: 'images/example.png',
+    vibrate: [100, 50, 100],
+    data: {
+      dateOfArrival: Date.now(),
+      primaryKey: '2'
+    },
+    actions: [
+      {action: 'explore', title: 'Explore this new world',
+        icon: 'images/checkmark.png'},
+      {action: 'close', title: 'Close',
+        icon: 'images/xmark.png'},
+    ]
+  };
+  e.waitUntil(
+    self.registration.showNotification('Hello world!', options)
+  );
+});
+
+var CACHE_NAME = 'v1';
+var urlsToCache = [
+'/',
+'/offline-page.html',
+];
+
+self.addEventListener('install', function(event) {
+event.waitUntil(
+  caches.open(CACHE_NAME).then(function(cache) {
+    return cache.addAll(urlsToCache);
+  })
+);
+});
+
+self.addEventListener('activate', function(event) {
+event.waitUntil(
+  caches.keys().then(function(cacheNames) {
+    return Promise.all(
+      cacheNames.filter(function(cacheName) {
+        return cacheName !== CACHE_NAME;
+      }).map(function(cacheName) {
+        console.log('Deleting '+ cacheName);
+        return caches.delete(cacheName);
+      })
+    );
+  })
+);
+});
+
+self.addEventListener('fetch', function(event) {
+event.respondWith(
+  // If network fetch fails serve offline page form cache
+  fetch(event.request).catch(function(error) {
+    return caches.open(CACHE_NAME).then(function(cache) {
+      return cache.match('/offline-page.html');
+    });
+  })
+);
+});
