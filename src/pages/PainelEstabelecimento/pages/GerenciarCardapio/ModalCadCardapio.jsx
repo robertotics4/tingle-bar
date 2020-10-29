@@ -76,9 +76,7 @@ export default function ModalCadCardapio(props) {
                 Swal.fire('Sucesso!', 'Item cadastrado com sucesso!', 'success');
             }
         } catch (err) {
-            if (err.response.status === 401 || err.response.status === 400) {
-                Swal.fire('Erro!', 'Falha ao cadastrar item', 'error');
-            }
+            Swal.fire('Erro!', 'Falha ao cadastrar item', 'error');
         } finally {
             handleClose();
             props.atualizarItens();
@@ -152,6 +150,7 @@ export default function ModalCadCardapio(props) {
                                 <textarea
                                     name="descricao"
                                     rows="2"
+                                    maxLength="255"
                                     className={errors.descricao ? "form-control is-invalid" : "form-control"}
                                     id="descricaoItemCardapio"
                                     placeholder="Descrição do item"
