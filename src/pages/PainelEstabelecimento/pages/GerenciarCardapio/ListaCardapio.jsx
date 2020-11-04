@@ -7,6 +7,8 @@ import ModalEditarCardapio from './ModalEditarCardapio';
 import ModalVisualizar from './ModalVisualizar';
 import Loading from '../../../../components/Loading';
 
+import './styles/ListaCardapio.css';
+
 export default function ListaFuncionarios() {
     const [showModal, setShowModal] = useState(false);
     const [showModalEditar, setShowModalEditar] = useState(false);
@@ -100,16 +102,16 @@ export default function ListaFuncionarios() {
                         <td><span>{item.titulo}</span></td>
                         <td><span>{obj.categoria}</span></td>
                         <td><span>{currencyFormatter.format(item.valor)}</span></td>
-                        <td className="project-actions text-right">
-                            <button className="btn btn-secondary btn-sm ml-3" onClick={() => handleVisualizar(item, obj.categoria)}>
+                        <td className="project-actions text-right container-buttons">
+                            <button className="btn btn-secondary action-button" onClick={() => handleVisualizar(item, obj.categoria)}>
                                 <i className="fas fa-eye mr-2"></i>
                                 Visualizar
                             </button>
-                            <button className="btn btn-primary btn-sm ml-3" onClick={() => handleEditar(item, obj.categoria)}>
+                            <button className="btn btn-primary action-button" onClick={() => handleEditar(item, obj.categoria)}>
                                 <i className="fas fa-pencil-alt mr-2"></i>
                                 Editar
                             </button>
-                            <button className="btn btn-danger btn-sm ml-3" onClick={() => deletarItem(item)}>
+                            <button className="btn btn-danger action-button" onClick={() => deletarItem(item)}>
                                 <i className="fas fa-trash mr-2"></i>
                                 Deletar
                         </button>

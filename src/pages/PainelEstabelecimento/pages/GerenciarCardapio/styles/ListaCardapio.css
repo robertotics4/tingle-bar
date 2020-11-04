@@ -1,0 +1,37 @@
+.container-buttons {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-end;
+}
+
+@media (min-width: 320px) {
+    /* smartphones, iPhone, portrait 480x320 phones */
+    .container-buttons {
+        flex-direction: column;
+    }
+    .container-buttons .action-button {
+        width: 100%;
+        margin-top: 5px;
+    }
+}
+
+@media (min-width: 641px) {
+    /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
+    .container-buttons {
+        flex-direction: column;
+    }
+    .container-buttons .action-button {
+        width: 70%;
+        margin-top: 5px;
+    }
+}
+
+@media (min-width: 1421px) {
+    /* big landscape tablets, laptops, and desktops */
+    .container-buttons {
+        flex-direction: row;
+    }
+    .container-buttons .action-button {
+        width: fit-content;
+    }
+}
