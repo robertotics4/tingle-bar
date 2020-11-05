@@ -57,46 +57,36 @@ export default function Menu() {
             confirmButtonText: 'Salvar',
             cancelButtonText: 'Cancelar',
             showLoaderOnConfirm: true,
-        });
+            preConfirm: async (file) => {
+                if (file) {
+                    const data = new FormData();
 
-        if (file) {
-            const data = new FormData();
+                    data.append("idEstabelecimento", estabelecimento.id_Estabelecimento);
+                    data.append("files", file);
 
-            data.append("idEstabelecimento", estabelecimento.id_Estabelecimento);
-            data.append("files", file);
-
-            try {
-                const response = await api.post('/ImageEstabelecimento', data, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                });
-
-                if (response.status === 201 || response.status === 200) {
-                    console.log(response);
-
-                    const updatedEstabelecimento = {
-                        ...estabelecimento,
-                        imagem: response.data
-                    }
-
-                    setEstabelecimento(updatedEstabelecimento);
-
-                    const reader = new FileReader();
-
-                    reader.onload = (e) => {
-                        Swal.fire({
-                            title: 'Imagem atualizada com sucesso!',
-                            imageUrl: e.target.result,
-                            imageAlt: 'imagem atualizada do estabelecimento'
+                    try {
+                        const response = await api.post('/ImageEstabelecimento', data, {
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
                         });
+
+                        if (response.status === 201 || response.status === 200) {
+                            const updatedEstabelecimento = {
+                                ...estabelecimento,
+                                imagem: response.data
+                            }
+
+                            setEstabelecimento(updatedEstabelecimento);
+
+                            Swal.fire('Sucesso!', 'Imagem atualizada com sucesso', 'success');
+                        }
+                    } catch (err) {
+                        Swal.fire('Erro!', 'Falha ao cadastrar item', 'error');
                     }
-                    reader.readAsDataURL(file);
                 }
-            } catch (err) {
-                Swal.fire('Erro!', 'Falha ao cadastrar item', 'error');
             }
-        }
+        });
     }
 
     return (
