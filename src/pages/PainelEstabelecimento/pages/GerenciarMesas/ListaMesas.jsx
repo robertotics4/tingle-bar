@@ -4,6 +4,8 @@ import QRCode from 'qrcode';
 
 import api from '../../../../services/api';
 
+import './styles/ListaMesas.css';
+
 export default function ListaMesas() {
     const [estabelecimento, setEstabelecimento] = useState(null);
     const [funcionarios, setFuncionarios] = useState([]);
@@ -320,16 +322,16 @@ export default function ListaMesas() {
                                             <td>{item.descricao}</td>
                                             <td>{item.nome_funcionario}</td>
 
-                                            <td className="project-actions text-right">
-                                                <button className="btn btn-secondary btn-sm ml-3" onClick={() => generateQR(item)}>
+                                            <td className="project-actions text-right container-buttons">
+                                                <button className="btn btn-secondary btn-sm action-button" onClick={() => generateQR(item)}>
                                                     <i className="fas fa-qrcode mr-2"></i>
                                                     QRCode
                                                 </button>
-                                                <button className="btn btn-info btn-sm ml-3" onClick={() => alterarMesas(item)}>
+                                                <button className="btn btn-info btn-sm action-button" onClick={() => alterarMesas(item)}>
                                                     <i className="fas fa-pencil-alt mr-2"></i>
                                                     Editar
                                                 </button>
-                                                <button className="btn btn-danger btn-sm ml-3" onClick={() => deletarMesas(item)}>
+                                                <button className="btn btn-danger btn-sm action-button" onClick={() => deletarMesas(item)}>
                                                     <i className="fas fa-trash mr-2"></i>
                                                     Deletar
                                                 </button>

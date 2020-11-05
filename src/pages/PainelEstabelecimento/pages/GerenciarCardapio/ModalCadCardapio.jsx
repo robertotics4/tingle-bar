@@ -261,7 +261,7 @@ export default function ModalCadCardapio(props) {
                                 <input
                                     name="imagem"
                                     type="file"
-                                    accept="image/png, image/jpeg"
+                                    accept="image/png, image/jpeg, image/jpg"
                                     className={errors.imagem ? "form-control-file is-invalid" : "form-control-file"}
                                     id="imagemItemCardapio"
                                     onChange={handleChangeImagem}

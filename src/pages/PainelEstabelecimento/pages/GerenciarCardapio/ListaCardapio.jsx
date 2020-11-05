@@ -103,15 +103,15 @@ export default function ListaFuncionarios() {
                         <td><span>{obj.categoria}</span></td>
                         <td><span>{currencyFormatter.format(item.valor)}</span></td>
                         <td className="project-actions text-right container-buttons">
-                            <button className="btn btn-secondary action-button" onClick={() => handleVisualizar(item, obj.categoria)}>
+                            <button className="btn btn-secondary btn-sm action-button" onClick={() => handleVisualizar(item, obj.categoria)}>
                                 <i className="fas fa-eye mr-2"></i>
                                 Visualizar
                             </button>
-                            <button className="btn btn-primary action-button" onClick={() => handleEditar(item, obj.categoria)}>
+                            <button className="btn btn-primary btn-sm action-button" onClick={() => handleEditar(item, obj.categoria)}>
                                 <i className="fas fa-pencil-alt mr-2"></i>
                                 Editar
                             </button>
-                            <button className="btn btn-danger action-button" onClick={() => deletarItem(item)}>
+                            <button className="btn btn-danger btn-sm action-button" onClick={() => deletarItem(item)}>
                                 <i className="fas fa-trash mr-2"></i>
                                 Deletar
                         </button>
