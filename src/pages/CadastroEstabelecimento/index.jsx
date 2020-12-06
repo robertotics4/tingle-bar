@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from "react-hook-form";
 import { useHistory } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import InputMask from 'react-input-mask';
+import InputMask from 'react-input-mask';   
 
 import './CadastroEstabelecimento.css';
 import Loading from '../../components/Loading';
@@ -217,9 +217,10 @@ export default function CadastroEstabelecimento() {
                                 <div className="mb-3 col-md-6">
                                     <input
                                         type="text"
+                                        autoComplete="off"
                                         className="form-control"
                                         placeholder="Longitude"
-                                        name="longitude"
+                                        name="longitudecad"
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -229,6 +230,7 @@ export default function CadastroEstabelecimento() {
                                 <div className="mb-3 col-md-12">
                                     <input
                                         type="password"
+                                        autoComplete="off"
                                         className={errors.senha ? "form-control is-invalid" : "form-control"}
                                         placeholder="Senha"
                                         name="senha"

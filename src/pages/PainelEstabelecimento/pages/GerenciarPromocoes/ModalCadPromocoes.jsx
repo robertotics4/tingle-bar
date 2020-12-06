@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useMemo } from 'react';
 import { useForm } from "react-hook-form";
 import Swal from 'sweetalert2';
 import { Modal } from 'react-bootstrap';
+import formatvalue from '../../../../utils/formatvalue';
 
 import './styles/ModalCadPromocoes.css';
 
@@ -16,12 +17,41 @@ export default function ModalCadPromocoes(props) {
     const [itemSelecionado, setItemSelecionado] = useState(null);
     const [itensAdicionados, setItensAdicionados] = useState([]);
 
+    
+    
     const { register, handleSubmit, errors } = useForm();
 
     useEffect(() => {
         getCardapio();
         getItens();
     }, []);
+
+    const totalSemDesconto = useMemo(() => {
+        const total = itensAdicionados.reduce((accumulator, i) => {
+          const subtotal = i.obj.valor * i.quantidade;
+    
+          return accumulator + subtotal;
+        }, 0);
+    
+        return total;
+      }, [itensAdicionados]);
+
+      const totalComDesconto = useMemo(() => {
+          
+        if(valores.desconto){
+        const total = itensAdicionados.reduce((accumulator, i) => {
+          const subtotal = i.obj.valor * i.quantidade;
+    
+          return accumulator + subtotal;
+        }, 0);
+        
+        return total * (1-(valores.desconto/100));
+        }
+        return 0;
+      }, [itensAdicionados]);
+
+      
+    
 
     useEffect(() => {
         getItens();
@@ -131,25 +161,32 @@ export default function ModalCadPromocoes(props) {
     }
 
     function adicionarItem() {
-        if (itemSelecionado && valores.quantidade) {
-            const item = { obj: itemSelecionado, quantidade: valores.quantidade };
-            let existe = false;
+        var inp = document.getElementById("desconto");
+        if(inp.value != ''){
+            if (itemSelecionado && valores.quantidade) {
+                const item = { obj: itemSelecionado, quantidade: valores.quantidade };
+                let existe = false;
 
-            itensAdicionados.forEach(i => {
-                if (i.obj.codigo_item === item.obj.codigo_item) {
-                    existe = true;
+                itensAdicionados.forEach(i => {
+                    if (i.obj.codigo_item === item.obj.codigo_item) {
+                        existe = true;
+                    }
+                });
+
+                if (!existe) {
+                    setItensAdicionados([...itensAdicionados, item]);
                 }
-            });
-
-            if (!existe) {
-                setItensAdicionados([...itensAdicionados, item]);
+                //setaTotais();
             }
+        }else{
+            alert('Antes de adicionar um item, digite o valor do desconto(%)');
         }
     }
 
     function removerItem(index) {
         itensAdicionados.splice(index, 1);
         setItensAdicionados([...itensAdicionados]);
+        //setaTotais();
     }
 
     return (
@@ -324,13 +361,22 @@ export default function ModalCadPromocoes(props) {
                                             {itensAdicionados.map((item, index) => {
                                                 return (
                                                     <div key={item.obj.codigo_item} className="item-adicionado">
-                                                        <strong>{item.obj.titulo}</strong>&nbsp;({item.quantidade})
+                                                        <strong>{item.obj.titulo}</strong>&nbsp;({item.quantidade}) {item.obj.valor}
                                                         <button type="button" className="close ml-2" onClick={() => (removerItem(index))}>
                                                             <span aria-hidden="true">×</span>
                                                         </button>
                                                     </div>
                                                 );
                                             })}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="col-12">
+                                    <div className="form-group">
+                                        <div className="itens-total">
+                                            <strong>Valor total sem desconto :  {formatvalue(totalSemDesconto)}</strong>
+                                            <br/>
+                                            <strong>Valor total com desconto :  {formatvalue(totalComDesconto)}</strong>
                                         </div>
                                     </div>
                                 </div>

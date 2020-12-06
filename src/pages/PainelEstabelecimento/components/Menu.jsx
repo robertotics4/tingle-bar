@@ -26,7 +26,7 @@ export default function Menu() {
         }
         loadStoragedData();
     }, []);
-
+    
     useEffect(() => { }, [estabelecimento]);
 
     function handleLogout() {
@@ -76,8 +76,10 @@ export default function Menu() {
                                 ...estabelecimento,
                                 imagem: response.data
                             }
-
+                            
                             setEstabelecimento(updatedEstabelecimento);
+                            
+                            localStorage.setItem('@TBAuth:estabelecimento',JSON.stringify(updatedEstabelecimento))
 
                             Swal.fire('Sucesso!', 'Imagem atualizada com sucesso', 'success');
                         }

@@ -72,6 +72,7 @@ export default function ListaFuncionarios() {
             const response = await api.post('/Funcionario', payload);
 
             if (response.status === 201 || response.status === 200) {
+                console.log(response.status)
                 Swal.fire('Sucesso!', 'Funcionário cadastrado com sucesso!', 'success');
                 getFuncionarios();
             }
@@ -79,6 +80,9 @@ export default function ListaFuncionarios() {
         } catch (err) {
             if (err.response.status === 401 || err.response.status === 400) {
                 Swal.fire('Erro!', 'Falha ao cadastrar o funcionário', 'error')
+            }
+            if (err.response.status === 406 ) {
+                Swal.fire('Informação!', 'Funcionário já cadastrado no estabelecimento', 'warning')
             }
         }
     }
