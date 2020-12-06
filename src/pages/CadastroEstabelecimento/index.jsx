@@ -15,6 +15,7 @@ export default function CadastroEstabelecimento() {
     const enderecoRef = useRef(null);
     const latitudeRef = useRef(null);
     const longitudeRef = useRef(null);
+    const mapaRef = useRef(null);
 
     const [valores, setValores] = useState({});
     const [tiposEstabelecimento, setTiposEstabelecimento] = useState([]);
@@ -22,6 +23,8 @@ export default function CadastroEstabelecimento() {
 
     const history = useHistory();
     const { register, handleSubmit, errors, watch } = useForm();
+
+    let urlMaps = "http://maps.google.com/";
 
     const onSubmit = data => {
         setValores(data);
@@ -37,7 +40,9 @@ export default function CadastroEstabelecimento() {
             if (locate) {
                 latitudeRef.current.value = locate.lat;
                 longitudeRef.current.value = locate.lng;
-                console.log(locate);
+                //console.log(locate);
+                urlMaps = "http://maps.google.com/maps?q=" + locate.lat + "," + locate.lng ;
+                mapaRef.current.href = urlMaps;
             }
         }
     }, []);
@@ -74,14 +79,13 @@ export default function CadastroEstabelecimento() {
             "Latitude": valores.latitude,
             "Longitude": valores.longitude,
             "fk_tipo_estabelecimento_id": valores.tipoEstabelecimento,
-            "Imagem": "/uploads/default.png",
+            "Imagem": "/uploads/estabelecimento/default.png",
             "Distancia_km": "0",
             "Senha": valores.senha
         }
 
         try {
             resposta = await api.post('/estabelecimento', payload);
-
             if (resposta.status === 200 || resposta.status === 201) {
                 Swal.fire({
                     title: 'Sucesso!',
@@ -95,12 +99,32 @@ export default function CadastroEstabelecimento() {
             }
 
         } catch (err) {
-            Swal.fire({
-                title: 'Erro!',
-                text: 'Falha ao efetuar cadastro.',
-                icon: 'error',
-                confirmButtonText: 'Voltar'
-            });
+            if (err.response.status === 406) {
+                Swal.fire('Atenção!', err.response.data.retorno, 'warning');
+            } else {
+                Swal.fire({
+                    title: 'Erro!',
+                    text: 'Falha ao efetuar cadastro.',
+                    icon: 'error',
+                    confirmButtonText: 'Voltar'
+                });
+            }
+            // if(resposta.status===406){
+            //     Swal.fire({
+            //         title: 'Informação!',
+            //         text: 'CNPJ já cadastrado',
+            //         icon: 'warning',
+            //         confirmButtonText: 'Voltar'
+            //     });
+            // }else
+            // {
+                // Swal.fire({
+                //     title: 'Erro!',
+                //     text: 'Falha ao efetuar cadastro.',
+                //     icon: 'error',
+                //     confirmButtonText: 'Voltar'
+                // });
+            //}
         } finally {
             setLoadingVisible(false);
         }
@@ -144,7 +168,7 @@ export default function CadastroEstabelecimento() {
                                         ref={enderecoRef}
                                         onBlur={onBlurEndereco}
                                         name="endereco"
-                                        placeholder="Endereço, Município"
+                                        placeholder="Endereço, N.º, Bairro, Cidade"
                                         className={errors.endereco ? "form-control is-invalid" : "form-control"}
                                         type="text"
                                         onChange={handleChange}
@@ -204,7 +228,13 @@ export default function CadastroEstabelecimento() {
                                     />
                                 </div>
                             </div>
-
+                            <div className="row">
+                                <div className="mb-3 col-md-12">
+                                        <a 
+                                        ref={mapaRef}
+                                        href={urlMaps}  target="_blank" >Ver localização no mapa</a>
+                                </div>
+                            </div>
                             <div className="row">
                                 <div className="mb-3 col-md-12">
                                     <InputMask

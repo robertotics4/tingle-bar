@@ -38,26 +38,26 @@ export default function GarcomContent() {
         getContas();
     }, []);
 
-    useEffect(() => {
-        if (segundosPassados === TEMPO_LIMITE) {
-            if (navigator.serviceWorker.controller) {
-                console.log("Sendingage to service worker");
-                navigator.serviceWorker.controller.postMessage({
-                    "command": "oneWayCommunication",
-                    "message": "teste",
-                    "title": "Pedidos"
-                });
-            }
-            setSegundosPassados(0);
-            getContas();
-        }
+    // useEffect(() => {
+    //     if (segundosPassados === TEMPO_LIMITE) {
+    //         if (navigator.serviceWorker.controller) {
+    //             console.log("Sendingage to service worker");
+    //             navigator.serviceWorker.controller.postMessage({
+    //                 "command": "oneWayCommunication",
+    //                 "message": "teste",
+    //                 "title": "Pedidos"
+    //             });
+    //         }
+    //         setSegundosPassados(0);
+    //         getContas();
+    //     }
 
-        const interval = setInterval(passouSegundo, 1000);
+    //     const interval = setInterval(passouSegundo, 1000);
 
-        return () => {
-            clearInterval(interval);
-        }
-    });
+    //     return () => {
+    //         clearInterval(interval);
+    //     }
+    // });
 
     useEffect(() => {
         getContas();
@@ -84,7 +84,7 @@ export default function GarcomContent() {
         });
 
         connection.start().then(() => {
-            alert("SignalR Conectado");
+            //alert("SignalR Conectado");
         }).catch(function (err) {
             return console.error(err.toString());
         });
@@ -142,7 +142,7 @@ export default function GarcomContent() {
             return err.response;
         } finally {
             setLoadingVisible(false);
-            showPushNotifications();
+            //showPushNotifications();
         }
     }
 

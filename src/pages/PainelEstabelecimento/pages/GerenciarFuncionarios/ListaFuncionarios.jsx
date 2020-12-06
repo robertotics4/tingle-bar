@@ -78,11 +78,11 @@ export default function ListaFuncionarios() {
             }
 
         } catch (err) {
-            if (err.response.status === 401 || err.response.status === 400) {
-                Swal.fire('Erro!', 'Falha ao cadastrar o funcionário', 'error')
-            }
             if (err.response.status === 406 ) {
                 Swal.fire('Informação!', 'Funcionário já cadastrado no estabelecimento', 'warning')
+            }
+            if (err.response.status === 401 || err.response.status === 400) {
+                Swal.fire('Erro!', 'Falha ao cadastrar o funcionário', 'error')
             }
         }
     }

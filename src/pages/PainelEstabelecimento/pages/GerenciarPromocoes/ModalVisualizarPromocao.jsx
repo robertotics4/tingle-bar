@@ -1,7 +1,9 @@
-import React from 'react';
+
+import React, { useState, useEffect,useMemo } from 'react';
 import { Modal, Image } from 'react-bootstrap';
 
 import './styles/ModalVisualizarPromocao.css';
+import formatvalue from '../../../../utils/formatvalue';
 
 const baseURL = 'https://www.papya.com.br';
 
@@ -9,6 +11,35 @@ export default function ModalVisualizarPromocao(props) {
     const handleClose = () => props.setShowModal(false);
     const dateFormatter = new Intl.DateTimeFormat('pt-BR');
 
+    const totalSemDesconto = useMemo(() => {
+          
+        if(props.promocao.desconto){
+        const total = props.promocao.itens.reduce((accumulator, i) => {
+          const subtotal = i.valor * i.qtd_item;
+    
+          return accumulator + subtotal;
+        }, 0);
+        
+        return total;
+        }
+        return 0;
+      }, [props.promocao.itens]);
+
+    const totalComDesconto = useMemo(() => {
+          
+        if(props.promocao.desconto){
+        const total = props.promocao.itens.reduce((accumulator, i) => {
+          const subtotal = i.valor * i.qtd_item;
+    
+          return accumulator + subtotal;
+        }, 0);
+        
+        return total * (1-(props.promocao.desconto));
+        }
+        return 0;
+      }, [props.promocao.itens]);
+
+    console.log(props);
     function getValidade() {
         const dataAtual = new Date();
         const dataValida = dataAtual.setDate(dataAtual.getDate() + props.promocao.validade);
@@ -41,7 +72,8 @@ export default function ModalVisualizarPromocao(props) {
                                 }
                             </ul>
 
-                            <p className="valor-item">Desconto de {props.promocao.desconto * 100} %</p>
+                            <p className="valor-item">De {formatvalue(totalSemDesconto)} por {formatvalue(totalComDesconto)} </p>
+                            <p className="valor-desconto">Desconto de {props.promocao.desconto * 100} %</p>
                         </div>
                     </div>
                 </Modal.Body>

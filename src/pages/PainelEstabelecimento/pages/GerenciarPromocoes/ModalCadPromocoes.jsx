@@ -179,7 +179,8 @@ export default function ModalCadPromocoes(props) {
                 //setaTotais();
             }
         }else{
-            alert('Antes de adicionar um item, digite o valor do desconto(%)');
+            //alert('Antes de adicionar um item, digite o valor do desconto(%)');
+            Swal.fire('Atençao!', 'Antes de adicionar um item, digite o valor do desconto(%)', 'warning');
         }
     }
 
@@ -361,7 +362,7 @@ export default function ModalCadPromocoes(props) {
                                             {itensAdicionados.map((item, index) => {
                                                 return (
                                                     <div key={item.obj.codigo_item} className="item-adicionado">
-                                                        <strong>{item.obj.titulo}</strong>&nbsp;({item.quantidade}) {item.obj.valor}
+                                                        <strong>{item.obj.titulo}</strong>&nbsp;({item.quantidade}) {formatvalue(item.quantidade*item.obj.valor)}
                                                         <button type="button" className="close ml-2" onClick={() => (removerItem(index))}>
                                                             <span aria-hidden="true">×</span>
                                                         </button>
