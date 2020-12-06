@@ -1,15 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useForm } from "react-hook-form";
 import { useHistory } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import InputMask from 'react-input-mask';   
+import InputMask from 'react-input-mask';
 
 import './CadastroEstabelecimento.css';
 import Loading from '../../components/Loading';
 
 import api from '../../services/api';
 
+import getLocalization from '../../services/getLocalization';
+
 export default function CadastroEstabelecimento() {
+    const enderecoRef = useRef(null);
+    const latitudeRef = useRef(null);
+    const longitudeRef = useRef(null);
+
     const [valores, setValores] = useState({});
     const [tiposEstabelecimento, setTiposEstabelecimento] = useState([]);
     const [isLoadingVisible, setLoadingVisible] = useState(false);
@@ -21,6 +27,20 @@ export default function CadastroEstabelecimento() {
         setValores(data);
         cadastrarEstabelecimento();
     };
+
+    const onBlurEndereco = useCallback(async () => {
+        const endereco = enderecoRef.current.value;
+
+        if (endereco) {
+            const locate = await getLocalization(endereco);
+
+            if (locate) {
+                latitudeRef.current.value = locate.lat;
+                longitudeRef.current.value = locate.lng;
+                console.log(locate);
+            }
+        }
+    }, []);
 
     useEffect(() => { }, [isLoadingVisible]);
 
@@ -121,17 +141,19 @@ export default function CadastroEstabelecimento() {
                             <div className="row">
                                 <div className="mb-3 col-md-10">
                                     <input
+                                        ref={enderecoRef}
+                                        onBlur={onBlurEndereco}
                                         name="endereco"
-                                        placeholder="Endereço"
+                                        placeholder="Endereço, Município"
                                         className={errors.endereco ? "form-control is-invalid" : "form-control"}
                                         type="text"
                                         onChange={handleChange}
-                                        ref={register({
-                                            required: {
-                                                value: "Required",
-                                                message: "O endereço é obrigatório"
-                                            }
-                                        })}
+                                    // ref={register({
+                                    //     required: {
+                                    //         value: "Required",
+                                    //         message: "O endereço é obrigatório"
+                                    //     }
+                                    // })}
                                     />
                                     <span className="error invalid-feedback">{errors.endereco && errors.endereco.message}</span>
                                 </div>
@@ -154,6 +176,32 @@ export default function CadastroEstabelecimento() {
                                         })}
                                     />
                                     <span className="error invalid-feedback">{errors.numero && errors.numero.message}</span>
+                                </div>
+                            </div>
+
+                            <div className="row">
+                                <div className="mb-3 col-md-6">
+                                    <input
+                                        ref={latitudeRef}
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Latitude"
+                                        name="latitude"
+                                        onChange={handleChange}
+                                        readOnly
+                                    />
+                                </div>
+                                <div className="mb-3 col-md-6">
+                                    <input
+                                        ref={longitudeRef}
+                                        type="text"
+                                        autoComplete="off"
+                                        className="form-control"
+                                        placeholder="Longitude"
+                                        name="longitude"
+                                        onChange={handleChange}
+                                        readOnly
+                                    />
                                 </div>
                             </div>
 
@@ -201,28 +249,6 @@ export default function CadastroEstabelecimento() {
                                         ))}
                                     </select>
                                     <span className="error invalid-feedback">{errors.tipoEstabelecimento && errors.tipoEstabelecimento.message}</span>
-                                </div>
-                            </div>
-
-                            <div className="row">
-                                <div className="mb-3 col-md-6">
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        placeholder="Latitude"
-                                        name="latitude"
-                                        onChange={handleChange}
-                                    />
-                                </div>
-                                <div className="mb-3 col-md-6">
-                                    <input
-                                        type="text"
-                                        autoComplete="off"
-                                        className="form-control"
-                                        placeholder="Longitude"
-                                        name="longitudecad"
-                                        onChange={handleChange}
-                                    />
                                 </div>
                             </div>
 
