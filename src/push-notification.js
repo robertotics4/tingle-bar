@@ -17,6 +17,7 @@ export const initializeFirebase = () => {
     measurementId: "G-TBRHHG1V2G"
   });
 
+  askForPermissioToReceiveNotifications();
   // use other service worker
   // navigator.serviceWorker
   //   .register('/my-sw.js')
