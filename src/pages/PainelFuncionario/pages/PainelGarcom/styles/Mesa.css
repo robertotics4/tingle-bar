@@ -45,3 +45,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.sol-pag{
+    position: relative;
+    right: -50px;
+}

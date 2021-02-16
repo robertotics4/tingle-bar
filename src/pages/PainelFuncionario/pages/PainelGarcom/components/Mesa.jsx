@@ -3,6 +3,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import '../styles/Mesa.css';
 
 export default function Mesa(props) {
+    const [pedidosPagamento, setPedidosPagamento] = useState(0);
     const [pedidosAbertos, setPedidosAbertos] = useState(0);
     const [conta, setConta] = useState(null);
     const currencyFormatter = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -13,27 +14,36 @@ export default function Mesa(props) {
 
     const getPedidosAbertos = useCallback(() => {
         let contador = 0;
+        let contadorPag = 0;
 
         if (conta) {
             conta.usuarios.forEach(usuario => {
+                if (usuario.status_conta_usuario=="Solicita pagamento"){
+                    contadorPag += 1;
+                }
                 usuario.pedidos.forEach(pedido => {
                     pedido.itens.forEach(item => {
                         if (item.item_is_cozinha && item.item_status === 'Pedido pronto') {
                             contador += 1;
                         } else if (!item.item_is_cozinha && item.item_status !== 'Entregue') {
                             contador += 1;
-                        }
+                        } 
                     });
                 });
             });
         }
 
         setPedidosAbertos(contador);
+        setPedidosPagamento(contadorPag);
     }, [conta]);
 
     useEffect(() => {
         getPedidosAbertos();
     }, [conta, getPedidosAbertos]);
+
+    // useEffect(() => {
+    //     getPedidosPagamento();
+    // }, [conta, getPedidosPagamento]);
 
     return (
         <div className="card card-mesa" style={{ width: '18rem' }}>
@@ -64,9 +74,13 @@ export default function Mesa(props) {
             </ul>
 
             <button type="button" className="btn-fechar" onClick={props.onClickFechar}>
+            <div className="card-body p-3">
                 <i className="fas fa-dollar-sign mr-2"></i>
                 Visualizar conta
+                <span className="badge badge-danger sol-pag"  >{pedidosPagamento === 0 ? '' : pedidosPagamento}</span>
+            </div>
             </button>
+            
 
         </div>
     );

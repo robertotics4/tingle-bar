@@ -11,7 +11,7 @@ import ModalFecharConta from './ModalFecharConta';
 import ModalVisualizarMesa from './ModalVisualizarMesa';
 import Loading from '../../../../../components/Loading';
 
-const TEMPO_LIMITE = 10;
+const TEMPO_LIMITE = 30;
 
 export default function GarcomContent() {
     const [estabelecimento, setEstabelecimento] = useState(null);
@@ -38,26 +38,28 @@ export default function GarcomContent() {
         getContas();
     }, []);
 
-    // useEffect(() => {
-    //     if (segundosPassados === TEMPO_LIMITE) {
-    //         if (navigator.serviceWorker.controller) {
-    //             console.log("Sendingage to service worker");
-    //             navigator.serviceWorker.controller.postMessage({
-    //                 "command": "oneWayCommunication",
-    //                 "message": "teste",
-    //                 "title": "Pedidos"
-    //             });
-    //         }
-    //         setSegundosPassados(0);
-    //         getContas();
-    //     }
+    //Comando para fazer refresh na pagina a cada x segundos
+    useEffect(() => {
+        if (segundosPassados === TEMPO_LIMITE) {
+            if (navigator.serviceWorker.controller) {
+                console.log("Sendingage to service worker");
+                navigator.serviceWorker.controller.postMessage({
+                    "command": "oneWayCommunication",
+                    "message": "teste",
+                    "title": "Pedidos"
+                });
+            }
+            setSegundosPassados(0);
+            getContas();
+        }
 
-    //     const interval = setInterval(passouSegundo, 1000);
+        const interval = setInterval(passouSegundo, 1000);
 
-    //     return () => {
-    //         clearInterval(interval);
-    //     }
-    // });
+        return () => {
+            clearInterval(interval);
+        }
+    });
+    //Comando para fazer refresh na pagina a cada x segundos
 
     useEffect(() => {
         getContas();
