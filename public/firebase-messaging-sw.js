@@ -8,5 +8,11 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging();
 
+self.addEventListener('push', function(event) {
+    console.log(event)
+    var promise = self.registration.showNotification('Push notification!');
+    console.log('entrou')
+    event.waitUntil(promise);
+  });
 
 
