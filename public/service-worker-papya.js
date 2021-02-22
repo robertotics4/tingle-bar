@@ -50,7 +50,7 @@ self.addEventListener('notificationclick', function (e) {
             clients.openWindow(retorno);
             notification.close();
         }catch (err){
-            clients.openWindow('https://www.papya.com.br/api/values');  
+            //clients.openWindow('https://www.papya.com.br/api/values');  
             notification.close();
         }
     }
