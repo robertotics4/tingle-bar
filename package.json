@@ -24,6 +24,7 @@
     "react-spinkit": "^3.0.0",
     "react-toastify": "^6.0.8",
     "react-widgets": "^4.5.0",
+    "read-appsettings-json": "^1.0.98",
     "sweetalert2": "^9.17.1"
   },
   "homepage": "./",

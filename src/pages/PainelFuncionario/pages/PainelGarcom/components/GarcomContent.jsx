@@ -2,7 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { ToastContainer, toast, Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Swal from 'sweetalert2';
-import * as SignalR from '@aspnet/signalr';
+//import * as SignalR from '@aspnet/signalr';
+import PushRegistry from '../../../components/PushRegistry';
 
 
 import Mesa from './Mesa';
@@ -24,7 +25,7 @@ export default function GarcomContent() {
     const [segundosPassados, setSegundosPassados] = useState(0);
 
     useEffect(() => {
-        configureSocketConnection();
+        //configureSocketConnection();
 
         async function loadStoragedData() {
             const storagedEstabelecimento = localStorage.getItem('@TBAuth:estabelecimento');
@@ -39,58 +40,58 @@ export default function GarcomContent() {
     }, []);
 
     //Comando para fazer refresh na pagina a cada x segundos
-    useEffect(() => {
-        if (segundosPassados === TEMPO_LIMITE) {
-            if (navigator.serviceWorker.controller) {
-                console.log("Sendingage to service worker");
-                navigator.serviceWorker.controller.postMessage({
-                    "command": "oneWayCommunication",
-                    "message": "teste",
-                    "title": "Pedidos"
-                });
-            }
-            setSegundosPassados(0);
-            getContas();
-        }
+    // useEffect(() => {
+    //     if (segundosPassados === TEMPO_LIMITE) {
+    //         if (navigator.serviceWorker.controller) {
+    //             console.log("Sendingage to service worker");
+    //             navigator.serviceWorker.controller.postMessage({
+    //                 "command": "oneWayCommunication",
+    //                 "message": "teste",
+    //                 "title": "Pedidos"
+    //             });
+    //         }
+    //         setSegundosPassados(0);
+    //         getContas();
+    //     }
 
-        const interval = setInterval(passouSegundo, 1000);
+    //     const interval = setInterval(passouSegundo, 1000);
 
-        return () => {
-            clearInterval(interval);
-        }
-    });
+    //     return () => {
+    //         clearInterval(interval);
+    //     }
+    // });
     //Comando para fazer refresh na pagina a cada x segundos
 
     useEffect(() => {
         getContas();
     }, [estabelecimento, isGarcom]);
 
-    function configureSocketConnection() {
-        const connection = new SignalR.HubConnectionBuilder()
-            .withUrl("https://www.papya.com.br/pushhub")
-            .build();
+    // function configureSocketConnection() {
+    //     const connection = new SignalR.HubConnectionBuilder()
+    //         .withUrl("https://www.papya.com.br/pushhub")
+    //         .build();
 
-        connection.on("ReceiveMessage", (user, message) => {
-            const msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-            const encodedMsg = user + " - " + msg;
+    //     connection.on("ReceiveMessage", (user, message) => {
+    //         const msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    //         const encodedMsg = user + " - " + msg;
 
-            // if (navigator.serviceWorker.controller) {
-            //     console.log("Sendingage to service worker");
-            //     navigator.serviceWorker.controller.postMessage({
-            //         "command": "oneWayCommunication",
-            //         "message": encodedMsg,
-            //         "title": "Pedidos"
-            //     });
-            // }
+    //         // if (navigator.serviceWorker.controller) {
+    //         //     console.log("Sendingage to service worker");
+    //         //     navigator.serviceWorker.controller.postMessage({
+    //         //         "command": "oneWayCommunication",
+    //         //         "message": encodedMsg,
+    //         //         "title": "Pedidos"
+    //         //     });
+    //         // }
 
-        });
+    //     });
 
-        connection.start().then(() => {
-            //alert("SignalR Conectado");
-        }).catch(function (err) {
-            return console.error(err.toString());
-        });
-    }
+    //     connection.start().then(() => {
+    //         //alert("SignalR Conectado");
+    //     }).catch(function (err) {
+    //         return console.error(err.toString());
+    //     });
+    // }
 
     function showPushNotifications() {
         if (contas) {
@@ -256,6 +257,7 @@ export default function GarcomContent() {
 
                 </div>
             </section>
+            <PushRegistry></PushRegistry>
             {/* /.content */}
 
 

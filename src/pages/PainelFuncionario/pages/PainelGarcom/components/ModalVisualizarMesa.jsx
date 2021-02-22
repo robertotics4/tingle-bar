@@ -1,6 +1,5 @@
 import React from 'react';
 import { Modal } from 'react-bootstrap';
-
 import '../styles/ModalVisualizarMesa.css';
 import TabelaItens from './TabelaItens';
 
