@@ -10,9 +10,6 @@ import { promised } from 'q';
 import { promises } from 'fs';
 import api from '../../../services/api';
 
-import notificationConfig from '../../../config/notificationConfig';
-
-
 export default function PushRegistry() {
     //const [key, setKey] = useState('estabelecimento');
     
@@ -170,33 +167,13 @@ export default function PushRegistry() {
             });
         }
 
-        // async function getSubscription(reg) {
-        //     try {
-        //         const sub = await reg.pushManager.getSubscription();
-
-        //         if (sub === null) {
-        //             await reg.pushManager.subscribe({
-        //                 userVisibleOnly: true,
-        //                 applicationServerKey: "BMaovlhsjsip6xlG66nMXizLVJmDDBEZN0anGj82-V7OfsBlxKTJ7tkyz3cBDydIKZcmlaDD-RK-ZSJK7ggat3M"
-        //             });
-
-        //             fillSubscribeFields(sub);
-        //         } else {
-        //             fillSubscribeFields(sub);
-        //         }
-        //     } catch (err) {
-        //         console.log(err);
-        //     }
-        // }
-
         function getSubscription(reg)
         {
             reg.pushManager.getSubscription().then(function (sub) {
                 if (sub === null) {
                     reg.pushManager.subscribe({
                         userVisibleOnly: true,
-                        // applicationServerKey: AppConfiguration.Setting().VAPID.publicKey
-                        applicationServerKey: notificationConfig.VAPID.publicKey
+                        applicationServerKey: AppConfiguration.Setting().VAPID.publicKey
                     }).then(function (sub) {
                         console.log(sub);
                         fillSubscribeFields(sub);

@@ -1,7 +1,0 @@
-module.exports = {
-  VAPID: {
-    subject: "mailto:humbertojllins@gmail.com",
-    publicKey: "BMaovlhsjsip6xlG66nMXizLVJmDDBEZN0anGj82-V7OfsBlxKTJ7tkyz3cBDydIKZcmlaDD-RK-ZSJK7ggat3M",
-    privateKey: "uWupj3sPVTR-BQa-9SMgHuVPQxwS6XMoJVRyC2kvDiw"
-  }
-}
