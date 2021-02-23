@@ -8,6 +8,9 @@ import { Modal, ResponsiveEmbed } from 'react-bootstrap';
 import '../../../styles/ModalPush.css';
 import { promised } from 'q';
 import { promises } from 'fs';
+import api from '../../../services/api';
+
+import notificationConfig from '../../../config/notificationConfig';
 
 
 export default function PushRegistry() {
@@ -19,23 +22,24 @@ export default function PushRegistry() {
     const [swreg, setswreg] = useState(null);
     const [client, setClient] = useState("");
     const [endpoint, setendpoint] = useState("");
-    const [p256dh, setp256dh] = useState("");
-    const [auth, setauth] = useState("");
+    const [p256dh, setp256dh] = useState(null);
+    const [auth, setauth] = useState(null);
     const [notificacao, setNotificacao] = useState([])
     const [cadastroExiste, setCadastroExiste] = useState(false)
     const [funcionario, setFuncionario] = useState(null);
-    
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     
-
     useEffect(() => {
         pegarDadosProcessados();
         registrarServiceWork();
     }, []);
-    
+
+    console.log(typeof(auth));
+    console.log(auth);
+
     // useEffect(() => {
     //     registrarServiceWork();
     // },[cadastroExiste])
@@ -68,7 +72,7 @@ export default function PushRegistry() {
      async function validarCadastro(dados) {
         try {
             if(dados !=null){
-                const response =  await axios.get(`https://www.papya.com.br/api/Notificacao/${dados.iD_ESTABELECIMENTO}/${dados.id}` ,{
+                const response =  await api.get(`/Notificacao/${dados.iD_ESTABELECIMENTO}/${dados.id}` ,{
                     headers: {
                         'Content-Type': 'application/json'
                     }
@@ -129,10 +133,10 @@ export default function PushRegistry() {
      async function CadastrarNotificacao() {
          if(estabelecimento)
          {
-            // console.log(funcionario.id);
-            // console.log(estabelecimento.iD_ESTABELECIMENTO);
-            // console.log(endpoint);
-            // console.log(p256dh);
+            console.log(estabelecimento.id);
+            console.log(estabelecimento.iD_ESTABELECIMENTO);
+            console.log(endpoint);
+            console.log(p256dh);
 
             try {
                 const payload = {
@@ -142,7 +146,7 @@ export default function PushRegistry() {
                     "p256dh": p256dh,
                     "auth": auth
                 }
-              const response = await axios.post('https://www.papya.com.br/api/Notificacao', payload );
+              const response = await api.post('/Notificacao', payload );
               
               if (response.data) {
                 setNotificacao(response.data);
@@ -152,8 +156,6 @@ export default function PushRegistry() {
             }
             handleClose();
         }
-
-        
       }
         
 
@@ -168,53 +170,51 @@ export default function PushRegistry() {
             });
         }
 
-        async function getSubscription(reg) {
-            try {
-                const sub = await reg.pushManager.getSubscription();
+        // async function getSubscription(reg) {
+        //     try {
+        //         const sub = await reg.pushManager.getSubscription();
 
-                if (sub === null) {
-                    await reg.pushManager.subscribe({
-                        userVisibleOnly: true,
-                        applicationServerKey: "BMaovlhsjsip6xlG66nMXizLVJmDDBEZN0anGj82-V7OfsBlxKTJ7tkyz3cBDydIKZcmlaDD-RK-ZSJK7ggat3M"
-                    });
-
-                    fillSubscribeFields(sub);
-                } else {
-                    fillSubscribeFields(sub);
-                }
-
-                console.log(sub);
-                console.log(arrayBufferToBase64(sub.getKey("p256dh")));
-                console.log(arrayBufferToBase64(sub.getKey("auth")));
-            } catch (err) {
-                console.log(err);
-            }
-        }
-
-        // function getSubscription(reg)
-        // {
-        //     reg.pushManager.getSubscription().then(function (sub) {
         //         if (sub === null) {
-        //             reg.pushManager.subscribe({
+        //             await reg.pushManager.subscribe({
         //                 userVisibleOnly: true,
         //                 applicationServerKey: "BMaovlhsjsip6xlG66nMXizLVJmDDBEZN0anGj82-V7OfsBlxKTJ7tkyz3cBDydIKZcmlaDD-RK-ZSJK7ggat3M"
-        //             }).then(function (sub) {
-        //                 console.log(sub);
-        //                 fillSubscribeFields(sub);
-        //             }).catch(function (e) {
-        //                 console.error("Unable to subscribe to push", e);
         //             });
+
+        //             fillSubscribeFields(sub);
         //         } else {
         //             fillSubscribeFields(sub);
         //         }
-        //     });
+        //     } catch (err) {
+        //         console.log(err);
+        //     }
         // }
+
+        function getSubscription(reg)
+        {
+            reg.pushManager.getSubscription().then(function (sub) {
+                if (sub === null) {
+                    reg.pushManager.subscribe({
+                        userVisibleOnly: true,
+                        // applicationServerKey: AppConfiguration.Setting().VAPID.publicKey
+                        applicationServerKey: notificationConfig.VAPID.publicKey
+                    }).then(function (sub) {
+                        console.log(sub);
+                        fillSubscribeFields(sub);
+                    }).catch(function (e) {
+                        console.error("Unable to subscribe to push", e);
+                    });
+                } else {
+                    fillSubscribeFields(sub);
+                }
+            });
+        }
 
         function fillSubscribeFields(sub) {
             setendpoint(sub.endpoint);
             setp256dh(arrayBufferToBase64(sub.getKey("p256dh")));
             setauth(arrayBufferToBase64(sub.getKey("auth")));
         }
+
         function arrayBufferToBase64(buffer) {
             var binary = '';
             var bytes = new Uint8Array(buffer);
