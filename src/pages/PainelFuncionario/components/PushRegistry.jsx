@@ -34,7 +34,6 @@ export default function PushRegistry() {
     useEffect(() => {
         pegarDadosProcessados();
         registrarServiceWork();
-        
     }, []);
     
     // useEffect(() => {
@@ -168,23 +167,49 @@ export default function PushRegistry() {
                 }
             });
         }
-        function getSubscription(reg)
-        {
-            reg.pushManager.getSubscription().then(function (sub) {
+
+        async function getSubscription(reg) {
+            try {
+                const sub = await reg.pushManager.getSubscription();
+
                 if (sub === null) {
-                    reg.pushManager.subscribe({
+                    await reg.pushManager.subscribe({
                         userVisibleOnly: true,
-                        applicationServerKey: AppConfiguration.Setting().VAPID.publicKey
-                    }).then(function (sub) {
-                        fillSubscribeFields(sub);
-                    }).catch(function (e) {
-                        console.error("Unable to subscribe to push", e);
+                        applicationServerKey: "BMaovlhsjsip6xlG66nMXizLVJmDDBEZN0anGj82-V7OfsBlxKTJ7tkyz3cBDydIKZcmlaDD-RK-ZSJK7ggat3M"
                     });
+
+                    fillSubscribeFields(sub);
                 } else {
                     fillSubscribeFields(sub);
                 }
-            });
+
+                console.log(sub);
+                console.log(arrayBufferToBase64(sub.getKey("p256dh")));
+                console.log(arrayBufferToBase64(sub.getKey("auth")));
+            } catch (err) {
+                console.log(err);
+            }
         }
+
+        // function getSubscription(reg)
+        // {
+        //     reg.pushManager.getSubscription().then(function (sub) {
+        //         if (sub === null) {
+        //             reg.pushManager.subscribe({
+        //                 userVisibleOnly: true,
+        //                 applicationServerKey: "BMaovlhsjsip6xlG66nMXizLVJmDDBEZN0anGj82-V7OfsBlxKTJ7tkyz3cBDydIKZcmlaDD-RK-ZSJK7ggat3M"
+        //             }).then(function (sub) {
+        //                 console.log(sub);
+        //                 fillSubscribeFields(sub);
+        //             }).catch(function (e) {
+        //                 console.error("Unable to subscribe to push", e);
+        //             });
+        //         } else {
+        //             fillSubscribeFields(sub);
+        //         }
+        //     });
+        // }
+
         function fillSubscribeFields(sub) {
             setendpoint(sub.endpoint);
             setp256dh(arrayBufferToBase64(sub.getKey("p256dh")));
