@@ -227,9 +227,9 @@ export default function PushRegistry() {
 
     return (
         <div>
-            <input id="endpoint" name="endpoint"  value={endpoint}  placeholder="Endpoint" readOnly /><br />
+            {/* <input id="endpoint" name="endpoint"  value={endpoint}  placeholder="Endpoint" readOnly /><br />
             <input id="p256dh" name="p256dh" value={p256dh} placeholder="p256dh" readOnly /><br />
-            <input id="auth" name="auth" value={auth} placeholder="auth" readOnly /><br />
+            <input id="auth" name="auth" value={auth} placeholder="auth" readOnly /><br /> */}
             
             {/* <button onClick={()=> handleShow()}>mostrar modal</button> */}
             {/* <div className="login-box">

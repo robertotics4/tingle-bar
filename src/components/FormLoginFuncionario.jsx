@@ -45,7 +45,8 @@ export default function FormLoginFuncionario(props) {
                 });
 
                 setEstabelecimentoFuncionario(listaEstabelecimentos[value]);
-                history.push('/painelFuncionario');
+                //history.push('/painelFuncionario');
+                history.push('/painelGarcom');
             }
 
         } else if (response.status === 401) {
