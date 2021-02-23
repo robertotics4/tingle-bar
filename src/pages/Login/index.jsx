@@ -33,38 +33,38 @@ export default function LoginEstabelecimento(props) {
     }
     
     
-    console.log(navigator.serviceWorker.controller)
+    //console.log(navigator.serviceWorker.controller)
 
-    useEffect(() => { configureSocketConnection();}, [isLoadingVisible]);
+    //useEffect(() => { configureSocketConnection();}, [isLoadingVisible]);
 
-    function configureSocketConnection() {
-        const connection = new SignalR.HubConnectionBuilder()
-            .withUrl("https://www.papya.com.br/pushhub")
-            .build();
+    // function configureSocketConnection() {
+    //     const connection = new SignalR.HubConnectionBuilder()
+    //         .withUrl("https://www.papya.com.br/pushhub")
+    //         .build();
 
-        connection.on("ReceiveMessage", (user, message) => {
-            const msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-            const encodedMsg = user + " - " + msg;
-            //Swal.fire('Mensagem', encodedMsg, 'info');
+    //     connection.on("ReceiveMessage", (user, message) => {
+    //         const msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    //         const encodedMsg = user + " - " + msg;
+    //         //Swal.fire('Mensagem', encodedMsg, 'info');
             
-                console.log("Sendingage to service worker");
-                navigator.serviceWorker.controller.postMessage({
-                    "command": "oneWayCommunication",
-                    "message": encodedMsg,
-                    "title":"Pedidos"
-                });
-        });
+    //             console.log("Sendingage to service worker");
+    //             navigator.serviceWorker.controller.postMessage({
+    //                 "command": "oneWayCommunication",
+    //                 "message": encodedMsg,
+    //                 "title":"Pedidos"
+    //             });
+    //     });
 
-        connection.start().then(() => {
-           // alert("SignalR Conectado");
-        }).catch(function (err) {
-            return console.error(err.toString());
-        });
-    }
+    //     connection.start().then(() => {
+    //        // alert("SignalR Conectado");
+    //     }).catch(function (err) {
+    //         return console.error(err.toString());
+    //     });
+    // }
 
      //######## Configuracoes de PUSH #########
 
-     async function cadastrarNotificacao() {
+    async function cadastrarNotificacao() {
         try {
             const payload = {
                 "fkestabelecimento": 38,
@@ -73,14 +73,13 @@ export default function LoginEstabelecimento(props) {
                 "p256dh": p256dh,
                 "auth": auth
             }
-          const response = await axios.post('https://www.papya.com.br/api/Notificacao', payload );
-          
-          if (response.data) {
-            setNotificacao(response.data);
-          }
-        } catch (err) {
-            console.log(err.message);
-          //alert('erro');
+            const response = await axios.post('https://www.papya.com.br/api/Notificacao', payload);
+            if (response.data) {
+                setNotificacao(response.data);
+            }
+        } catch (err)
+        {
+             console.log('Erro');
         }
       }
 
@@ -110,16 +109,16 @@ export default function LoginEstabelecimento(props) {
                     setswreg(reg);
                     if (Notification.permission === "granted")
                     {   
-                        //setsubscVisible("granted");
+                        setsubscVisible("granted");
                         //console.log(AppConfiguration.Setting().VAPID.publicKey);
                         //alert(subscVisible);
                         //$("#form").show();
                         getSubscription(reg);
                     } else if (Notification.permission === "blocked" || Notification.permission === "denied" ) {
-                        //setsubscVisible("blocked");
+                        setsubscVisible("blocked");
                         //$("#NoSupport").show();
                     } else {
-                        //setsubscVisible("giveaccess");
+                        setsubscVisible("giveaccess");
                         //$("#GiveAccess").show();
                         //$("#PromptForAccessBtn").click(() => requestNotificationAccess(reg));
                         //this.btnPrompt.click(() => requestNotificationAccess(reg));

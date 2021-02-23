@@ -130,10 +130,10 @@ export default function PushRegistry() {
      async function CadastrarNotificacao() {
          if(estabelecimento)
          {
-            console.log(estabelecimento.id);
-            console.log(estabelecimento.iD_ESTABELECIMENTO);
-            console.log(endpoint);
-            console.log(p256dh);
+            // console.log(estabelecimento.id);
+            // console.log(estabelecimento.iD_ESTABELECIMENTO);
+            // console.log(endpoint);
+            // console.log(p256dh);
 
             try {
                 const payload = {
