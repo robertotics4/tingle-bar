@@ -75,7 +75,7 @@ export default function LoginEstabelecimento(props) {
             }
             const response = await axios.post('https://www.papya.com.br/api/Notificacao', payload);
             if (response.data) {
-                setNotificacao(response.data);
+                setNotificacao(response.data)
             }
         } catch (err)
         {
@@ -220,7 +220,8 @@ export default function LoginEstabelecimento(props) {
             <div id="NoSupport" style={subscVisible=="blocked"? {visibility: "visible"}:{visibility: "hidden"}}>
                 Your browser does not support Push Notifications or you have blocked notifications
             </div>
-            <form id="form" style={subscVisible=="granted"? {visibility: "visible"}:{visibility: "hidden"}} >
+            {/* <form id="form" style={subscVisible=="granted"? {visibility: "visible"}:{visibility: "hidden"}} > */}
+            <div id="form"  style={subscVisible=="granted"? {visibility: "visible"}:{visibility: "hidden"}} >
                 <label>SEU NOME É: </label>
                 <input id="nome" name="client" value={nome} placeholder="Nome" onChange={handleChangeNome} /><br />
                 <input id="endpoint" name="endpoint"  value={endpoint}  placeholder="Endpoint" readOnly /><br />
@@ -228,7 +229,7 @@ export default function LoginEstabelecimento(props) {
                 <input id="auth" name="auth" value={auth} placeholder="auth" readOnly /><br />
 
                 <button onClick={() => cadastrarNotificacao()} >Subscribe</button>
-            </form>
+            </div>
 
         </div>
 
