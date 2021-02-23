@@ -102,34 +102,34 @@ export default function LoginEstabelecimento(props) {
       }
         
      
-        if ('serviceWorker' in navigator) {
-            window.addEventListener("load", () => {
-                navigator.serviceWorker.register("../service-worker-papya.js")
-                .then((reg) => {
-                    setswreg(reg);
-                    if (Notification.permission === "granted")
-                    {   
-                        setsubscVisible("granted");
-                        //console.log(AppConfiguration.Setting().VAPID.publicKey);
-                        //alert(subscVisible);
-                        //$("#form").show();
-                        getSubscription(reg);
-                    } else if (Notification.permission === "blocked" || Notification.permission === "denied" ) {
-                        setsubscVisible("blocked");
-                        //$("#NoSupport").show();
-                    } else {
-                        setsubscVisible("giveaccess");
-                        //$("#GiveAccess").show();
-                        //$("#PromptForAccessBtn").click(() => requestNotificationAccess(reg));
-                        //this.btnPrompt.click(() => requestNotificationAccess(reg));
-                    }
-                });
+        // if ('serviceWorker' in navigator) {
+        //     window.addEventListener("load", () => {
+        //         navigator.serviceWorker.register("../service-worker-papya.js")
+        //         .then((reg) => {
+        //             setswreg(reg);
+        //             if (Notification.permission === "granted")
+        //             {   
+        //                 //setsubscVisible("granted");
+        //                 //console.log(AppConfiguration.Setting().VAPID.publicKey);
+        //                 //alert(subscVisible);
+        //                 //$("#form").show();
+        //                 //getSubscription(reg);
+        //             } else if (Notification.permission === "blocked" || Notification.permission === "denied" ) {
+        //                 //setsubscVisible("blocked");
+        //                 //$("#NoSupport").show();
+        //             } else {
+        //                 //setsubscVisible("giveaccess");
+        //                 //$("#GiveAccess").show();
+        //                 //$("#PromptForAccessBtn").click(() => requestNotificationAccess(reg));
+        //                 //this.btnPrompt.click(() => requestNotificationAccess(reg));
+        //             }
+        //         });
 
-            });
-        } else {
-            setsubscVisible("blocked");
-            //$("#NoSupport").show();
-        }
+        //     });
+        // } else {
+        //     //setsubscVisible("blocked");
+        //     //$("#NoSupport").show();
+        // }
 
         async function requestNotificationAccess(reg) {
             //alert('chamou');
@@ -211,8 +211,7 @@ export default function LoginEstabelecimento(props) {
             {/* @*FORMULARIO DADOS DE PUSH*@ */}
             {/* className={subscVisible ? "showDiv" : "hideDiv"} */}
             {/* <h1>Subscribe to Push Notifications</h1> */}
-            <div id="GiveAccess" style={subscVisible=="giveaccess"? {visibility: "visible"}:{visibility: "hidden"}}>
-            {/* <div id="GiveAccess"> */}
+            {/* <div id="GiveAccess" style={subscVisible=="giveaccess"? {visibility: "visible"}:{visibility: "hidden"}}>
                 Give access to making notifications:
                 <button id="PromptForAccessBtn" onClick={() => requestNotificationAccess(swreg)}>Prompt
                 </button>
@@ -220,7 +219,6 @@ export default function LoginEstabelecimento(props) {
             <div id="NoSupport" style={subscVisible=="blocked"? {visibility: "visible"}:{visibility: "hidden"}}>
                 Your browser does not support Push Notifications or you have blocked notifications
             </div>
-            {/* <form id="form" style={subscVisible=="granted"? {visibility: "visible"}:{visibility: "hidden"}} > */}
             <div id="form"  style={subscVisible=="granted"? {visibility: "visible"}:{visibility: "hidden"}} >
                 <label>SEU NOME É: </label>
                 <input id="nome" name="client" value={nome} placeholder="Nome" onChange={handleChangeNome} /><br />
@@ -229,7 +227,7 @@ export default function LoginEstabelecimento(props) {
                 <input id="auth" name="auth" value={auth} placeholder="auth" readOnly /><br />
 
                 <button onClick={() => cadastrarNotificacao()} >Subscribe</button>
-            </div>
+            </div> */}
 
         </div>
 
