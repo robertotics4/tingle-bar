@@ -34,8 +34,15 @@ export default function PushRegistry() {
         registrarServiceWork();
     }, []);
 
-    console.log(typeof(auth));
-    console.log(auth);
+    
+
+    // useEffect(() => {
+    //     registrarServiceWork();
+    // }, [cadastroExiste]);
+
+    
+    //console.log(typeof(auth));
+    //console.log(auth);
 
     // useEffect(() => {
     //     registrarServiceWork();
@@ -57,12 +64,18 @@ export default function PushRegistry() {
 
       async function loadStoragedData() {
         //const storagedFuncionario = localStorage.getItem('@TBAuth:funcionario');
+        const vendpoint = localStorage.getItem('@TBAuth:endPoint');
+        const vp256dh = localStorage.getItem('@TBAuth:p256dh');
+        const vauth = localStorage.getItem('@TBAuth:auth');
         const storagedEstabelecimento = localStorage.getItem('@TBAuth:estabelecimento');
-
+        
             if (storagedEstabelecimento) {
                 //setFuncionario(JSON.parse(storagedFuncionario));
                 setEstabelecimento(JSON.parse(storagedEstabelecimento));
             }
+            setendpoint(vendpoint);
+            setp256dh(vp256dh);
+            setauth(vauth);
             return JSON.parse(storagedEstabelecimento)
     }
      
@@ -115,13 +128,15 @@ export default function PushRegistry() {
                         //setsubscVisible("blocked");
                         showPushNotifications();
                     } 
-                    //else {
-                    //     setsubscVisible("giveaccess");
-                    // }
+                    else {
+                        setsubscVisible("giveaccess");
+                        requestNotificationAccess(reg);
+                    }
                 });
 
             });
         } else {
+            alert('Bloquado');
             setsubscVisible("blocked");
         }
     }
@@ -187,9 +202,9 @@ export default function PushRegistry() {
         }
 
         function fillSubscribeFields(sub) {
-            setendpoint(sub.endpoint);
-            setp256dh(arrayBufferToBase64(sub.getKey("p256dh")));
-            setauth(arrayBufferToBase64(sub.getKey("auth")));
+            // setendpoint(sub.endpoint);
+            // setp256dh(arrayBufferToBase64(sub.getKey("p256dh")));
+            // setauth(arrayBufferToBase64(sub.getKey("auth")));
         }
 
         function arrayBufferToBase64(buffer) {
@@ -227,9 +242,9 @@ export default function PushRegistry() {
 
     return (
         <div>
-            {/* <input id="endpoint" name="endpoint"  value={endpoint}  placeholder="Endpoint" readOnly /><br />
+            <input id="endpoint" name="endpoint"  value={endpoint}  placeholder="Endpoint" readOnly /><br />
             <input id="p256dh" name="p256dh" value={p256dh} placeholder="p256dh" readOnly /><br />
-            <input id="auth" name="auth" value={auth} placeholder="auth" readOnly /><br /> */}
+            <input id="auth" name="auth" value={auth} placeholder="auth" readOnly /><br />
             
             {/* <button onClick={()=> handleShow()}>mostrar modal</button> */}
             {/* <div className="login-box">

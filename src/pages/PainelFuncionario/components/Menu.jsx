@@ -65,7 +65,7 @@ export default function Menu() {
         <aside className="menu-content main-sidebar sidebar-dark-primary elevation-4">
             {/* Brand Logo */}
             <a href="#" className="brand-link logo">
-                <img src={logo} alt="Equatorial Logo" className="img-logo" style={{ opacity: '.8' }} />
+                <img src={logo} alt="Logo" className="img-logo" style={{ opacity: '.8' }} />
             </a>
             {/* Sidebar */}
             <div className="sidebar">

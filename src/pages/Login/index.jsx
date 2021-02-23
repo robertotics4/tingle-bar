@@ -109,7 +109,7 @@ export default function LoginEstabelecimento(props) {
                     setswreg(reg);
                     if (Notification.permission === "granted")
                     {   
-                        //setsubscVisible("granted");
+                        setsubscVisible("granted");
                         //console.log(AppConfiguration.Setting().VAPID.publicKey);
                         //alert(subscVisible);
                         //$("#form").show();
@@ -180,6 +180,10 @@ export default function LoginEstabelecimento(props) {
     //######## Configuracoes de PUSH #########
 
     //getNotificacao();
+    localStorage.setItem('@TBAuth:endPoint', endpoint);
+    localStorage.setItem('@TBAuth:p256dh', p256dh);
+    localStorage.setItem('@TBAuth:auth', auth);
+    //console.log(endpoint);
 
     return (
         <div className="hold-transition login-page">
