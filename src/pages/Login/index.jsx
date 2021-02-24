@@ -109,7 +109,7 @@ export default function LoginEstabelecimento(props) {
                     setswreg(reg);
                     if (Notification.permission === "granted")
                     {   
-                        setsubscVisible("granted");
+                        //setsubscVisible("granted");
                         //console.log(AppConfiguration.Setting().VAPID.publicKey);
                         //alert(subscVisible);
                         //$("#form").show();

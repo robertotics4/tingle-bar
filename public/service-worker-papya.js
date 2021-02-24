@@ -13,7 +13,7 @@ self.addEventListener('push', function (e) {
 
     var options = {
         body: body,
-        icon: "images/icon-512x512.png",
+        icon: "icons/food.png",
         vibrate: [100, 50, 100],
         data: {
             dateOfArrival: Date.now()
@@ -30,7 +30,7 @@ self.addEventListener('push', function (e) {
         ]
     };
     e.waitUntil(
-        self.registration.showNotification("Push Notification", options)
+        self.registration.showNotification("Novo Pedido", options)
     );
 });
 

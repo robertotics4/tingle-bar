@@ -1,7 +1,7 @@
 {
-  "name": "Tingle Bar",
+  "name": "Papya",
   "gcm_sender_id": "370072803732",
-  "short_name": "Tingle Bar",
+  "short_name": "Papya",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#2D2D2D",
