@@ -22,6 +22,8 @@ import PainelCozinheiro from '../pages/PainelFuncionario/pages/PainelCozinheiro'
 import PainelGerente from '../pages/PainelFuncionario/pages/PainelGerente';
 import PainelGarcom from '../pages/PainelFuncionario/pages/PainelGarcom';
 
+import Suporte from '../pages/Suporte/index';
+
 const EstabelecimentoRoute = ({ component: Component, ...rest }) => {
     const storagedToken = localStorage.getItem('@TBAuth:token');
     const storagedTipoUsuario = localStorage.getItem('@TBAuth:tipoUsuario');
@@ -102,6 +104,24 @@ const GerenteRoute = ({ component: Component, ...rest }) => {
     );
 };
 
+const SuporteRoute = ({ component: Component, ...rest }) => {
+    const storagedToken = localStorage.getItem('@TBAuth:token');
+    //const storagedTipoUsuario = localStorage.getItem('@TBAuth:tipoUsuario');
+    //const storagedFuncionario = JSON.parse(localStorage.getItem('@TBAuth:funcionario'));
+
+    //console.log(storagedFuncionario)
+
+    return (
+        <Route
+            {...rest}
+            render={() => storagedToken
+                ? <Component {...rest} />
+                : <Redirect to="/" />
+            }
+        />
+    );
+};
+
 const AppRoutes = () => {
     return (
         <Router>
@@ -121,6 +141,9 @@ const AppRoutes = () => {
                 <GarcomRoute path="/painelGarcom" component={PainelGarcom} />
                 <CozinheiroRoute path="/painelCozinheiro" component={PainelCozinheiro} />
                 <GerenteRoute path="/painelGerente" component={PainelGerente} />
+
+                <SuporteRoute path="/suporte"component={Suporte} ></SuporteRoute>
+
             </Switch>
         </Router>
     );
