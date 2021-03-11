@@ -7,7 +7,7 @@ import './assets/css/noscript.css';
 import GeralContext from '../../contexts/geral';
 
 import pic01 from './images/pic01.jpg';
-import logo from './images/papya.png';
+import logo from './images/papya_branco.png';
 
 export default function Suporte() {
     const { tipoUsuario, setTipoUsuario } = useContext(GeralContext);
@@ -15,27 +15,26 @@ export default function Suporte() {
     const history = useHistory();
 
     return (
-    //     <html>
-	// <head>
-	// 	<title>Photon by HTML5 UP</title>
-	// 	<meta charset="utf-8" />
-	// 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	// 	<link rel="stylesheet" href="assets/css/main.css" />
-	// 	<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-	// </head>
+        <html>
+	<head>
+		<title>Photon by HTML5 UP</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
 	<body class="is-preload">
 
 		{/* <!-- Header --> */}
 			<section id="header">
 				<div class="inner">
-					{/* <span class="icon solid major fa-cloud"></span> */}
-					<span ><img src={logo} alt="" width="200" height="58" /></span>
+					<span ><img src={logo} alt="" width="300" height="105" /></span>
 					<h1>Olá, Somos o <strong>Papya</strong><br />
 					Rede social de atendimento.</h1>
 					<p>Transforme seu estabelecimento em uma rede social.</p>
 					
 					<ul class="actions special">
-						<li><a href="#one" class="button scrolly">Descubra</a></li>
+						<li><a href="#one" class="botao1 button scrolly">Descubra</a></li>
 					</ul>
 				</div>
 			</section>
@@ -151,14 +150,14 @@ export default function Suporte() {
 			</section>
 
 		{/* <!-- Scripts --> */}
-			<script src="assets/js/jquery.min.js"></script>
+			{/* <script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/jquery.scrolly.min.js"></script>
 			<script src="assets/js/browser.min.js"></script>
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+			<script src="assets/js/main.js"></script> */}
 
 	</body>
-// </html>
+ </html>
     );
 }
